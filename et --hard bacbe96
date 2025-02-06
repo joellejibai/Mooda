@@ -1,0 +1,30 @@
+[33m80b0266[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mmain[m[33m, [m[1;31morigin/main[m[33m, [m[1;31morigin/HEAD[m[33m)[m HEAD@{0}: checkout: moving from Frontend to main
+[33mefd9d8a[m HEAD@{1}: commit: test
+[33mbacbe96[m HEAD@{2}: commit: home page, items + search bar filtering + button view more/less + figuring out the camera
+[33m61bc912[m HEAD@{3}: commit: added a filtering for the search box
+[33mfc23c73[m HEAD@{4}: commit: home page with blurry background and "my wardrobe" + adding clothing buttons
+[33mc45e089[m HEAD@{5}: commit: all items fom the database are now visible in the ViewAll.js
+[33me268046[m HEAD@{6}: commit: ViewAll and Home
+[33mb2f8348[m HEAD@{7}: commit: navbar + homepage
+[33md74c3a3[m HEAD@{8}: checkout: moving from Backend to Frontend
+[33m2848253[m[33m ([m[1;31morigin/Backend[m[33m)[m HEAD@{9}: checkout: moving from Frontend to Backend
+[33md74c3a3[m HEAD@{10}: checkout: moving from Backend to Frontend
+[33m2848253[m[33m ([m[1;31morigin/Backend[m[33m)[m HEAD@{11}: checkout: moving from Frontend to Backend
+[33md74c3a3[m HEAD@{12}: commit: frontend navbar and home page
+[33m028b8fb[m HEAD@{13}: reset: moving to 028b8fbc3f7815d80af1f92289ff5e2bbf3bee5b
+[33m028b8fb[m HEAD@{14}: commit: fixed backend port
+[33mbe6990c[m HEAD@{15}: commit: Frontend baseline
+[33m2848253[m[33m ([m[1;31morigin/Backend[m[33m)[m HEAD@{16}: checkout: moving from Backend to Frontend
+[33m2848253[m[33m ([m[1;31morigin/Backend[m[33m)[m HEAD@{17}: commit: Backend routes
+[33m18c645e[m HEAD@{18}: Branch: renamed refs/heads/Frontend to refs/heads/Backend
+[33m18c645e[m HEAD@{20}: checkout: moving from backend to Frontend
+[33m80b0266[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mmain[m[33m, [m[1;31morigin/main[m[33m, [m[1;31morigin/HEAD[m[33m)[m HEAD@{21}: checkout: moving from Frontend to backend
+[33m18c645e[m HEAD@{22}: checkout: moving from backend to Frontend
+[33m80b0266[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mmain[m[33m, [m[1;31morigin/main[m[33m, [m[1;31morigin/HEAD[m[33m)[m HEAD@{23}: checkout: moving from Frontend to backend
+[33m18c645e[m HEAD@{24}: checkout: moving from main to Frontend
+[33m80b0266[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mmain[m[33m, [m[1;31morigin/main[m[33m, [m[1;31morigin/HEAD[m[33m)[m HEAD@{25}: checkout: moving from Frontend to main
+[33m18c645e[m HEAD@{26}: commit: baseline of the project
+[33m80b0266[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mmain[m[33m, [m[1;31morigin/main[m[33m, [m[1;31morigin/HEAD[m[33m)[m HEAD@{27}: checkout: moving from backend to Frontend
+[33m80b0266[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mmain[m[33m, [m[1;31morigin/main[m[33m, [m[1;31morigin/HEAD[m[33m)[m HEAD@{28}: checkout: moving from Frontend to backend
+[33m80b0266[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mmain[m[33m, [m[1;31morigin/main[m[33m, [m[1;31morigin/HEAD[m[33m)[m HEAD@{29}: checkout: moving from main to Frontend
+[33m80b0266[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mmain[m[33m, [m[1;31morigin/main[m[33m, [m[1;31morigin/HEAD[m[33m)[m HEAD@{30}: clone: from https://github.com/joellejibai/ModaNova-MERN.git
