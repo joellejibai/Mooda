@@ -1,0 +1,552 @@
+/* google font */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;800&family=VT323&display=swap');
+@use postcss-color-function;
+@use postcss-nested;
+@import url('https://fonts.googleapis.com/css?family=Raleway:400,700,900');
+
+html,
+body,
+#root {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  height: 100%;
+  overflow-x: hidden;
+}
+
+/* layout */
+:root {
+  --primary: #7c5939;
+  --error: #e7195a;
+}
+
+.image {
+  padding: 0;
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+a:focus,
+a:hover {
+  text-decoration: none;
+  color: inherit;
+}
+
+body {
+  background: #f2dbb7;
+  margin: 0;
+  font-family: "Poppins";
+}
+
+header {
+  background: #D2B48C;
+}
+
+header .container {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 10px 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.view {
+  display: inline-block;
+  margin-left: auto;
+  border: 2px solid black;
+  padding: 5px;
+  border-radius: 4px;
+}
+
+.view h2 {
+  display: inline;
+  margin: 0;
+}
+
+/* Adjusting header for mobile */
+@media only screen and (max-width: 440px) {
+  header .container {
+    padding: 10px;
+  }
+
+  header .view h2 {
+    font-size: 1.2rem;
+  }
+}
+
+/* pages layout */
+.pages {
+  max-width: 1400px;
+  padding: 20px;
+  margin: 0 auto;
+}
+
+/* homepage layout */
+.home {
+  display: flex;
+  flex-direction: column;
+  /* Stack the children vertically */
+  align-items: center;
+  /* Center align the content horizontally */
+}
+
+.item-details {
+  background: #fff0db;
+  border-radius: 4px;
+  margin: 20px auto;
+  padding: 20px;
+  position: relative;
+  box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.05);
+}
+
+.item-details h4 {
+  margin: 0 0 10px 0;
+  font-size: 1.2em;
+  color: var(--primary);
+}
+
+.item-details p {
+  margin: 0;
+  font-size: 0.9em;
+  color: #555;
+}
+
+.item-details span {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  cursor: pointer;
+  background: #f1f1f1;
+  padding: 6px;
+  border-radius: 50%;
+  color: #333;
+}
+
+/* Item wrapper styling */
+.item-wrapper {
+  background-color: #fff0db;
+  padding: 15px;
+  border-radius: 8px;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+  margin-bottom: 20px;
+}
+
+.item-wrapper:hover {
+  background-color: #D2B48C;
+  cursor: pointer;
+}
+
+/* Responsive Grid Layout */
+.items {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 20px;
+  padding: 0 20px;
+  box-sizing: border-box;
+
+  /* Ensure items don't exceed container width */
+  max-width: calc(100% - 40px);
+  /* 20px padding on each side */
+  margin: 0 auto;
+  padding-top: 20px;
+}
+
+/* Optional: Larger desktop screens */
+@media only screen and (min-width: 1200px) {
+  .items {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+/* Mobile view: 2 items per row */
+@media only screen and (max-width: 440px) {
+  .items {
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    /* Adjust minmax() for smaller screens */
+    gap: 10px;
+    /* Adjust padding for smaller screens */
+    padding-top: 20px;
+  }
+
+  .item-wrapper {
+    /* Adjust height for mobile if needed */
+    max-height: 100vw;
+    /* Example height, adjust as needed */
+    overflow-y: auto;
+  }
+}
+
+/* Extra small mobile view (max-width: 430px) */
+@media only screen and (max-width: 430px) {
+  .items {
+    grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+    /* Further adjust minmax() for very small screens */
+    gap: 5px;
+    /* Reduce gap further for very small screens */
+    padding: 0 5px;
+    /* Reduce padding further for very small screens */
+  }
+}
+
+/* Glass style */
+.glass {
+  backdrop-filter: blur(2px);
+  /* Increase blur for a better effect */
+  -webkit-backdrop-filter: blur(2px);
+  background: rgba(255, 255, 255, 0.3);
+  /* Adjust transparency */
+  padding: 30px;
+  margin: 20px auto;
+  border-radius: 10px;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+  width: 85vw;
+  /* height: 50vw; */
+  height: auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+}
+
+
+/* Small Glass */
+.smallGlass {
+  width: 30vw;
+  height: 3vw;
+  margin: 0 auto;
+
+  /* Existing styles */
+  backdrop-filter: blur(2px);
+  -webkit-backdrop-filter: blur(2px);
+  background: rgba(255, 255, 255, 0.45);
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+
+  /* Ensure it's horizontally centered with margin */
+  display: block;
+  /* To remove any flex-related issues */
+}
+
+/* Mobile View - Increase height */
+@media only screen and (max-width: 440px) {
+  .glass {
+    height: 150vw;
+    /* width: 100vw; */
+    padding: 15px;
+    display: flex;
+    align-items: center;
+    /* Center vertically in mobile view */
+    flex-direction: column;
+    justify-content: flex-start;
+    /* Aligns items to the top */
+    height: auto;
+    /*FOR HEIGHTTTTT */
+    /* Allows content to dictate height */
+    padding: 10px 20px;
+    /* Reduce padding at the top */
+    width: 80vw;
+  }
+
+  .smallGlass {
+    height: 10px;
+    width: 50vw;
+    margin: 0 auto;
+    text-align: center;
+  }
+}
+
+.centered-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 5vh;
+}
+
+.centered-container h2 {
+  text-align: center;
+}
+
+/* Mobile View */
+@media only screen and (max-width: 440px) {
+  .centered-container {
+    height: 1.5vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .centered-container h2 {
+    font-size: 1.5rem;
+    /* Adjust font size for mobile */
+  }
+}
+
+/* Center circles properly */
+.circle-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 15px;
+  width: 100%;
+  padding-bottom: 20px;
+  /* Space between circles & search */
+}
+
+.clothing-circle {
+  width: 80px;
+  /* Circle size */
+  height: 80px;
+  /* Circle size */
+  background-color: white;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+@media only screen and (max-width: 440px) {
+  .circle-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 15px;
+    width: 100%;
+    padding-bottom: 10px;
+  }
+
+  .search-container {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    margin-top: 10px;
+    margin-bottom: 20px;
+    /* Ensure it's right below the icons */
+  }
+
+  .search-bar {
+    width: 80%;
+    /* Make it more responsive */
+    max-width: 300px;
+  }
+
+}
+
+/* Fix alignment of search bar */
+.search-container {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  margin-top: 20px;
+  /* Pushes it below the icons */
+}
+
+/* Style the search input */
+.search-bar {
+  width: 60%;
+  max-width: 300px;
+  padding: 12px;
+  font-size: 18px;
+  border-radius: 50px;
+  border: 1px solid #575756;
+  text-align: center;
+  outline: none;
+  transition: all 0.3s ease-in-out;
+}
+
+/* On focus, improve visibility */
+.search-bar:focus {
+  border: 1px solid #fff0db;
+  box-shadow: 0px 0px 5px rgba(26, 172, 131, 0.5);
+}
+
+.view-more-btn {
+  display: block;
+  margin: 15px auto;
+  padding: 12px 20px;
+  background-color: var(--primary);
+  color: white;
+  font-size: 16px;
+  font-weight: 600;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background 0.3s ease-in-out;
+}
+
+.view-more-btn:hover {
+  background-color: #603F26;
+}
+
+@media only screen and (max-width: 440px) {
+  .view-more-btn {
+    width: 80%;
+    font-size: 14px;
+    padding: 10px;
+  }
+}
+
+.camera {
+  margin: 20px;
+}
+
+.result {
+  display: none;
+}
+
+.result.hasPhoto {
+  display: block;
+}
+
+canvas {
+  border: 2px solid #ccc;
+  margin-top: 10px;
+}
+
+button {
+  display: flex;
+  align-items: center;
+  /* Centers content vertically */
+  justify-content: center;
+  /* Centers content horizontally (if needed) */
+  padding: 10px 20px;
+  background-color: #fff0db;
+  color: #7c5939;
+  border: none;
+  cursor: pointer;
+  border-radius: 10%;
+  font-size: 15px;
+  margin-bottom: 0;
+  width: 10vw;
+}
+
+
+button:hover {
+  background-color: #d0b389;
+}
+
+@media only screen and (max-width: 440px) {
+  button {
+    display: flex;
+    align-items: center;
+    /* Centers content vertically */
+    justify-content: center;
+    /* Centers content horizontally (if needed) */
+    padding: 10px 20px;
+    background-color: #fff0db;
+    color: #7c5939;
+    border: none;
+    cursor: pointer;
+    border-radius: 10%;
+    font-size: 15px;
+    margin-bottom: 0;
+    width: 65vw;
+  }
+}
+
+nav {
+  display: flex;
+  align-items: center;
+}
+
+nav a {
+  margin-left: 10px;
+}
+
+/* auth forms */
+/* Base styles for both signup and login forms */
+form.signup,
+form.login {
+  max-width: 400px;
+  margin: 40px auto;
+  padding: 40px 35px;
+  /* Increased padding for better spacing */
+  background: #D2B48C;
+  /* Updated background color */
+  border-radius: 10px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  font-family: 'Helvetica Neue', Arial, sans-serif;
+  color: #333;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  padding-right: 105px;
+}
+
+/* Lift effect on hover */
+form.signup:hover,
+form.login:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+}
+
+/* Input styling */
+form.signup input[type="text"],
+form.signup input[type="email"],
+form.signup input[type="password"],
+form.login input[type="text"],
+form.login input[type="email"],
+form.login input[type="password"] {
+  width: 100%;
+  padding: 14px 18px;
+  /* Adjusted padding for inputs */
+  margin: 10px 0 22px 0;
+  border: 1px solid #a38b6d;
+  border-radius: 6px;
+  font-size: 16px;
+  transition: border-color 0.3s ease;
+  background: #f5e6d3;
+}
+
+/* Focus state for inputs */
+form.signup input:focus,
+form.login input:focus {
+  border-color: #8b6f47;
+  outline: none;
+}
+
+/* Button styling */
+form.signup button,
+form.login button {
+  width: 100%;
+  padding: 14px 18px;
+  background: #8B6F47;
+  border: none;
+  border-radius: 6px;
+  color: #fff;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+/* Hover state for buttons */
+form.signup button:hover,
+form.login button:hover {
+  background: #705736;
+}
+
+/* Label styling */
+form.signup label,
+form.login label {
+  display: block;
+  margin-bottom: 8px;
+  font-weight: 600;
+}
+
+/* Error message styling */
+form.signup .error,
+form.login .error {
+  color: #e74c3c;
+  margin-top: -8px;
+  margin-bottom: 12px;
+  font-size: 14px;
+}
+
+/* Placeholder text */
+form.signup input::placeholder,
+form.login input::placeholder {
+  color: #8b6f47;
+}
