@@ -1,4 +1,4 @@
-import React, { useRef, useEffect, useState } from "react";
+import React, { useRef, useState, useEffect } from "react";
 import { GiClothes, GiMonclerJacket, GiLargeDress, GiChelseaBoot } from "react-icons/gi";
 import { FaTshirt, FaRedhat } from "react-icons/fa";
 import { PiPantsFill } from "react-icons/pi";
@@ -14,7 +14,9 @@ const Home = () => {
     const [searchTerm, setSearchTerm] = useState(""); // Use searchTerm instead of search
 
     const photoRef = useRef(null);
+    const videoRef = useRef(null); // Reference for video element
     const [hasPhoto, setHasPhoto] = useState(false);
+    const [isCameraActive, setIsCameraActive] = useState(false);
 
     const maxVisibleItems = ITEMS_PER_ROW * ROWS_TO_SHOW;
 
@@ -49,8 +51,9 @@ const Home = () => {
         <FaRedhat size={50} />,
     ];
 
-    const takePhoto = () => {
-        const video = document.createElement('video');
+    const startCamera = () => {
+        if (isCameraActive) return; // Don't start the camera if it's already active
+
         const canvas = photoRef.current;
         const ctx = canvas.getContext('2d');
         const width = 414;
@@ -58,25 +61,41 @@ const Home = () => {
         canvas.width = width;
         canvas.height = height;
 
-        // Access the webcam
+        // Access the webcam and set up the video feed
         navigator.mediaDevices.getUserMedia({ video: true })
             .then((stream) => {
-                video.srcObject = stream;
-                video.play();
-
-                // Draw the video frame to the canvas
-                video.onloadedmetadata = () => {
-                    setTimeout(() => {
-                        ctx.drawImage(video, 0, 0, width, height);
-                        setHasPhoto(true);
-                        // Stop the video stream once the photo is taken
-                        stream.getTracks().forEach(track => track.stop());
-                    }, 100); // Slight delay to ensure the video is ready
-                };
+                // Set the video source to the stream only if it's not already set
+                if (!videoRef.current.srcObject) {
+                    videoRef.current.srcObject = stream;
+                    videoRef.current.play();
+                }
+                setIsCameraActive(true); // Make camera feed visible immediately
             })
             .catch((err) => {
                 console.log("Error accessing camera: ", err);
             });
+    };
+
+    const takePhoto = () => {
+        const canvas = photoRef.current;
+        const ctx = canvas.getContext('2d');
+        const video = videoRef.current;
+
+        const width = 414;
+        const height = width / (16 / 9);
+        canvas.width = width;
+        canvas.height = height;
+
+        // Capture the current frame from the video
+        ctx.drawImage(video, 0, 0, width, height);
+        setHasPhoto(true);
+
+        // Stop the video stream after taking the photo
+        const stream = video.srcObject;
+        const tracks = stream.getTracks();
+        tracks.forEach(track => track.stop());
+
+        setIsCameraActive(false); // Stop the camera after taking the photo
     };
 
     const closePhoto = () => {
@@ -141,12 +160,16 @@ const Home = () => {
                     )}
                     <div className="camera">
                         {/* Button with + Icon next to "Add Item" */}
-                        <button onClick={takePhoto}>
+                        <button onClick={startCamera}>
                             <CiCirclePlus size={30} style={{ marginRight: '8px' }} /> Add Item
                         </button>
+                        {isCameraActive && (
+                            <button onClick={takePhoto}>Take Photo</button>
+                        )}
                     </div>
                     <div className={"result" + (hasPhoto ? " hasPhoto" : "")}>
                         <canvas ref={photoRef}></canvas>
+                        <video ref={videoRef} style={{ display: isCameraActive ? 'block' : 'none', width: '100%' }}></video>
                         {hasPhoto && <button onClick={closePhoto}>Close</button>}
                     </div>
                 </div>
