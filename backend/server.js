@@ -2,31 +2,29 @@ require('dotenv').config()
 const express = require('express')
 const mongoose = require('mongoose')
 const itemsRoutes = require('./routes/items')
+const userRoutes = require('./routes/user') // Import the user routes
 
-//express app
-const app = express()
+// ✅ Define express app BEFORE using it
+const app = express() 
 
-//middleware
+// Middleware
 app.use(express.json())
 app.use((req, res, next) => {
     console.log(req.path, req.method)
     next()
 })
 
-//routes
-app.use('/api/items', itemsRoutes)
+// ✅ Register routes AFTER defining `app`
+app.use('/api/user', userRoutes) // Handle user-related routes
+app.use('/api/items', itemsRoutes) // Handle item-related routes
 
-//connect to DB
+// Connect to DB
 mongoose.connect(process.env.MONGO_URI)
     .then(() => {
-        //listen for requests
         app.listen(process.env.PORT, () => {
             console.log('Connected to DB & listening on port', process.env.PORT)
-
         })
     })
     .catch((error) => {
         console.log(error)
     })
-
-
