@@ -1,9 +1,10 @@
-import { AuthPages } from '..context/AuthPages'
-import { useContext } from 'react'
+import { useContext } from 'react';
+import { AuthPages } from '../context/AuthPages';
+
 export const useAuthPages = () => {
-    const context = useContext(AuthPages)
-    if (!context) {
-        throw Error('useAuthPages must be used insided an AuthPagesProvider')
-    }
-    return context
-}
+  const context = useContext(AuthPages);
+  if (!context) {
+    throw new Error('useAuthPages must be used inside an AuthPagesProvider');
+  }
+  return context;
+};
