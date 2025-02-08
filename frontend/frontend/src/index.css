@@ -42,7 +42,8 @@ body {
 }
 
 header {
-  background: #D2B48C;
+  /* background: #D2B48C; */
+  background: red;
 }
 
 header .container {
