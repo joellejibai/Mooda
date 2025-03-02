@@ -2,7 +2,7 @@ import React, { useRef, useState, useEffect } from "react";
 import { GiClothes, GiMonclerJacket, GiLargeDress, GiChelseaBoot } from "react-icons/gi";
 import { FaTshirt, FaRedhat } from "react-icons/fa";
 import { PiPantsFill } from "react-icons/pi";
-import { CiCirclePlus } from "react-icons/ci"; // Import the + icon
+import { CiCirclePlus } from "react-icons/ci";
 
 import ItemDetails from "../components/ItemDetails";
 
@@ -12,13 +12,25 @@ const Home = () => {
     const ITEMS_PER_ROW = 4; // Number of items per row
     const ROWS_TO_SHOW = 2; // Show 2 rows initially
     const [searchTerm, setSearchTerm] = useState(""); // Use searchTerm instead of search
+    const [selectedCategory, setSelectedCategory] = useState("all");
 
     const photoRef = useRef(null);
-    const videoRef = useRef(null); // Reference for video element
+    const videoRef = useRef(null);
     const [hasPhoto, setHasPhoto] = useState(false);
     const [isCameraActive, setIsCameraActive] = useState(false);
 
     const maxVisibleItems = ITEMS_PER_ROW * ROWS_TO_SHOW;
+
+    const categoryMap = {
+        all: [], // No filter for all items
+        tops: ["tshirt", "sweater", "hoodie", "top"],
+        pants: ["pants", "jeans", "shorts"],
+        jackets: ["jacket", "coat", "blazer"],
+        dresses: ["dress", "gown"],
+        shoes: ["boots", "sneakers", "heels"],
+        hats: ["hat", "cap", "beanie"],
+    };
+
 
     const backgroundStyle = {
         backgroundImage: `url('/home.jpg')`,
@@ -42,17 +54,17 @@ const Home = () => {
     };
 
     const icons = [
-        <GiClothes size={50} />,
-        <FaTshirt size={50} />,
-        <PiPantsFill size={50} />,
-        <GiMonclerJacket size={50} />,
-        <GiLargeDress size={50} />,
-        <GiChelseaBoot size={50} />,
-        <FaRedhat size={50} />,
+        { icon: <GiClothes size={50} />, category: "all" },
+        { icon: <FaTshirt size={50} />, category: "tops" },
+        { icon: <PiPantsFill size={50} />, category: "pants" },
+        { icon: <GiMonclerJacket size={50} />, category: "jackets" },
+        { icon: <GiLargeDress size={50} />, category: "dresses" },
+        { icon: <GiChelseaBoot size={50} />, category: "shoes" },
+        { icon: <FaRedhat size={50} />, category: "hats" },
     ];
 
     const startCamera = () => {
-        if (isCameraActive) return; // Don't start the camera if it's already active
+        if (isCameraActive) return;
 
         const canvas = photoRef.current;
         const ctx = canvas.getContext('2d');
@@ -105,19 +117,30 @@ const Home = () => {
         ctx.clearRect(0, 0, canvas.width, canvas.height); // Clear the canvas
     };
 
-    // Fetch items whenever searchTerm changes
     useEffect(() => {
+        console.log('Fetching items for category: ', selectedCategory);
+
         const fetchItems = async () => {
-            const response = await fetch(`/api/items?search=${searchTerm}`); // Use searchTerm here
+            const response = await fetch(`/api/items?search=${searchTerm}`);
             const json = await response.json();
 
             if (response.ok) {
-                setItems(json);
+                let filteredItems = json;
+
+                // If a category other than "all" is selected, filter items by category
+                if (selectedCategory !== "all") {
+                    filteredItems = json.filter(item =>
+                        categoryMap[selectedCategory].includes(item.category)
+                    );
+                }
+
+                setItems(filteredItems);
             }
         };
 
         fetchItems();
-    }, [searchTerm]); // Watch for changes to searchTerm
+    }, [searchTerm, selectedCategory]);  // Ensure the effect is triggered on category or search change
+
 
     return (
         <>
@@ -130,12 +153,20 @@ const Home = () => {
             <div className="glass">
                 <div className="circle-container">
                     {icons.map((icon, index) => (
-                        <span key={index} className="clothing-circle">
-                            {icon}
+                        <span
+                            key={index}
+                            className="clothing-circle"
+                            onClick={() => setSelectedCategory(icon.category)}
+                        >
+                            {icon.icon}
                         </span>
                     ))}
                 </div>
-                {/* Make the search input a separate flexbox container */}
+
+                <div className="category-display">
+                    Selected Category: {selectedCategory}
+                </div>
+
                 <div className="search-container">
                     <input
                         type="text"
