@@ -25,6 +25,7 @@ const Login = () => {
             />
             <button disaabled={isLoading}>Log in</button>
             {error && <div className="error">{error}</div>}
+            <button id="fingerprintLogin">Login with Fingerprint</button>
         </form>
     )
 }
