@@ -1,9 +1,12 @@
 import { useLogout } from "../hooks/useLogout";
 import { Link } from "react-router-dom";
 import { useState } from "react";
+import { useAuthPages } from "../hooks/useAuthPages";
+
 
 const Navbar = () => {
     const { logout } = useLogout();
+    const { user} =useAuthPages()
     const handleClick = () => {
         logout();
     };
@@ -26,7 +29,7 @@ const Navbar = () => {
                 <nav>
                   
 
-                    
+                 
 
                     {/* Contact Us with Hover Dropdown */}
                     <div 
@@ -37,19 +40,23 @@ const Navbar = () => {
                         <Link to="/pages/Home" className="dropdown-btn">Wardrobe</Link>
                         {isDropdownOpen && (
                             <ul className="dropdown-menu">
-                                <li><Link to="/contact/email">About Us</Link></li>
-                                <li><Link to="/contact/phone">Contact Us</Link></li>
-                                <li><Link to="/contact/social-media">Fashion Tips</Link></li>
+                                <li><Link to="/contact/AboutUs">About Us</Link></li>
+                                <li><Link to="/contact/ContactUs">Contact Us</Link></li>
+                                <li><Link to="/contact/Fahiontips">Fashion Tips</Link></li>
                             </ul>
                         )}
                     </div>
-                    <div>
+                    {user && (
+                        <div>
+                        <span> {user.email}</span>
+    <button onClick={handleClick}>Logout</button>
+</div>)}
+                    {!user &&(
+                        <div>
                         <Link to="/login">Login</Link>
                         <Link to="/signup">Sign Up</Link>
                     </div>
-                    <div>
-    <button onClick={handleClick}>Logout</button>
-</div>
+                    )}
                 </nav>
             </div>
         </header>

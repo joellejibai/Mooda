@@ -57,28 +57,28 @@ header .container {
   justify-content: space-between;
   height: 50px; /* Set a smaller height */
 }/* Dropdown Container */
+/* Dropdown Wrapper */
 .dropdown {
   position: relative;
   display: inline-block;
 }
 
-/* Contact Us Button */
+/* Dropdown Button */
 .dropdown-btn {
-  text-decoration: none;
-  color: #333;
-  padding: 12px 16px;
-  font-weight: 600;
+  color: white;
+  padding: 12px 20px;
   font-size: 16px;
-  display: inline-block;
+  font-weight: 600;
   border-radius: 8px;
-  transition: background 0.3s ease-in-out, color 0.3s ease-in-out;
+  border: none;
+  cursor: pointer;
+  transition: all 0.3s ease-in-out;
 }
 
-/* Hover Effect on Contact Us */
+/* Button Hover Effect */
 .dropdown-btn:hover {
-  background-color: white;
-  color: black;
-  border-radius: 8px;
+  background: beige;
+  transform: scale(1.05);
 }
 
 /* Dropdown Menu */
@@ -88,14 +88,15 @@ header .container {
   left: 0;
   background: white;
   border-radius: 10px;
-  box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.15);
-  min-width: 180px;
-  padding: 8px 0;
+  box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.15);
+  min-width: 200px;
+  padding: 10px 0;
   list-style: none;
   opacity: 0;
   visibility: hidden;
   transform: translateY(-10px);
   transition: opacity 0.3s ease-in-out, transform 0.3s ease-in-out;
+  z-index: 1000;
 }
 
 /* Show Dropdown on Hover */
@@ -107,7 +108,7 @@ header .container {
 
 /* Dropdown Items */
 .dropdown-menu li {
-  padding: 10px 16px;
+  padding: 12px 20px;
   transition: background 0.3s ease-in-out;
 }
 
@@ -117,11 +118,14 @@ header .container {
   color: #333;
   font-weight: 500;
   display: block;
+  transition: color 0.3s ease-in-out;
 }
 
 /* Hover Effect on Items */
 .dropdown-menu li:hover {
-  background: white;
+  background: black
+  ;
+  border-radius: 5px;
 }
 
 .dropdown-menu li:hover a {
@@ -131,10 +135,11 @@ header .container {
 /* Mobile Responsive */
 @media (max-width: 768px) {
   .dropdown-menu {
-    min-width: 150px;
+    min-width: 160px;
     top: 100%;
   }
 }
+
 
 header img {
   max-height: 150px; /* Reduce the logo size */

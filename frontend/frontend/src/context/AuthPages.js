@@ -1,4 +1,4 @@
-import { createContext, useReducer } from 'react';
+import { createContext, useReducer,useEffect } from 'react';
 
 // Create the context
 export const AuthPages = createContext();
@@ -18,6 +18,12 @@ export const authReducer = (state, action) => {
 // Create the provider component
 export const AuthPagesProvider = ({ children }) => {
   const [state, dispatch] = useReducer(authReducer, { user: null });
+  useEffect(()=>{
+    const user=JSON.parse(localStorage.getItem('user'))
+    if (user){
+      dispatch({type:'LOGIN',payload:user})
+    }
+  },[])
   console.log("AuthPages state:", state);
 
   return (
