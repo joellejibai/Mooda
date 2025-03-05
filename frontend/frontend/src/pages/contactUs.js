@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import './contactUs'; // Make sure this is the correct path to your CSS file
 
 const ContactUs = () => {
     const [formData, setFormData] = useState({
@@ -34,9 +35,9 @@ const ContactUs = () => {
     };
 
     return (
-        <div>
+        <div className="contact-us-container">
             <h2>Contact Us</h2>
-            {error && <p style={{ color: 'red' }}>{error}</p>}
+            {error && <p>{error}</p>}
             <form onSubmit={handleSubmit}>
                 <label htmlFor="name">Name:</label>
                 <input
@@ -46,7 +47,6 @@ const ContactUs = () => {
                     value={formData.name}
                     onChange={handleChange}
                 />
-                <br />
                 <label htmlFor="email">Email:</label>
                 <input
                     type="email"
@@ -55,7 +55,6 @@ const ContactUs = () => {
                     value={formData.email}
                     onChange={handleChange}
                 />
-                <br />
                 <label htmlFor="message">Message:</label>
                 <textarea
                     id="message"
@@ -63,7 +62,6 @@ const ContactUs = () => {
                     value={formData.message}
                     onChange={handleChange}
                 />
-                <br />
                 <button type="submit">Submit</button>
             </form>
         </div>

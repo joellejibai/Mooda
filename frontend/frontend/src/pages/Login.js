@@ -20,20 +20,21 @@
         return (
             <form className="login" onSubmit={handleSubmit}>
                 <h3>Welcome Back!</h3>
-                <label>Email:</label>
+                <label>Email</label>
                 <input
                     type="email"
                     onChange={(e) => setEmail(e.target.value)}
                     value={email}
                 />
                 
-                <label>Password:</label>
+                <label>Password</label>
                 <input
                     type="password"
                     onChange={(e) => setPassword(e.target.value)}
                     value={password}
                 />
-                <button disaabled={isLoading} onClick={handleMoveToHome}>Log in</button>
+                <p>Don't have an account? <a href="signup">Sign up</a></p>
+                <button disaabled={isLoading} onClick={handleMoveToHome}>LOG IN</button>
                 {error && <div className="error">{error}</div>}
                 
             </form>

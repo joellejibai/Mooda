@@ -4,6 +4,7 @@ import { useState } from "react";
 import { useAuthPages } from "../hooks/useAuthPages";
 
 
+
 const Navbar = () => {
     const { logout } = useLogout();
     const { user} =useAuthPages()
@@ -37,18 +38,18 @@ const Navbar = () => {
                         onMouseEnter={() => setIsDropdownOpen(true)}
                         onMouseLeave={() => setIsDropdownOpen(false)}
                     >
-                        <Link to="/pages/Home" className="dropdown-btn">Wardrobe</Link>
+                        <Link to="/" className="dropdown-btn">Wardrobe</Link>
                         {isDropdownOpen && (
                             <ul className="dropdown-menu">
-                                <li><Link to="/contact/AboutUs">About Us</Link></li>
-                                <li><Link to="/contact/ContactUs">Contact Us</Link></li>
-                                <li><Link to="/contact/Fahiontips">Fashion Tips</Link></li>
+                                <li><Link to="/AboutUs">About Us</Link></li>
+                                <li><Link to="/contactUs">Contact Us</Link></li>
+                                <li><Link to="/fashiontips">Fashion Tips</Link></li>
                             </ul>
                         )}
                     </div>
                     {user && (
                         <div>
-                        <span> {user.email}</span>
+                        <span> </span>
     <button onClick={handleClick}>Logout</button>
 </div>)}
                     {!user &&(

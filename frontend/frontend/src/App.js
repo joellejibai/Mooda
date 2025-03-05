@@ -6,8 +6,10 @@ import "./index.css";
 import Home from './pages/Home';
 import Login from './pages/Login';
 import Signup from './pages/Signup';
-import ViewAll from './pages/ViewAll';
-import contactUs from './pages/contactUs'; // Fixed: Capitalized
+import ViewAll from './pages/ViewAll';import ContactUs from './pages/contactUs'; // Capitalized 'ContactUs'
+import FashionTips from './pages/fashiontips'; // Adjust the path if necessary
+import AboutUs from './pages/aboutus'; // Adjust the path if necessary
+
 
 function App() {
   return (
@@ -18,10 +20,12 @@ function App() {
           <Routes>
           <Route path="/" element={<Home />} />
             <Route path="/home" element={<Home />} />
-            <Route path="/view-all" element={<ViewAll />} />
+            <Route path="/ViewAll" element={<ViewAll />} />
             <Route path="/login" element={<Login />} />
             <Route path="/signup" element={<Signup />} /> 
-            <Route path="/contact/ContactUs" element={<conctatUs />} /> 
+            <Route path="/contactUs" element={<ContactUs />} /> 
+            <Route path="/fashiontips" element={<FashionTips/> } />
+            <Route path="/aboutus" element={<AboutUs/> } />
           </Routes>
         </div>
       </BrowserRouter>

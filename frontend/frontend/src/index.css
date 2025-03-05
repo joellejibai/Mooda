@@ -616,11 +616,11 @@ nav a {
 /* Base styles for both signup and login forms */
 form.signup,
 form.login {
-  max-width: 400px;
+  max-width: 500px;
   margin: 40px auto;
   padding: 40px 35px;
   background: rgba(210, 180, 140, 0.8); /* Light brown with 80% opacity */
-  border-radius: 10px;
+  border-radius: 1px;
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
   font-family: 'Helvetica Neue', Arial, sans-serif;
   color: #333;
@@ -663,18 +663,39 @@ form.login input:focus {
 }
 
 /* Button styling */
+
 form.signup button,
 form.login button {
-  width: 100%;
-  padding: 14px 18px;
+  width: 100%; /* Full width of its container */
+  
+  padding: 16px 24px;
   background: #8B6F47;
   border: none;
-  border-radius: 6px;
+  border-radius: 1px;
   color: #fff;
-  font-size: 16px;
+  font-size: 18px;
   cursor: pointer;
   transition: background 0.3s ease;
+  text-align: center;
+  
 }
+form.login h3 {
+  text-align: center; /* Ensures text is centered */
+  font-size: 22px; /* Adjusts font size */
+  font-weight: bold; /* Makes it stand out */
+  color: #333; /* Darker text for contrast */
+  margin-bottom: 30px; /* Adds spacing below */
+}
+form.signup h3 {
+  text-align: center; /* Ensures text is centered */
+  font-size: 22px; /* Adjusts font size */
+  font-weight: bold; /* Makes it stand out */
+  color: #333; /* Darker text for contrast */
+  margin-bottom: 30px; /* Adds spacing below */
+}
+
+
+
 
 /* Hover state for buttons */
 form.signup button:hover,
@@ -704,4 +725,415 @@ form.signup input::placeholder,
 form.login input::placeholder {
   color: #8b6f47;
 }
+.signup p {
+  text-align: center;
+  font-size: 14px;
+  color: #424242; /* Subtle gray color */
+  margin-top: 10px;
+  
+}
 
+.signup p a {
+  color:white; /* Blue color for link */
+  font-weight: bold;
+  text-decoration: none;
+  transition: color 0.3s ease;
+}
+
+.signup p a:hover {
+  text-decoration: underline;
+  color: black; /* Darker shade on hover */
+}
+
+
+.login p {
+  text-align: center;
+  font-size: 14px;
+  color: #424242; /* Subtle gray color */
+  margin-top: 10px;
+  
+}
+
+.login p a {
+  color:white; /* Blue color for link */
+  font-weight: bold;
+  text-decoration: none;
+  transition: color 0.3s ease;
+}
+
+.login p a:hover {
+  text-decoration: underline;
+  color: black; /* Darker shade on hover */
+}
+
+/* Contact Us Form Styles */
+.contact-us-container {
+  max-width: 500px;
+  margin: 40px auto;
+  padding: 40px 35px;
+  background: rgba(210, 180, 140, 0.8); /* Light brown with 80% opacity */
+  border-radius: 1px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  font-family: 'Helvetica Neue', Arial, sans-serif;
+  color: #333;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  padding-right: 105px;
+}
+
+/* Lift effect on hover */
+.contact-us-container:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+}
+
+/* Input styling */
+.contact-us-container input[type="text"],
+.contact-us-container input[type="email"],
+.contact-us-container textarea {
+  width: 100%;
+  padding: 14px 18px; /* Adjusted padding for inputs */
+  margin: 10px 0 22px 0;
+  border: 1px solid #a38b6d;
+  border-radius: 6px;
+  font-size: 16px;
+  transition: border-color 0.3s ease;
+  background: #f5e6d3;
+}
+
+/* Focus state for inputs */
+.contact-us-container input:focus,
+.contact-us-container textarea:focus {
+  border-color: #8b6f47;
+  outline: none;
+}
+
+/* Button styling */
+.contact-us-container button {
+  width: 100%; /* Full width of its container */
+  padding: 16px 24px;
+  background: #8b6f47;
+  border: none;
+  border-radius: 1px;
+  color: #fff;
+  font-size: 18px;
+  cursor: pointer;
+  transition: background 0.3s ease;
+  text-align: center;
+}
+
+/* Hover state for buttons */
+.contact-us-container button:hover {
+  background: #705736;
+}
+
+/* Label styling */
+.contact-us-container label {
+  display: block;
+  margin-bottom: 8px;
+  font-weight: 600;
+}
+
+/* Error message styling */
+.contact-us-container .error {
+  color: #e74c3c;
+  margin-top: -8px;
+  margin-bottom: 12px;
+  font-size: 14px;
+}
+
+/* Placeholder text */
+.contact-us-container input::placeholder,
+.contact-us-container textarea::placeholder {
+  color: #8b6f47;
+}
+
+/* Heading styles */
+.contact-us-container h2 {
+  text-align: center; /* Center the heading */
+  font-size: 22px;
+  font-weight: bold;
+  color: #333;
+  margin-bottom: 30px;
+}
+
+/* Error message at top */
+.contact-us-container p {
+  color: red;
+  text-align: center;
+  font-size: 14px;
+}
+
+/* Textarea styling */
+.contact-us-container textarea {
+  resize: vertical;
+  min-height: 100px;
+}
+.fashion-tips-container {
+  max-width: 800px;
+  margin: 40px auto;
+  padding: 40px;
+  background: rgba(250, 250, 250, 0.7); /* Light background with 30% transparency */
+  border-radius: 10px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  font-family: 'Helvetica Neue', Arial, sans-serif;
+  color: #333;
+}
+
+
+
+.fashion-tips-container h2 {
+  text-align: center;
+  font-size: 36px;
+  margin-bottom: 30px;
+}
+
+.tips-list {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.tip-card {
+  padding: 20px;
+  background: rgba(245, 230, 211, 0.6); /* Light brown with 60% opacity */
+  border-radius: 10px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.tip-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 15px rgba(0, 0, 0, 0.15);
+}
+
+.tip-card h3 {
+  font-size: 24px;
+  color: #8b6f47;
+  margin-bottom: 15px;
+}
+
+.tip-card p {
+  font-size: 16px;
+  line-height: 1.5;
+  color: #555;
+}
+
+.fashion-tips-container a {
+  color: #8b6f47; /* Matching link color */
+  font-weight: bold;
+  text-decoration: none;
+  transition: color 0.3s ease;
+}
+
+.fashion-tips-container a:hover {
+  text-decoration: underline;
+  color: black; /* Darker shade on hover */
+}
+/* Import fonts from Google Fonts */
+@import url('https://fonts.googleapis.com/css2?family=Merriweather:wght@700&family=Quicksand:wght@400;500&display=swap');
+
+/* General container for the About Us page */
+.about-us-container {
+  max-width: 800px;
+  margin: 40px auto;
+  padding: 40px;
+  background: rgba(250, 250, 250, 0.8); /* Slightly more opaque background */
+  border-radius: 15px;
+  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1); /* Soft shadow for depth */
+  font-family: 'Quicksand', sans-serif;
+  color: #333;
+  transition: transform 0.3s ease-in-out;
+}
+
+.about-us-container:hover {
+  transform: scale(1.02); /* Slight zoom effect on hover */
+}
+
+/* Styling for the About Us title specifically */
+.about-us-title {
+  font-family: 'Merriweather', serif;
+  color: #333;
+  font-size: 36px;
+  text-align: center;
+  margin-bottom: 30px;
+  font-weight: bold;
+  transition: color 0.3s ease;
+}
+
+.about-us-title:hover {
+  color: #8b6f47; /* Warm brown color on hover */
+}
+
+/* Styling for section titles like Mission, Vision, etc. */
+.about-us-section-title {
+  font-family: 'Merriweather', serif;
+  color: #8b6f47; /* Warm brown tone */
+  font-size: 28px;
+  margin-top: 30px;
+  margin-bottom: 20px;
+  text-align: center;
+  font-weight: bold;
+  transition: color 0.3s ease;
+}
+
+.about-us-section-title:hover {
+  color: #6f4f28; /* Darker brown shade on hover */
+}
+
+/* General paragraph styling for text content */
+.about-us-paragraph {
+  font-family: 'Quicksand', sans-serif;
+  line-height: 1.6;
+  font-size: 16px;
+  color: #555;
+  margin-bottom: 20px;
+  transition: color 0.3s ease;
+}
+
+.about-us-paragraph:hover {
+  color: #333; /* Darker text color for paragraphs on hover */
+}
+
+/* Styling for the unordered list used for the values section */
+.about-us-ul {
+  list-style-type: disc;
+  margin-left: 20px;
+}
+
+.about-us-ul li {
+  margin-bottom: 10px;
+  font-size: 16px;
+  color: #555;
+  font-family: 'Quicksand', sans-serif;
+  transition: color 0.3s ease;
+}
+
+.about-us-ul li:hover {
+  color: #333; /* Darker color for list items on hover */
+}
+
+/* General section styling */
+.about-us-section {
+  margin-bottom: 40px;
+  padding: 20px;
+  background: rgba(245, 245, 245, 0.9); /* Light gray background for sections */
+  border-radius: 8px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  transition: background 0.3s ease;
+}
+
+.about-us-section:hover {
+  background: rgba(245, 245, 245, 1); /* Full opacity on hover */
+}
+
+/* Mission section specific styles */
+.mission .about-us-section-title {
+  font-size: 28px;
+  margin-bottom: 10px;
+}
+
+/* Vision section specific styles */
+.vision .about-us-section-title {
+  font-size: 28px;
+  margin-bottom: 10px;
+}
+
+/* Values section specific styles */
+.values .about-us-section-title {
+  font-size: 28px;
+  margin-bottom: 10px;
+}
+
+.values .about-us-ul {
+  list-style-type: disc;
+  margin-left: 20px;
+}
+
+.values .about-us-ul li {
+  margin-bottom: 10px;
+}
+
+/* Team section specific styles */
+.team .about-us-section-title {
+  font-size: 28px;
+  margin-bottom: 10px;
+}
+
+/* Flexbox for displaying team members side by side */
+.team-members {
+  display: flex;
+  justify-content: space-around;
+  flex-wrap: wrap;
+  gap: 20px;
+}
+
+.team-member {
+  text-align: center;
+  margin: 10px;
+  width: 250px; /* Set a fixed width for consistency */
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.team-member:hover {
+  transform: translateY(-5px); /* Lift effect on hover */
+  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.15); /* Slight shadow for depth */
+}
+
+.team-member img {
+  border-radius: 50%;
+  width: 150px;
+  height: 150px;
+  object-fit: cover;
+  margin-bottom: 10px;
+  transition: transform 0.3s ease;
+}
+
+.team-member img:hover {
+  transform: scale(1.05); /* Slight zoom on image hover */
+}
+
+.team-member h3 {
+  font-family: 'Merriweather', serif;
+  color: #8b6f47; /* Warm brown color for team member name */
+  font-size: 18px;
+  margin-bottom: 10px;
+  transition: color 0.3s ease;
+}
+
+.team-member h3:hover {
+  color: #6f4f28; /* Darker brown color on hover */
+}
+
+.team-member p {
+  font-family: 'Quicksand', sans-serif;
+  font-size: 14px;
+  color: #777;
+}
+
+/* Contact section specific styles */
+.contact .about-us-section-title {
+  font-size: 28px;
+  margin-bottom: 10px;
+}
+
+.contact .about-us-ul {
+  list-style-type: none;
+  padding: 0;
+}
+
+.contact .about-us-ul li {
+  margin-bottom: 10px;
+}
+
+.contact a {
+  font-family: 'Quicksand', sans-serif;
+  color: #8b6f47; /* Matching link color */
+  font-weight: bold;
+  text-decoration: none;
+  transition: color 0.3s ease, text-decoration 0.3s ease;
+}
+
+.contact a:hover {
+  text-decoration: underline;
+  color: #6f4f28; /* Darker shade on hover */
+}
