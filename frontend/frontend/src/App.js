@@ -21,6 +21,7 @@ function App() {
             <Route path="/view-all" element={<ViewAll />} />
             <Route path="/login" element={<Login />} />
             <Route path="/signup" element={<Signup />} /> 
+            <Route path="/contact/ContactUs" element={<conctatUs />} /> 
           </Routes>
         </div>
       </BrowserRouter>
