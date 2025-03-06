@@ -35,35 +35,46 @@ const ContactUs = () => {
     };
 
     return (
-        <div className="contact-us-container">
-            <h2>Contact Us</h2>
-            {error && <p>{error}</p>}
-            <form onSubmit={handleSubmit}>
-                <label htmlFor="name">Name:</label>
-                <input
-                    type="text"
-                    id="name"
-                    name="name"
-                    value={formData.name}
-                    onChange={handleChange}
-                />
-                <label htmlFor="email">Email:</label>
-                <input
-                    type="email"
-                    id="email"
-                    name="email"
-                    value={formData.email}
-                    onChange={handleChange}
-                />
-                <label htmlFor="message">Message:</label>
-                <textarea
-                    id="message"
-                    name="message"
-                    value={formData.message}
-                    onChange={handleChange}
-                />
-                <button type="submit">Submit</button>
-            </form>
+        <div className="contact-us-wrapper">
+            {/* Contact Form Section */}
+            <div className="contact-us-container">
+                <h2>Contact Us</h2>
+                {error && <p className="error">{error}</p>}
+                <form onSubmit={handleSubmit}>
+                    <label htmlFor="name">Name:</label>
+                    <input
+                        type="text"
+                        id="name"
+                        name="name"
+                        value={formData.name}
+                        onChange={handleChange}
+                        placeholder="Your name"
+                    />
+                    <label htmlFor="email">Email:</label>
+                    <input
+                        type="email"
+                        id="email"
+                        name="email"
+                        value={formData.email}
+                        onChange={handleChange}
+                        placeholder="Your email"
+                    />
+                    <label htmlFor="message">Message:</label>
+                    <textarea
+                        id="message"
+                        name="message"
+                        value={formData.message}
+                        onChange={handleChange}
+                        placeholder="Your message"
+                    />
+                    <button type="submit">Submit</button>
+                </form>
+            </div>
+
+            {/* Image Section */}
+            <div className="image-container">
+                <img src="/contact.png" alt="Contact Us" />
+            </div>
         </div>
     );
 };
