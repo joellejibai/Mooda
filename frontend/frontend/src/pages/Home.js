@@ -5,7 +5,7 @@ import { PiPantsFill } from "react-icons/pi";
 import { CiCirclePlus } from "react-icons/ci";
 import { useAuthPages } from "../hooks/useAuthPages";
 import ItemDetails from "../components/ItemDetails";
-import ItemsForm from "../components/ItemsForm";
+import ItemsForm from "../components/ItemsForm";  // Import the ItemsForm component
 
 const Home = () => {
     const { user } = useAuthPages();
@@ -13,6 +13,7 @@ const Home = () => {
     const [showAll, setShowAll] = useState(false);
     const [searchTerm, setSearchTerm] = useState("");
     const [selectedCategory, setSelectedCategory] = useState("all");
+    const [showForm, setShowForm] = useState(false);  // State to control form visibility
 
     const photoRef = useRef(null);
     const videoRef = useRef(null);
@@ -29,7 +30,7 @@ const Home = () => {
         pants: ["pants", "jeans", "shorts"],
         jackets: ["jacket", "coat", "blazer"],
         dresses: ["dress", "gown"],
-        shoes: ["boots", "sneakers", "heels"],
+        shoes: ["boots", "sneakers", "heels","shoes"],
         hats: ["hat", "cap", "beanie"],
     };
 
@@ -51,8 +52,8 @@ const Home = () => {
             try {
                 const response = await fetch(`/api/items?search=${searchTerm}`, {
                     headers: {
-                        Authorization: `Bearer ${user.token}`,
-                    },
+                        Authorization: `Bearer ${user.token}`
+                    }
                 });
 
                 if (!response.ok) throw new Error("Failed to fetch items");
@@ -61,7 +62,7 @@ const Home = () => {
                 let filteredItems = json;
 
                 if (selectedCategory !== "all") {
-                    filteredItems = json.filter((item) =>
+                    filteredItems = json.filter(item =>
                         categoryMap[selectedCategory].includes(item.category)
                     );
                 }
@@ -79,8 +80,7 @@ const Home = () => {
     const startCamera = () => {
         if (isCameraActive) return;
 
-        navigator.mediaDevices
-            .getUserMedia({ video: true })
+        navigator.mediaDevices.getUserMedia({ video: true })
             .then((stream) => {
                 if (!videoRef.current.srcObject) {
                     videoRef.current.srcObject = stream;
@@ -93,7 +93,7 @@ const Home = () => {
 
     const takePhoto = () => {
         const canvas = photoRef.current;
-        const ctx = canvas.getContext("2d");
+        const ctx = canvas.getContext('2d');
         const video = videoRef.current;
 
         const width = 414;
@@ -105,7 +105,7 @@ const Home = () => {
         setHasPhoto(true);
 
         const stream = video.srcObject;
-        stream.getTracks().forEach((track) => track.stop());
+        stream.getTracks().forEach(track => track.stop());
 
         setIsCameraActive(false);
     };
@@ -113,7 +113,12 @@ const Home = () => {
     const closePhoto = () => {
         setHasPhoto(false);
         const canvas = photoRef.current;
-        canvas.getContext("2d").clearRect(0, 0, canvas.width, canvas.height);
+        canvas.getContext('2d').clearRect(0, 0, canvas.width, canvas.height);
+    };
+
+    // Callback function to update the items list when a new item is added
+    const addItem = (newItem) => {
+        setItems((prevItems) => [...prevItems, newItem]);
     };
 
     return (
@@ -125,11 +130,7 @@ const Home = () => {
             <div className="glass">
                 <div className="circle-container">
                     {icons.map((icon, index) => (
-                        <span
-                            key={index}
-                            className="clothing-circle"
-                            onClick={() => setSelectedCategory(icon.category)}
-                        >
+                        <span key={index} className="clothing-circle" onClick={() => setSelectedCategory(icon.category)}>
                             {icon.icon}
                         </span>
                     ))}
@@ -156,20 +157,16 @@ const Home = () => {
                                 <ItemDetails item={item} />
                             </div>
                         ))}
-                        <ItemsForm /> {/* Corrected JSX syntax */}
                     </div>
                     {items.length > maxVisibleItems && (
-                        <button
-                            className="view-more-btn"
-                            onClick={() => setShowAll(!showAll)}
-                        >
+                        <button className="view-more-btn" onClick={() => setShowAll(!showAll)}>
                             {showAll ? "View Less" : "View More"}
                         </button>
                     )}
 
                     <div className="camera">
                         <button onClick={startCamera}>
-                            <CiCirclePlus size={30} style={{ marginRight: "8px" }} /> Add Item
+                            <CiCirclePlus size={30} style={{ marginRight: '8px' }} /> Add Item
                         </button>
                         {isCameraActive && (
                             <button onClick={takePhoto}>Take Photo</button>
@@ -178,15 +175,21 @@ const Home = () => {
 
                     <div className={`result ${hasPhoto ? "hasPhoto" : ""}`}>
                         <canvas ref={photoRef}></canvas>
-                        <video
-                            ref={videoRef}
-                            style={{
-                                display: isCameraActive ? "block" : "none",
-                                width: "100%",
-                            }}
-                        ></video>
+                        <video ref={videoRef} style={{ display: isCameraActive ? 'block' : 'none', width: '100%' }}></video>
                         {hasPhoto && <button onClick={closePhoto}>Close</button>}
                     </div>
+
+                    {/* Button to show the form */}
+                    <button
+  onClick={() => setShowForm(!showForm)}
+  className={`toggle-form-button ${showForm ? 'cancel' : ''}`}
+>
+  {showForm ? "Cancel" : "Add New Item"}
+</button>
+
+
+                    {/* Conditionally render the ItemsForm */}
+                    {showForm && <ItemsForm addItem={addItem} />}
                 </div>
             </div>
         </>

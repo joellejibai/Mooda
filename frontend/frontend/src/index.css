@@ -286,13 +286,17 @@ header img {
 }
 
 /* Item wrapper styling */
+/* Item wrapper styling */
 .item-wrapper {
   background-color: #fff0db;
-  padding: 15px;
-  border-radius: 8px;
+  padding: 4px; /* Reduced padding */
+  border-radius: 1px;
   box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
   margin-bottom: 20px;
+  width: 300px;  /* Reduced width */
+  height: 450px; /* Reduced height */
 }
+
 
 .item-wrapper:hover {
   background-color: #D2B48C;
@@ -648,7 +652,7 @@ form.login input[type="password"] {
   /* Adjusted padding for inputs */
   margin: 10px 0 22px 0;
   border: 1px solid #a38b6d;
-  border-radius: 6px;
+  border-radius: 1px;
   font-size: 16px;
   transition: border-color 0.3s ease;
   background: #f5e6d3;
@@ -764,6 +768,14 @@ form.login input::placeholder {
 .login p a:hover {
   text-decoration: underline;
   color: black; /* Darker shade on hover */
+}
+.smallGlass h2 {
+  font-size: 1.8rem; /* Smaller font size */
+  font-weight: bold;
+  color: black; /* Dark gray color for the heading text */
+  margin: 0; /* Remove default margin */
+  text-transform: uppercase; /* Make the heading uppercase */
+  text-align: center; /* Ensure the text is centered */
 }
 
 /* Contact Us Form Styles */
@@ -1136,4 +1148,118 @@ form.login input::placeholder {
 .contact a:hover {
   text-decoration: underline;
   color: #6f4f28; /* Darker shade on hover */
+}
+/* Style for the form container */
+.create {
+  background-color: rgba(255, 255, 255, 0.7); /* More transparent white */
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  width: 100%;
+  max-width: 500px;
+  margin: 0 auto;
+}
+
+
+/* Style for form title */
+.create h3 {
+  font-size: 20px;
+  margin-bottom: 20px;
+  color: #333;
+}
+
+/* Style for input labels */
+.create label {
+  display: block;
+  margin-bottom: 5px;
+  color: #555;
+}
+
+/* Style for input fields */
+.create input[type="text"],
+.create input[type="url"] {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 15px;
+  border: 1px solid #ccc;
+  border-radius: 1px;
+  font-size: 14px;
+  box-sizing: border-box;
+}
+
+/* Style for the submit button */
+.create button {
+  background-color: black;
+  color: white;
+  border: none;
+  padding: 12px 20px;
+  border-radius: 4px;
+  font-size: 16px;
+  cursor: pointer;
+  width: 100%;
+  transition: background-color 0.3s ease;
+}
+
+/* Hover effect for the submit button */
+.create button:hover {
+  background-color: rgb(240, 207, 140);
+}
+
+/* Style for error message */
+.error {
+  color: red;
+  font-size: 14px;
+  margin-top: 10px;
+  text-align: center;
+}
+/* Success message styling */
+.success {
+  color: black; /* Green color */
+  font-weight: bold;
+  margin-top: 15px;
+  padding: 10px; /* Light green background */
+  /* Border to match the background */
+  border-radius: 5px;
+  text-align: center;
+}
+/* Button to toggle form visibility */
+.toggle-form-button {
+  padding: 12px 20px;
+  background-color: black; /* Green background for "Add New Item" */
+  color: white;
+  border: none;
+  border-radius: 1px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.3s ease;
+  text-align: center;
+  margin: 10px 0;
+  width: auto;
+}
+
+/* Hover effect */
+.toggle-form-button:hover {
+  background-color: gray;
+  color: white; /* Darker green on hover */
+  transform: translateY(-2px); /* Slight lift on hover */
+}
+
+/* Active/clicked state */
+.toggle-form-button:active {
+  background-color: black; /* Even darker green when clicked */
+  transform: translateY(0); /* No lift when clicked */
+}
+
+/* Styling for the "Cancel" state */
+.toggle-form-button.cancel {
+  background-color: #dc3545; /* Red background for "Cancel" */
+}
+
+.toggle-form-button.cancel:hover {
+  background-color: #c82333; /* Darker red on hover */
+}
+
+/* Active/clicked state for "Cancel" */
+.toggle-form-button.cancel:active {
+  background-color: #bd2130; /* Even darker red when clicked */
 }
