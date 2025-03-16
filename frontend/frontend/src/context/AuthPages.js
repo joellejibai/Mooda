@@ -1,4 +1,4 @@
-import { createContext, useReducer,useEffect } from 'react';
+import { createContext, useReducer, useEffect } from 'react';
 
 // Create the context
 export const AuthPages = createContext();
@@ -18,13 +18,22 @@ export const authReducer = (state, action) => {
 // Create the provider component
 export const AuthPagesProvider = ({ children }) => {
   const [state, dispatch] = useReducer(authReducer, { user: null });
-  useEffect(()=>{
-    const user=JSON.parse(localStorage.getItem('user'))
-    if (user){
-      dispatch({type:'LOGIN',payload:user})
+
+  // Check for user in localStorage on initial load
+  useEffect(() => {
+    try {
+      const user = JSON.parse(localStorage.getItem('user'));
+      if (user) {
+        dispatch({ type: 'LOGIN', payload: user });
+      }
+    } catch (error) {
+      console.error('Error parsing user from localStorage:', error);
     }
-  },[])
-  console.log("AuthPages state:", state);
+  }, []);
+
+  if (process.env.NODE_ENV === 'development') {
+    console.log('AuthPages state:', state);
+  }
 
   return (
     <AuthPages.Provider value={{ ...state, dispatch }}>

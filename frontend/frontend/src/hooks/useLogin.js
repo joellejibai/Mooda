@@ -4,42 +4,47 @@ import { useAuthPages } from './useAuthPages';
 export const useLogin = () => {
   const [error, setError] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
-  
-  // IMPORTANT: Call the hook (with parentheses) to get the context values.
   const { dispatch } = useAuthPages();
 
   const login = async (email, password) => {
     setIsLoading(true);
     setError(null);
 
+    console.log('Logging in...');
+    console.log('Email:', email);
+    console.log('Password:', password);
+
     try {
-      const response = await fetch('/api/user/login', {
+      const response = await fetch('http://localhost:5000/api/user/login', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ email, password }),
       });
 
+      console.log('Response:', response);
+
       const json = await response.json();
+      console.log('Response JSON:', json);
 
       if (!response.ok) {
         setIsLoading(false);
-        // Adjust the property name based on your backend's error response.
-        setError(json.error || json.Error || 'Signup failed');
+        setError(json.message || json.error || json.Error || 'Login failed');
+        console.log('Login failed:', json.message || json.error || json.Error);
         return;
       }
 
-      // Save the user data to local storage
       localStorage.setItem('user', JSON.stringify(json));
+      console.log('User saved to localStorage:', json);
 
-      // Update the auth state via dispatch
       dispatch({ type: 'LOGIN', payload: json });
       setIsLoading(false);
+      console.log('Login successful');
     } catch (err) {
       setIsLoading(false);
-      setError(err.message);
+      setError(err.message || 'An error occurred during login');
+      console.log('Error:', err.message);
     }
   };
 
   return { login, isLoading, error };
 };
-
