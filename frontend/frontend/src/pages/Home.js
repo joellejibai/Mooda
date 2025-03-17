@@ -15,9 +15,11 @@ const Home = () => {
     const [selectedCategory, setSelectedCategory] = useState("all");
     const [showForm, setShowForm] = useState(false);  // State to control form visibility
 
+    const [hasPhoto, setHasPhoto] = useState(false);
+    const [imageData, setImageData] = useState(null);
     const photoRef = useRef(null);
     const videoRef = useRef(null);
-    const [hasPhoto, setHasPhoto] = useState(false);
+
     const [isCameraActive, setIsCameraActive] = useState(false);
 
     const ITEMS_PER_ROW = 4;
@@ -30,7 +32,7 @@ const Home = () => {
         pants: ["pants", "jeans", "shorts"],
         jackets: ["jacket", "coat", "blazer"],
         dresses: ["dress", "gown"],
-        shoes: ["boots", "sneakers", "heels","shoes"],
+        shoes: ["boots", "sneakers", "heels", "shoes"],
         hats: ["hat", "cap", "beanie"],
     };
 
@@ -77,18 +79,15 @@ const Home = () => {
     }, [searchTerm, selectedCategory, user]); // Dependencies
 
     // Camera Functions
-    const startCamera = () => {
-        if (isCameraActive) return;
-
-        navigator.mediaDevices.getUserMedia({ video: true })
-            .then((stream) => {
-                if (!videoRef.current.srcObject) {
-                    videoRef.current.srcObject = stream;
-                    videoRef.current.play();
-                }
-                setIsCameraActive(true);
-            })
-            .catch((err) => console.error("Error accessing camera:", err));
+    const startCamera = async () => {
+        try {
+            const stream = await navigator.mediaDevices.getUserMedia({ video: true });
+            videoRef.current.srcObject = stream;
+            videoRef.current.play();
+            setIsCameraActive(true);
+        } catch (err) {
+            console.error("Error accessing camera:", err);
+        }
     };
 
     const takePhoto = () => {
@@ -104,10 +103,32 @@ const Home = () => {
         ctx.drawImage(video, 0, 0, width, height);
         setHasPhoto(true);
 
-        const stream = video.srcObject;
-        stream.getTracks().forEach(track => track.stop());
+        const imageUrl = canvas.toDataURL("image/png");
+        setImageData(imageUrl);
+    };
 
-        setIsCameraActive(false);
+    const uploadImage = async () => {
+        if (!imageData) return;
+
+        try {
+            const response = await fetch("/api/upload", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                    Authorization: `Bearer ${user.token}`,
+                },
+                body: JSON.stringify({ image: imageData }),
+            });
+
+            if (!response.ok) throw new Error("Upload failed");
+
+            const result = await response.json();
+            console.log("Image uploaded successfully:", result);
+            setShowForm(false);
+            setHasPhoto(false);
+        } catch (error) {
+            console.error("Error uploading image:", error);
+        }
     };
 
     const closePhoto = () => {
@@ -179,18 +200,22 @@ const Home = () => {
                         {hasPhoto && <button onClick={closePhoto}>Close</button>}
                     </div>
 
-                    {/* Button to show the form */}
-                    <button
-  onClick={() => setShowForm(!showForm)}
-  className={`toggle-form-button ${showForm ? 'cancel' : ''}`}
->
-  {showForm ? "Cancel" : "Add New Item"}
-</button>
-
-
                     {/* Conditionally render the ItemsForm */}
                     {showForm && <ItemsForm addItem={addItem} />}
                 </div>
+
+                <button onClick={() => { setShowForm(!showForm); startCamera(); }} className="toggle-form-button">
+                    {showForm ? "Cancel" : "Add New Item"}
+                </button>
+                {showForm && (
+                    <div className="camera-section">
+                        <video ref={videoRef} autoPlay playsInline style={{ display: isCameraActive ? 'block' : 'none' }}></video>
+                        {hasPhoto && <canvas ref={photoRef}></canvas>}
+                        <button onClick={takePhoto}>Take Photo</button>
+                        {hasPhoto && <button onClick={uploadImage}>Upload Image</button>}
+                    </div>
+                )}
+
             </div>
         </>
     );
