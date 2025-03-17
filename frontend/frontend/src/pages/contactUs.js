@@ -71,10 +71,7 @@ const ContactUs = () => {
                 </form>
             </div>
 
-            {/* Image Section */}
-            <div className="image-container">
-                <img src="/contact.png" alt="Contact Us" />
-            </div>
+           
         </div>
     );
 };

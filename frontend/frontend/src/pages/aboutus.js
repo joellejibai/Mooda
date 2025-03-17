@@ -17,7 +17,7 @@ const AboutUs = () => {
       <div className="mission-vision-values">
         <section className="section mission">
           <h2 className="section-title">Our Mission</h2>
-          <p className="section-text">
+          <p className="section">
             Our mission is to revolutionize the way you approach fashion by offering personalized styling recommendations and a virtual wardrobe that helps reduce clothing waste. 
             We empower you to make smarter fashion decisions, plan your outfits effortlessly, and explore endless styling possibilities.
           </p>
@@ -25,7 +25,7 @@ const AboutUs = () => {
 
         <section className="section vision">
           <h2 className="section-title">Our Vision</h2>
-          <p className="section-text">
+          <p className="section">
             We envision a world where everyone can express their unique style while contributing to a more sustainable future. 
             By leveraging AI, we aim to make fashion more accessible, personalized, and environmentally responsible.
           </p>
@@ -61,7 +61,7 @@ const AboutUs = () => {
 
       <section className="section contact">
         <h2 className="section-title">Get in Touch</h2>
-        <p className="section-text">
+        <p className="section">
           If you want to learn more about our platform, have suggestions, or want to collaborate with us, feel free to reach out!
         </p>
         <ul className="about-us-ul">
