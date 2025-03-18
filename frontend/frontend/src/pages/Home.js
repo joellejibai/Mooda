@@ -1,9 +1,8 @@
 import React, { useRef, useState, useEffect } from "react";
-import { GiClothes, GiMonclerJacket, GiLargeDress, GiChelseaBoot } from 'react-icons/gi';
-import { FaTshirt, FaRedhat } from 'react-icons/fa';
-import { PiPantsFill } from 'react-icons/pi';
-import { CiCirclePlus } from 'react-icons/ci';
-
+import { GiClothes, GiMonclerJacket, GiLargeDress, GiChelseaBoot } from "react-icons/gi";
+import { FaTshirt, FaRedhat } from "react-icons/fa";
+import { PiPantsFill } from "react-icons/pi";
+import { CiCirclePlus } from "react-icons/ci";
 import { useAuthPages } from "../hooks/useAuthPages";
 import ItemDetails from "../components/ItemDetails";
 import ItemsForm from "../components/ItemsForm";  // Import the ItemsForm component
