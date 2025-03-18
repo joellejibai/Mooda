@@ -10,8 +10,10 @@ const Login = () => {
     
     const handleSubmit = async (e) => {
         e.preventDefault();
+        console.log("Login form submitted with:", email, password); // Debugging log
         await login(email, password);
     };
+    
 
     const handleMoveToHome = () => {
         navigate('/home');

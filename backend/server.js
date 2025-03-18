@@ -4,6 +4,7 @@ const mongoose = require('mongoose')
 const itemsRoutes = require('./routes/items')
 const userRoutes = require('./routes/user') // Import the user routes
 
+
 // ✅ Define express app BEFORE using it
 const app = express() 
 
