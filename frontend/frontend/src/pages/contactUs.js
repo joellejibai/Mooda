@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import './contactUs'; // Make sure this is the correct path to your CSS file
+import './contactUs';
 
 const ContactUs = () => {
     const [formData, setFormData] = useState({
@@ -19,26 +19,26 @@ const ContactUs = () => {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        
+
         // Basic validation
         if (!formData.name || !formData.email || !formData.message) {
             setError('All fields are required');
             return;
         }
-        
+
         // Submit form (you can add API call here)
         console.log('Form submitted:', formData);
-        
+
         // Reset the form
         setFormData({ name: '', email: '', message: '' });
         setError('');
     };
 
     return (
-        <div className="contact-us-wrapper">
+        <div className="glass">
             {/* Contact Form Section */}
             <div className="contact-us-container">
-                <h2>Contact Us</h2>
+                <h2 style={"color:white"}>Contact Us</h2>
                 {error && <p className="error">{error}</p>}
                 <form onSubmit={handleSubmit}>
                     <label htmlFor="name">Name:</label>
@@ -71,7 +71,7 @@ const ContactUs = () => {
                 </form>
             </div>
 
-           
+
         </div>
     );
 };
