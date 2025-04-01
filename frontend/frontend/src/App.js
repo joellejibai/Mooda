@@ -9,6 +9,10 @@ import ContactUs from "./pages/contactUs";
 import FashionTips from "./pages/fashiontips";
 import AboutUs from "./pages/aboutus";
 import DressUp from "./pages/DressUp";
+import Virtual from "./pages/virtual";
+import Outfit from "./pages/outfit";
+import Plan from "./pages/plan";  // Correct the path if needed
+
 
 function Pages() {
   const location = useLocation();
@@ -36,6 +40,9 @@ function Pages() {
           <Route path="/contactUs" element={<ContactUs />} />
           <Route path="/fashiontips" element={<FashionTips />} />
           <Route path="/aboutus" element={<AboutUs />} />
+          <Route path="/virtual" element={<Virtual />} />
+          <Route path="/outfit" element={<Outfit />} />
+          <Route path="/plan" element={<Plan />} />
         </Routes>
       </div>
     </div>

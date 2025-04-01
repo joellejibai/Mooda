@@ -44,14 +44,13 @@ const Navbar = () => {
                         )}
                     </div>
                     {user && (
-                        <div>
-                        <span> </span>
-    <button onClick={handleClick}>Logout</button>
-    <Link to="/dressUp">DressUp</Link>
+  <div className="nav-buttons">
     
-</div>
-)
-}
+    <Link to="/dressUp">DressUp</Link>
+    <button onClick={handleClick}>Logout</button>
+  </div>
+)}
+
 
                     {!user &&(
                         <div>

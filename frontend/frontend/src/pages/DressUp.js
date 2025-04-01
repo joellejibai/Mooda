@@ -6,35 +6,41 @@ const DressUp = () => {
     const navigate = useNavigate();
     const tips = [
         {
-          title: 'Virtual Try-Ons', path: '/virtual' 
-          
+            title: 'Virtual Try-Ons',
+            path: '/virtual',
+            icon: '/virtual.png', // Add your icon image path
         },
         {
-          title: 'Outfit Recommendation', path: '/home' 
-          
+            title: 'Outfit Recommendation',
+            path: '/outfit',
+            icon: '/outfit.png',
         },
         {
-          title: 'Event Outfit Planning', path: '/home' 
-          
+            title: 'Event Outfit Planning',
+            path: '/plan',
+            icon: '/plan.png',
         },
-      ];
-    
-      return (
-        <div className="DressUp-container">
+    ];
+
+    return (
+        <div className="backgroundStyle1">
+            <div className="smallGlass">
             <h2>DressUp</h2>
+            </div>
             <div className="DressUp-list">
                 {tips.map((tip, index) => (
                     <div 
                         key={index} 
                         className="DressUp-card" 
                         onClick={() => navigate(tip.path)}
-                        style={{ cursor: 'pointer' }} // Make it clear it's clickable
+                        style={{ cursor: 'pointer' }} 
                     >
+                        <img src={tip.icon} alt={tip.title} className="DressUp-icon" />
                         <h3>{tip.title}</h3>
                     </div>
                 ))}
             </div>
         </div>
-      );
-    };
+    );
+};
 export default DressUp;

@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
-import './virtual';
+import './outfit';
 import { useNavigate } from 'react-router-dom';
 import Webcam from 'react-webcam'; // Import Webcam component
 
-const Virtual = () => {
+const Outfit = () => {
   const navigate = useNavigate();
 
   // State to hold the captured image
@@ -18,21 +18,22 @@ const Virtual = () => {
     navigate('/virtual-fit');
   };
 
+  // Function to handle Go Back button click
   const handleGoBack = () => {
-    navigate(-1); // Goes back to the previous page
+    navigate(-1); // Navigates back to the previous page
   };
 
   return (
     <div> {/* This is the parent wrapper */}
-      {/* Go Back button with custom image */}
+      {/* Go Back Button */}
       <button className="virtual-go-back-button" onClick={handleGoBack}>
         <img src="/back.png" alt="Go Back" className="go-back-icon" />
       </button>
 
       <div className="smallGlass">
-        <h2>Virtual Try-ons</h2>
+        <h2>Outfit Recommendation</h2>
       </div>
-  
+
       <div className="virtual-container">
         {/* Categories container */}
         <div className="virtual-category-container">
@@ -41,7 +42,7 @@ const Virtual = () => {
           <div className="virtual-category-item">Lower Body</div>
           <div className="virtual-category-item">Foot</div>
         </div>
-  
+
         {/* Camera container in the center */}
         <div className="camera-container">
           <Webcam
@@ -60,7 +61,7 @@ const Virtual = () => {
             Capture
           </button>
         </div>
-  
+
         {/* Display captured image */}
         {photo && (
           <div className="captured-photo">
@@ -68,7 +69,7 @@ const Virtual = () => {
             <img src={photo} alt="Captured" />
           </div>
         )}
-  
+
         {/* Virtual Fit button */}
         <button className="virtual-fit-button" onClick={handleVirtualFitClick}>
           <span className="virtual-plus-icon">+</span> Virtual Fit
@@ -78,4 +79,4 @@ const Virtual = () => {
   );
 };
 
-export default Virtual;
+export default Outfit;
