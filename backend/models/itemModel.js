@@ -7,6 +7,13 @@ const itemSchema = new Schema({
         type: String,
         required: true
     },
+    image: {
+        type: String // This will hold the base64 image
+    },
+    user_id: {
+        type: String,
+        required: true
+    },
     color: {
         type: String,
         required: true

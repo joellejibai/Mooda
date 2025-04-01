@@ -3,6 +3,7 @@ const express = require('express')
 const mongoose = require('mongoose')
 const itemsRoutes = require('./routes/items')
 const userRoutes = require('./routes/user') // Import the user routes
+const uploadRoutes = require('./routes/upload')
 
 
 // ✅ Define express app BEFORE using it
@@ -18,6 +19,7 @@ app.use((req, res, next) => {
 // ✅ Register routes AFTER defining `app`
 app.use('/api/user', userRoutes) // Handle user-related routes
 app.use('/api/items', itemsRoutes) // Handle item-related routes
+app.use('/api/upload', uploadRoutes)
 
 // Connect to DB
 mongoose.connect(process.env.MONGO_URI)

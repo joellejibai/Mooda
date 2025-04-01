@@ -124,17 +124,36 @@ const Home = () => {
 
             const result = await response.json();
             console.log("Image uploaded successfully:", result);
+
+            setItems((prevItems) => [...prevItems, result]);
+
             setShowForm(false);
             setHasPhoto(false);
+            setImageData(null);
+
+            if (videoRef.current && videoRef.current.srcObject) {
+                videoRef.current.srcObject.getTracks().forEach(track => track.stop());
+            }
+            setIsCameraActive(false);
+
         } catch (error) {
             console.error("Error uploading image:", error);
         }
     };
 
+
     const closePhoto = () => {
         setHasPhoto(false);
         const canvas = photoRef.current;
         canvas.getContext('2d').clearRect(0, 0, canvas.width, canvas.height);
+    };
+
+    const stopCamera = () => {
+        if (videoRef.current && videoRef.current.srcObject) {
+            videoRef.current.srcObject.getTracks().forEach(track => track.stop());
+            videoRef.current.srcObject = null;
+        }
+        setIsCameraActive(false);
     };
 
     // Callback function to update the items list when a new item is added
@@ -176,9 +195,18 @@ const Home = () => {
                         {(showAll ? items : items.slice(0, maxVisibleItems)).map((item) => (
                             <div className="item-wrapper" key={item._id}>
                                 <ItemDetails item={item} />
+                                {/* Display image if exists */}
+                                {item.image && (
+                                    <img
+                                        src={item.image}
+                                        alt="Item"
+                                        style={{ width: "100px", marginTop: "10px", borderRadius: "8px" }}
+                                    />
+                                )}
                             </div>
                         ))}
                     </div>
+
                     {items.length > maxVisibleItems && (
                         <button className="view-more-btn" onClick={() => setShowAll(!showAll)}>
                             {showAll ? "View Less" : "View More"}
