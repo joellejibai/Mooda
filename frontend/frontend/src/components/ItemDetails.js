@@ -10,7 +10,7 @@ const ItemDetails = ({ item }) => {
             <div
                 className="item-image"
                 style={{
-                    backgroundImage: `url(${item.imageUrl})`,
+                    backgroundImage: `url(${item.imageURL})`,
                     backgroundSize: "cover",
                     backgroundPosition: "center",
                 }}

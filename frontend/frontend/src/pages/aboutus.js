@@ -59,7 +59,7 @@ const AboutUs = () => {
         </div>
       </section>
 
-      <section className="section contact">
+      <section className="section-contact">
         <h2 className="section-title">Get in Touch</h2>
         <p className="section">
           If you want to learn more about our platform, have suggestions, or want to collaborate with us, feel free to reach out!
