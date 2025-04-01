@@ -38,7 +38,7 @@ const ContactUs = () => {
         <div className="glass">
             {/* Contact Form Section */}
             <div className="contact-us-container">
-                <h2 style={"color:white"}>Contact Us</h2>
+                <h2>Contact Us</h2>
                 {error && <p className="error">{error}</p>}
                 <form onSubmit={handleSubmit}>
                     <label htmlFor="name">Name:</label>
