@@ -21,11 +21,7 @@ const Navbar = () => {
                     <img src="/logo.png" alt="ModaNova Logo" style={{ width: "130px", height: "auto" }} />
                 </Link>
 
-                <span className="view">
-                    <Link to="/view-all">
-                        <h2>Items</h2>
-                    </Link>
-                </span>
+              
 
                 <nav>
                   
@@ -51,7 +47,11 @@ const Navbar = () => {
                         <div>
                         <span> </span>
     <button onClick={handleClick}>Logout</button>
-</div>)}
+    <Link to="/DressUp">DressUp</Link>
+</div>
+)
+}
+
                     {!user &&(
                         <div>
                         <Link to="/login">Login</Link>

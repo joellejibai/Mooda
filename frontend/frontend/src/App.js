@@ -5,8 +5,7 @@ import "./index.css";
 // Pages and components
 import Home from './pages/Home';
 import Login from './pages/Login';
-import Signup from './pages/Signup';
-import ViewAll from './pages/ViewAll';import ContactUs from './pages/contactUs'; // Capitalized 'ContactUs'
+import Signup from './pages/Signup';import ContactUs from './pages/contactUs'; // Capitalized 'ContactUs'
 import FashionTips from './pages/fashiontips'; // Adjust the path if necessary
 import AboutUs from './pages/aboutus'; // Adjust the path if necessary
 
@@ -20,7 +19,7 @@ function App() {
           <Routes>
           <Route path="/" element={<Home />} />
             <Route path="/home" element={<Home />} />
-            <Route path="/ViewAll" element={<ViewAll />} />
+            <Route path="/ressUp" element={<dressUp />} />
             <Route path="/login" element={<Login />} />
             <Route path="/signup" element={<Signup />} /> 
             <Route path="/contactUs" element={<ContactUs />} /> 
