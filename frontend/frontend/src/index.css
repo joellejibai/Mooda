@@ -1574,3 +1574,85 @@ form.login input::placeholder {
 }
 
 
+/* Main container for the DressUp page */
+.DressUp-container {
+  padding: 40px;
+  background-color: rgba(255, 255, 255, 0.4); /* Light transparent background */
+  font-family: 'Arial', sans-serif;
+  max-width: 1400px; /* Increased width */
+  width: 90%; /* Ensures responsiveness */
+  min-height: 400px; /* Increased height */
+  margin: 20px auto;
+  border-radius: 10px;
+  text-align: center;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); /* Soft shadow for depth */
+  display: flex;
+  flex-direction: column;
+  justify-content: center; /* Center content vertically */
+}
+
+/* Title for the DressUp section */
+.DressUp-container h2 {
+  font-size: 36px;
+  color: black;
+  margin-top: 0px;
+  margin-bottom: 70px;
+}
+
+/* The container for all the DressUp cards */
+.DressUp-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); /* Responsive grid */
+  gap: 30px; /* Space between cards */
+  padding: 0 15px;
+}
+
+/* Individual DressUp card styles */
+.DressUp-card {
+  background-color: rgba(249, 249, 249, 0.8); 
+  padding: 20px;
+  border-radius: 1px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: left;
+}
+
+/* Hover effect for cards */
+.DressUp-card:hover {
+  transform: translateY(-10px); /* Lift the card on hover */
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2); /* Darker shadow on hover */
+}
+
+/* Title styling for each card */
+.DressUp-card h3 {
+  font-size: 24px;
+  color: #333;
+  margin-bottom: 10px;
+}
+
+/* Description styling for each card */
+.DressUp-card p {
+  font-size: 16px;
+  color: #666;
+  line-height: 1.6;
+}
+
+/* Optional media query for responsiveness */
+@media (max-width: 768px) {
+  .DressUp-container {
+      padding: 20px;
+  }
+  .DressUp-list {
+      grid-template-columns: 1fr 1fr; /* 2 cards per row on smaller screens */
+  }
+}
+
+@media (max-width: 480px) {
+  .DressUp-list {
+      grid-template-columns: 1fr; /* 1 card per row on very small screens */
+  }
+}

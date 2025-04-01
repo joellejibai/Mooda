@@ -1,12 +1,12 @@
 import React, { useState } from 'react';
-import './DressUp'; // Ensure the correct file path4
+import './virtual'; // Ensure the correct file path4
 import { useNavigate } from 'react-router-dom';
 
-const DressUp = () => {
+const virtual = () => {
     const navigate = useNavigate();
     const tips = [
         {
-          title: 'Virtual Try-Ons', path: '/virtual' 
+          title: 'Virtual Try-Ons', path: '/home' 
           
         },
         {
@@ -37,4 +37,4 @@ const DressUp = () => {
         </div>
       );
     };
-export default DressUp;
+export default virtual;

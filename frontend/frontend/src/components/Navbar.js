@@ -47,7 +47,8 @@ const Navbar = () => {
                         <div>
                         <span> </span>
     <button onClick={handleClick}>Logout</button>
-    <Link to="/DressUp">DressUp</Link>
+    <Link to="/dressUp">DressUp</Link>
+    
 </div>
 )
 }
