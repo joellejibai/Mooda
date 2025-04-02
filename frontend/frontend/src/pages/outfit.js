@@ -1,22 +1,8 @@
-import React, { useState } from 'react';
-import './outfit';
+import React from 'react';
 import { useNavigate } from 'react-router-dom';
-import Webcam from 'react-webcam'; // Import Webcam component
 
 const Outfit = () => {
   const navigate = useNavigate();
-
-  // State to hold the captured image
-  const [photo, setPhoto] = useState(null);
-
-  // Function to handle the click event for taking a photo
-  const handleCapture = (image) => {
-    setPhoto(image); // Store the captured image
-  };
-
-  const handleVirtualFitClick = () => {
-    navigate('/virtual-fit');
-  };
 
   // Function to handle Go Back button click
   const handleGoBack = () => {
@@ -24,7 +10,7 @@ const Outfit = () => {
   };
 
   return (
-    <div> {/* This is the parent wrapper */}
+    <div className="outfit-container"> 
       {/* Go Back Button */}
       <button className="virtual-go-back-button" onClick={handleGoBack}>
         <img src="/back.png" alt="Go Back" className="go-back-icon" />
@@ -34,46 +20,30 @@ const Outfit = () => {
         <h2>Outfit Recommendation</h2>
       </div>
 
-      <div className="virtual-container">
-        {/* Categories container */}
+      <div className="virtual-container1">
+        {/* Categories with Left and Right Arrows */}
         <div className="virtual-category-container">
-          <div className="virtual-category-item">Full body</div>
-          <div className="virtual-category-item">Upper body</div>
-          <div className="virtual-category-item">Lower Body</div>
-          <div className="virtual-category-item">Foot</div>
+          <img src="/left.png" alt="Left" className="side-icon left-icon" />
+          <div className="virtual-category-item1">Top</div>
+          <img src="/right.png" alt="Right" className="side-icon right-icon" />
         </div>
 
-        {/* Camera container in the center */}
-        <div className="camera-container">
-          <Webcam
-            audio={false}
-            height="auto"
-            width="100%"
-            screenshotFormat="image/jpeg"
-            videoConstraints={{
-              facingMode: "user", // Use the front camera
-            }}
-          />
-          <button 
-            className="virtual-capture-button" 
-            onClick={() => handleCapture(document.querySelector('video').getScreenshot())}
-          >
-            Capture
-          </button>
+        <div className="virtual-category-container">
+          <img src="/left.png" alt="Left" className="side-icon left-icon" />
+          <div className="virtual-category-item1">Bottom</div>
+          <img src="/right.png" alt="Right" className="side-icon right-icon" />
         </div>
 
-        {/* Display captured image */}
-        {photo && (
-          <div className="captured-photo">
-            <h3>Captured Photo:</h3>
-            <img src={photo} alt="Captured" />
-          </div>
-        )}
+        <div className="virtual-category-container">
+          <img src="/left.png" alt="Left" className="side-icon left-icon" />
+          <div className="virtual-category-item2">Foot</div>
+          <img src="/right.png" alt="Right" className="side-icon right-icon" />
+        </div>
+      </div>
 
-        {/* Virtual Fit button */}
-        <button className="virtual-fit-button" onClick={handleVirtualFitClick}>
-          <span className="virtual-plus-icon">+</span> Virtual Fit
-        </button>
+      {/* Proceed Button at the Bottom */}
+      <div className="bottom-button-container">
+        <button className="proceed-button">AUTO-GENERATE</button>
       </div>
     </div>
   );

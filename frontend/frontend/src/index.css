@@ -1761,15 +1761,16 @@ form.login input::placeholder {
   justify-content: center; /* Centers the items horizontally */
 }
 
-.virtual-category-item {
+.virtual-category-item1 {
   border-radius: 10px;
   padding: 15px;
   font-size: 18px;
   font-weight: 500;
-  width: 110px; /* Set fixed width */
+  width: 310px; /* Set fixed width */
   cursor: pointer;
   transition: all 0.3s ease;
   border: 1px solid #e0e0e0;
+  height: 100px;
 }
 
 
@@ -1831,3 +1832,95 @@ form.login input::placeholder {
   object-fit: contain; /* Ensures the image scales well */
 }
 
+.virtual-container1 {
+  border-radius: 15px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+  width: 1000px;
+  padding: 25px;
+  background-color: rgba(255, 255, 255, 0.4);
+  text-align: center;
+  margin: 20px auto;
+  height: 1000px;
+ 
+}
+.virtual-category-container1 {
+  display: flex; /* Use flexbox */
+  flex-direction: column; /* Stack items vertically */
+  gap: 15px; /* Adds space between each item */
+  align-items: center; /* Centers the items horizontally */
+  justify-content: center; /* Centers the items vertically */
+  height: 600px; /* Ensures full screen height */
+}
+
+.virtual-category-item1 {
+  border-radius: 10px;
+  padding: 15px;
+  font-size: 18px;
+  font-weight: 500;
+  width: 310px; /* Set fixed width */
+  cursor: pointer;
+  transition: all 0.3s ease;
+  border: 4px solid #e0e0e0;
+  height: 300px;
+  margin-top: 5px;
+
+}
+
+.virtual-category-item2 {
+  border-radius: 10px;
+  padding: 15px;
+  font-size: 18px;
+  font-weight: 500;
+  width: 310px; /* Set fixed width */
+  cursor: pointer;
+  transition: all 0.3s ease;
+  border: 4px solid #e0e0e0;
+  height:200px;
+  margin-top: 5px;
+}
+
+/* Proceed Button */
+.bottom-button-container {
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
+}
+
+.proceed-button {
+  padding: 12px 24px;
+  background: black;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 1rem;
+  cursor: pointer;
+  width: 200px;
+  transition: background 0.3s;
+}
+
+.proceed-button:hover {
+  background: #0056b3;
+}
+
+/* Custom Icons */
+.side-icon {
+  width: 30px;
+  height: 50px;
+  cursor: pointer;
+  transition: transform 0.2s;
+  margin-top: 130px;
+}
+
+/* Left and Right Icons */
+.left-icon {
+  margin-right: 10px;
+}
+
+.right-icon {
+  margin-left: 10px;
+}
+
+/* Hover Effects */
+.side-icon:hover {
+  transform: scale(1.2);
+}
