@@ -21,55 +21,69 @@ const Navbar = () => {
 
                 <nav>
                     {/* Contact Us with Hover Dropdown */}
-                    <div
-                        className="dropdown"
-                        onMouseEnter={() => setIsDropdownOpen(true)}
-                        onMouseLeave={() => setIsDropdownOpen(false)}
-                    >
-                        <Link to="/" className="dropdown-btn" style={{ display: "flex", alignItems: "center" }}>
-                            <img
-                                src="/wardrobe.png"
-                                alt="Wardrobe Icon"
-                                style={{ width: "20px", height: "20px", marginRight: "8px" }}
-                            />
-                            Wardrobe
-                        </Link>
+                    <div className="nav-bar" style={{ display: "flex", gap: "24px", alignItems: "center" }}>
+    {/* Wardrobe (standalone link) */}
+    <Link to="/" className="nav-link" style={{ display: "flex", alignItems: "center" }}>
+        <img
+            src="/wardrobe.png"
+            alt="Wardrobe Icon"
+            style={{ width: "20px", height: "20px", marginRight: "8px" }}
+        />
+        Wardrobe
+    </Link>
 
-                        {isDropdownOpen && (
-                            <ul className="dropdown-menu">
-                                <li>
-                                    <Link to="/AboutUs">
-                                        <img
-                                            src="/aboutus.png"
-                                            alt="About Icon"
-                                            style={{ width: "30px", height: "20px", marginRight: "5px" }}
-                                        />
-                                        About Us
-                                    </Link>
-                                </li>
-                                <li>
-                                    <Link to="/contactUs">
-                                        <img
-                                            src="/contactus.png"
-                                            alt="Contact Icon"
-                                            style={{ width: "30px", height: "20px", marginRight: "5px" }}
-                                        />
-                                        Contact Us
-                                    </Link>
-                                </li>
-                                <li>
-                                    <Link to="/fashiontips">
-                                        <img
-                                            src="/tips.png"
-                                            alt="Fashion Tips Icon"
-                                            style={{ width: "30px", height: "20px", marginRight: "5px" }}
-                                        />
-                                        Fashion Tips
-                                    </Link>
-                                </li>
-                            </ul>
-                        )}
-                    </div>
+    {/* About Us with dropdown */}
+    <div
+        className="dropdown"
+        onMouseEnter={() => setIsDropdownOpen(true)}
+        onMouseLeave={() => setIsDropdownOpen(false)}
+        style={{ position: "relative" }}
+    >
+        <Link to="/AboutUs" className="dropdown-btn" style={{ display: "flex", alignItems: "center" }}>
+            <img
+                src="/aboutus.png"
+                alt="About Icon"
+                style={{ width: "30px", height: "20px", marginRight: "8px" }}
+            />
+            AboutUs
+        </Link>
+
+        {isDropdownOpen && (
+            <ul className="dropdown-menu" style={{
+                position: "absolute",
+                top: "100%",
+                left: "0",
+               
+                padding: "10px",
+                listStyle: "none",
+                margin: 0,
+               
+            }}>
+                <li>
+                    <Link to="/fashiontips" style={{ display: "flex", alignItems: "center", padding: "5px 0" }}>
+                        <img
+                            src="/tips.png"
+                            alt="Fashion Tips Icon"
+                            style={{ width: "30px", height: "20px", marginRight: "5px" }}
+                        />
+                        Fashion Tips
+                    </Link>
+                </li>
+                <li>
+                    <Link to="/contactUs" style={{ display: "flex", alignItems: "center", padding: "5px 0" }}>
+                        <img
+                            src="/contactus.png"
+                            alt="Contact Icon"
+                            style={{ width: "30px", height: "20px", marginRight: "5px" }}
+                        />
+                        Contact Us
+                    </Link>
+                </li>
+            </ul>
+        )}
+    </div>
+</div>
+
 
                     {user && (
                         <div className="nav-buttons" style={{ display: "flex", gap: "10px" }}>
@@ -78,8 +92,8 @@ const Navbar = () => {
                                     src="/dressup.png"
                                     alt="DressUp Icon"
                                     style={{
-                                        width: "40px",
-                                        height: "30px",
+                                        width: "35px",
+                                        height: "25px",
                                         marginRight: "5px",
                                         verticalAlign: "middle",
                                     }}

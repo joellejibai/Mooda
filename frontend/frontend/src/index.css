@@ -127,12 +127,17 @@ header .container {
 
 /* Hover Effect on Items */
 .dropdown-menu li:hover {
+<<<<<<< HEAD
   background: black;
+=======
+  background: white
+  ;
+>>>>>>> 12dfe7ed623b42d62f1e5ccccf6ec12fb485b9f2
   border-radius: 5px;
 }
 
 .dropdown-menu li:hover a {
-  color: white;
+  color: black;
 }
 
 /* Mobile Responsive */
