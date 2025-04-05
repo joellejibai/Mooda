@@ -1,40 +1,42 @@
 import React from 'react';
-import './fashiontips'; // Import the CSS file for styling
 
 const FashionTips = () => {
-  const tips = [
-    {
-      title: 'Layering is Key',
-      description: 'Layering your clothes can help you adjust to varying temperatures while still looking fashionable. Try combining jackets, cardigans, and scarves to add texture and dimension to your outfit.'
-    },
-    {
-      title: 'Accessorize Wisely',
-      description: 'Accessories can elevate any outfit. A statement necklace, watch, or pair of sunglasses can make a big impact without overdoing it.'
-    },
-    {
-      title: 'Mix Patterns and Textures',
-      description: 'Don’t be afraid to mix different patterns and textures, like floral with stripes or leather with lace. Just make sure the colors complement each other for a cohesive look.'
-    },
-    {
-      title: 'Know Your Fit',
-      description: 'The fit of your clothes is crucial to looking good. Ensure your clothes are not too tight or too loose. Aim for a fit that complements your body type for a polished look.'
-    },
-    {
-      title: 'Dress for the Occasion',
-      description: 'Always consider the occasion when picking out your outfit. Whether it’s casual, formal, or somewhere in between, dressing appropriately for the event shows respect and thoughtfulness.'
-    }
-  ];
-
   return (
-    <div className="fashion-tips-container">
-      <h2>Fashion Tips</h2>
-      <div className="tips-list">
-        {tips.map((tip, index) => (
-          <div key={index} className="tip-card">
-            <h3>{tip.title}</h3>
-            <p>{tip.description}</p>
+    <div className="fashion-tips-wrapper">
+      {/* Light glass title box */}
+      <div className="smallGlass lighter-glass">
+        <h2 className="fashion-tips-title">Fashion Tips</h2>
+      </div>
+
+      <div className="fashion-tips-box">
+
+        {/* Tip 1 - Normal */}
+        <div className="tip-row">
+          <div className="circle-tip">Accessorize</div>
+          <p>
+            For example, if it’s a casual set, go for more laid-back accessories like a cross body bag.
+            If it’s a dressy set up, dress it up with statement jewelry.
+          </p>
+        </div>
+
+        {/* Tip 2 - Reversed */}
+        <div className="tip-row reverse-row">
+          <div className="circle-tip">Shoes</div>
+          <p>
+            Depending on the style of the set you can choose different shoes to match.
+            For example, sandals or sneakers can be great for casual setting.
+          </p>
+        </div>
+
+        {/* Tip 3 - Normal */}
+        <div className="tip-row">
+          <div className="circle-tip">Hairstyles</div>
+          <p>
+            Harmonizing your hairstyles with your outfits can take your outfits from nice to top-notch.
+            This will make you look more classy and confident when you venture out.
+          </p>
           </div>
-        ))}
+
       </div>
     </div>
   );

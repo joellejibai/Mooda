@@ -44,19 +44,24 @@ body {
 }
 
 header {
-  background: rgba(210, 180, 140, 0.8); /* 0.8 makes it slightly transparent */
+  background: rgba(210, 180, 140, 0.8);
+  /* 0.8 makes it slightly transparent */
 }
 
 
 header .container {
   max-width: 1400px;
   margin: 0 auto;
-  padding:30px 50px; /* Slightly reduce padding */
+  padding: 30px 50px;
+  /* Slightly reduce padding */
   display: flex;
   align-items: center;
   justify-content: space-between;
-  height: 50px; /* Set a smaller height */
-}/* Dropdown Container */
+  height: 50px;
+  /* Set a smaller height */
+}
+
+/* Dropdown Container */
 /* Dropdown Wrapper */
 .dropdown {
   position: relative;
@@ -68,7 +73,7 @@ header .container {
   color: white;
   padding: 12px 20px;
   font-size: 16px;
-  
+
   border: none;
   cursor: pointer;
   transition: all 0.3s ease-in-out;
@@ -76,7 +81,8 @@ header .container {
 
 /* Button Hover Effect */
 .dropdown-btn:hover {
-  border-bottom: 1px solid ; /* Adds a blue line under the button when hovered */
+  border-bottom: 1px solid;
+  /* Adds a blue line under the button when hovered */
 }
 
 /* Dropdown Menu */
@@ -121,8 +127,7 @@ header .container {
 
 /* Hover Effect on Items */
 .dropdown-menu li:hover {
-  background: black
-  ;
+  background: black;
   border-radius: 5px;
 }
 
@@ -140,16 +145,18 @@ header .container {
 
 
 header img {
-  max-height: 150px; /* Reduce the logo size */
+  max-height: 150px;
+  /* Reduce the logo size */
 }
 
 .view {
   display: inline-block;
   margin-left: auto;
-  
+
   padding: 5px;
   border-radius: 4px;
 }
+
 /* Navbar Styling */
 .navbar {
   display: flex;
@@ -198,28 +205,29 @@ header img {
 /* Responsive Design */
 @media screen and (max-width: 768px) {
   .menu-icon {
-      display: flex;
+    display: flex;
   }
 
   .nav-links {
-      display: none;
-      flex-direction: column;
-      position: absolute;
-      top: 60px;
-      left: 0;
-      background: #222;
-      width: 100%;
-      padding: 10px;
+    display: none;
+    flex-direction: column;
+    position: absolute;
+    top: 60px;
+    left: 0;
+    background: #222;
+    width: 100%;
+    padding: 10px;
   }
 
   .nav-links.active {
-      display: flex;
+    display: flex;
   }
 }
 
 
 .view h2 {
-  font-weight: normal; /* or 400 */
+  font-weight: normal;
+  /* or 400 */
   font-size: medium;
 }
 
@@ -287,7 +295,8 @@ header img {
 /* Item wrapper styling */
 .item-wrapper {
   background-color: #fff0db;
-  padding: 4px; /* Reduced padding */
+  padding: 4px;
+  /* Reduced padding */
   border-radius: 1px;
   box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
   margin-bottom: 20px;
@@ -414,10 +423,11 @@ header img {
   }
 
   .smallGlass {
-    height: 10px;
+    height: 30px;
     width: 50vw;
     margin: 0 auto;
     text-align: center;
+    margin-bottom: 5%;
   }
 }
 
@@ -571,18 +581,25 @@ canvas {
 
 button {
   display: flex;
-  align-items: center; /* Centers content vertically */
-  justify-content: center; /* Centers content horizontally */
-  padding: 3px 6px; /* Further reduced padding */
-  
-  background-color: transparent; /* No background */
+  align-items: center;
+  /* Centers content vertically */
+  justify-content: center;
+  /* Centers content horizontally */
+  padding: 3px 6px;
+  /* Further reduced padding */
+
+  background-color: transparent;
+  /* No background */
   border: none;
-  
-  border-radius: 3%; /* Slightly rounded */
-  font-size: 17px; /* Smaller font */
-  
+
+  border-radius: 3%;
+  /* Slightly rounded */
+  font-size: 17px;
+  /* Smaller font */
+
   margin-bottom: 0;
-  width: 5vw; /* Reduced width */
+  width: 5vw;
+  /* Reduced width */
 }
 
 
@@ -621,7 +638,8 @@ form.login {
   max-width: 500px;
   margin: 40px auto;
   padding: 40px 35px;
-  background: rgba(210, 180, 140, 0.8); /* Light brown with 80% opacity */
+  background: rgba(210, 180, 140, 0.8);
+  /* Light brown with 80% opacity */
   border-radius: 1px;
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
   font-family: 'Helvetica Neue', Arial, sans-serif;
@@ -654,7 +672,7 @@ form.login input[type="password"] {
   font-size: 16px;
   transition: border-color 0.3s ease;
   background: #f5e6d3;
-  
+
 }
 
 /* Focus state for inputs */
@@ -668,8 +686,9 @@ form.login input:focus {
 
 form.signup button,
 form.login button {
-  width: 100%; /* Full width of its container */
-  
+  width: 100%;
+  /* Full width of its container */
+
   padding: 16px 24px;
   background: #8B6F47;
   border: none;
@@ -679,21 +698,33 @@ form.login button {
   cursor: pointer;
   transition: background 0.3s ease;
   text-align: center;
-  
+
 }
+
 form.login h3 {
-  text-align: center; /* Ensures text is centered */
-  font-size: 22px; /* Adjusts font size */
-  font-weight: bold; /* Makes it stand out */
-  color: #333; /* Darker text for contrast */
-  margin-bottom: 30px; /* Adds spacing below */
+  text-align: center;
+  /* Ensures text is centered */
+  font-size: 22px;
+  /* Adjusts font size */
+  font-weight: bold;
+  /* Makes it stand out */
+  color: #333;
+  /* Darker text for contrast */
+  margin-bottom: 30px;
+  /* Adds spacing below */
 }
+
 form.signup h3 {
-  text-align: center; /* Ensures text is centered */
-  font-size: 22px; /* Adjusts font size */
-  font-weight: bold; /* Makes it stand out */
-  color: #333; /* Darker text for contrast */
-  margin-bottom: 30px; /* Adds spacing below */
+  text-align: center;
+  /* Ensures text is centered */
+  font-size: 22px;
+  /* Adjusts font size */
+  font-weight: bold;
+  /* Makes it stand out */
+  color: #333;
+  /* Darker text for contrast */
+  margin-bottom: 30px;
+  /* Adds spacing below */
 }
 
 
@@ -727,16 +758,19 @@ form.signup input::placeholder,
 form.login input::placeholder {
   color: #8b6f47;
 }
+
 .signup p {
   text-align: center;
   font-size: 14px;
-  color: #424242; /* Subtle gray color */
+  color: #424242;
+  /* Subtle gray color */
   margin-top: 10px;
-  
+
 }
 
 .signup p a {
-  color:white; /* Blue color for link */
+  color: white;
+  /* Blue color for link */
   font-weight: bold;
   text-decoration: none;
   transition: color 0.3s ease;
@@ -744,20 +778,23 @@ form.login input::placeholder {
 
 .signup p a:hover {
   text-decoration: underline;
-  color: black; /* Darker shade on hover */
+  color: black;
+  /* Darker shade on hover */
 }
 
 
 .login p {
   text-align: center;
   font-size: 14px;
-  color: #424242; /* Subtle gray color */
+  color: #424242;
+  /* Subtle gray color */
   margin-top: 10px;
-  
+
 }
 
 .login p a {
-  color:white; /* Blue color for link */
+  color: white;
+  /* Blue color for link */
   font-weight: bold;
   text-decoration: none;
   transition: color 0.3s ease;
@@ -765,16 +802,26 @@ form.login input::placeholder {
 
 .login p a:hover {
   text-decoration: underline;
-  color: black; /* Darker shade on hover */
+  color: black;
+  /* Darker shade on hover */
 }
+
 .smallGlass h2 {
-  font-size: 1.8rem; /* Smaller font size */
+  font-size: 1.8rem;
+  /* Smaller font size */
   font-weight: bold;
-  color: black; /* Dark gray color for the heading text */
-  margin: 0; /* Remove default margin */
-  text-transform: uppercase; /* Make the heading uppercase */
-  text-align: center; /* Ensure the text is centered */
-}/* Wrapper for the form and image *//* Wrapper for the entire Contact Us section */
+  color: black;
+  /* Dark gray color for the heading text */
+  margin: 0;
+  /* Remove default margin */
+  text-transform: uppercase;
+  /* Make the heading uppercase */
+  text-align: center;
+  /* Ensure the text is centered */
+}
+
+/* Wrapper for the form and image */
+/* Wrapper for the entire Contact Us section */
 
 
 
@@ -783,31 +830,45 @@ form.login input::placeholder {
   font-size: 32px;
 
   font-family: 'Merriweather', serif;
-  color: #8b6f47; /* Elegant warm brown */
-  margin: 0; /* Remove default margin */
-  text-align: center; /* Centers the text inside the element */
-  white-space: nowrap; /* Prevents text from wrapping */
-  overflow: hidden; /* Hides overflow text */
-  border-right: 3px solid #8b6f47; /* Blinking cursor in the same color as the text */
-  width: 0; /* Start with no width */
+  color: #8b6f47;
+  /* Elegant warm brown */
+  margin: 0;
+  /* Remove default margin */
+  text-align: center;
+  /* Centers the text inside the element */
+  white-space: nowrap;
+  /* Prevents text from wrapping */
+  overflow: hidden;
+  /* Hides overflow text */
+  border-right: 3px solid #8b6f47;
+  /* Blinking cursor in the same color as the text */
+  width: 0;
+  /* Start with no width */
   animation: typing 1s steps(40, end) forwards, blink-caret 0.75s step-end infinite;
 }
 
 /* Typing animation */
 @keyframes typing {
   from {
-    width: 0; /* Start with no width (hidden text) */
+    width: 0;
+    /* Start with no width (hidden text) */
   }
+
   to {
-    width: 11%; /* Expand to full width (reveal text) */
+    width: 11%;
+    /* Expand to full width (reveal text) */
   }
 }
 
 /* Blinking cursor animation */
 @keyframes blink-caret {
-  from, to {
-    border-color: transparent; /* Hide cursor */
+
+  from,
+  to {
+    border-color: transparent;
+    /* Hide cursor */
   }
+
   50% {
     border-color: #8b6f47; /* Show cursor (matches text color) */
   }
@@ -833,11 +894,12 @@ form.login input::placeholder {
   margin-bottom: 16px;
   border: 1px solid #d1d1d1;
   background-color: rgb(207, 194, 207);
-  border-radius: 1px; /* Rounded inputs */
+  border-radius: 1px;
+  /* Rounded inputs */
   font-size: 16px;
   color: #333;
   margin-left: 400px;
-  
+
   transition: border 0.3s ease, box-shadow 0.3s ease;
 }
 
@@ -847,21 +909,22 @@ form.login input::placeholder {
   border-color: #4285f4;
   box-shadow: 0 0 5px rgba(66, 133, 244, 0.3);
   outline: none;
-  
+
 }
 
 .contact-us-container textarea {
   resize: vertical;
   min-height: 100px;
   width: 600px;
-  
+
 }
 
 .contact-us-container button {
   width: 20%;
   margin-left: 600px;
   padding: 16px 0;
-  background-color: black; /* Bright blue */
+  background-color: black;
+  /* Bright blue */
   border: none;
   border-radius: 1px;
   color: white;
@@ -872,7 +935,8 @@ form.login input::placeholder {
 }
 
 .contact-us-container button:hover {
-  background-color: #8b6f47; /* Slightly darker blue on hover */
+  background-color: #8b6f47;
+  /* Slightly darker blue on hover */
   transform: translateY(-4px);
 }
 
@@ -928,7 +992,8 @@ form.login input::placeholder {
   max-width: 800px;
   margin: 40px auto;
   padding: 40px;
-  background: rgba(250, 250, 250, 0.7); /* Light background with 30% transparency */
+  background: rgba(250, 250, 250, 0.7);
+  /* Light background with 30% transparency */
   border-radius: 10px;
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
   font-family: 'Helvetica Neue', Arial, sans-serif;
@@ -951,7 +1016,8 @@ form.login input::placeholder {
 
 .tip-card {
   padding: 20px;
-  background: rgba(245, 230, 211, 0.6); /* Light brown with 60% opacity */
+  background: rgba(245, 230, 211, 0.6);
+  /* Light brown with 60% opacity */
   border-radius: 10px;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   transition: transform 0.3s ease, box-shadow 0.3s ease;
@@ -975,7 +1041,8 @@ form.login input::placeholder {
 }
 
 .fashion-tips-container a {
-  color: #8b6f47; /* Matching link color */
+  color: #8b6f47;
+  /* Matching link color */
   font-weight: bold;
   text-decoration: none;
   transition: color 0.3s ease;
@@ -983,8 +1050,10 @@ form.login input::placeholder {
 
 .fashion-tips-container a:hover {
   text-decoration: underline;
-  color: black; /* Darker shade on hover */
+  color: black;
+  /* Darker shade on hover */
 }
+
 /* Import fonts from Google Fonts */
 @import url('https://fonts.googleapis.com/css2?family=Merriweather:wght@700&family=Quicksand:wght@400;500&display=swap');
 
@@ -995,42 +1064,60 @@ form.login input::placeholder {
 /* Centering container */
 .centering-container {
   display: flex;
-  justify-content: center; /* Centers horizontally */
-  align-items: center; /* Centers vertically */
-  height: 100px; /* Full viewport height */
+  justify-content: center;
+  /* Centers horizontally */
+  align-items: center;
+  /* Centers vertically */
+  height: 100px;
+  /* Full viewport height */
 }
 
 /* Title Styling */
 .about-us-title {
   font-size: 32px;
   font-family: 'Merriweather', serif;
-  color: #8b6f47; /* Elegant warm brown */
-  margin: 0; /* Remove default margin */
-  text-align: center; /* Centers the text inside the element */
-  white-space: nowrap; /* Prevents text from wrapping */
-  overflow: hidden; /* Hides overflow text */
-  border-right: 3px solid #8b6f47; /* Blinking cursor in the same color as the text */
-  width: 0; /* Start with no width */
+  color: #8b6f47;
+  /* Elegant warm brown */
+  margin: 0;
+  /* Remove default margin */
+  text-align: center;
+  /* Centers the text inside the element */
+  white-space: nowrap;
+  /* Prevents text from wrapping */
+  overflow: hidden;
+  /* Hides overflow text */
+  border-right: 3px solid #8b6f47;
+  /* Blinking cursor in the same color as the text */
+  width: 0;
+  /* Start with no width */
   animation: typing 1s steps(40, end) forwards, blink-caret 0.75s step-end infinite;
 }
 
 /* Typing animation */
 @keyframes typing {
   from {
-    width: 0; /* Start with no width (hidden text) */
+    width: 0;
+    /* Start with no width (hidden text) */
   }
+
   to {
-    width: 11%; /* Expand to full width (reveal text) */
+    width: 11%;
+    /* Expand to full width (reveal text) */
   }
 }
 
 /* Blinking cursor animation */
 @keyframes blink-caret {
-  from, to {
-    border-color: transparent; /* Hide cursor */
+
+  from,
+  to {
+    border-color: transparent;
+    /* Hide cursor */
   }
+
   50% {
-    border-color: #8b6f47; /* Show cursor (matches text color) */
+    border-color: #8b6f47;
+    /* Show cursor (matches text color) */
   }
 }
 
@@ -1042,26 +1129,38 @@ form.login input::placeholder {
   font-family: "Times New Roman", serif;
   color: black;
   line-height: 1.6;
-  padding: 20px; /* Increased padding for better spacing */
-  max-width: 600px; /* Adjust width as needed */
-  margin: 0 auto 35px auto; /* Centers the element */
-  
-  background: rgba(43, 37, 37, 0.5); /* More transparent background */
-  border: 2px solid #8b6f47; /* Elegant border */
-  border-radius: 5px; /* Smooth edges */
-  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2); /* Soft shadow with more depth */
-  transition: background 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease; /* Smooth transition for hover effect */
+  padding: 20px;
+  /* Increased padding for better spacing */
+  max-width: 600px;
+  /* Adjust width as needed */
+  margin: 0 auto 35px auto;
+  /* Centers the element */
+
+  background: rgba(43, 37, 37, 0.5);
+  /* More transparent background */
+  border: 2px solid #8b6f47;
+  /* Elegant border */
+  border-radius: 5px;
+  /* Smooth edges */
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+  /* Soft shadow with more depth */
+  transition: background 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
+  /* Smooth transition for hover effect */
 }
 
 .section-text:hover {
-  background: rgba(245, 245, 245, 0.7); /* Slightly more opaque on hover */
-  transform: scale(1); /* Slight zoom effect */
-  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3); /* Deeper shadow on hover */
+  background: rgba(245, 245, 245, 0.7);
+  /* Slightly more opaque on hover */
+  transform: scale(1);
+  /* Slight zoom effect */
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+  /* Deeper shadow on hover */
 }
 
 /* Highlight 'MOODA' */
 .section-text strong {
-  color: #6f4f28; /* Darker brown to make it stand out */
+  color: #6f4f28;
+  /* Darker brown to make it stand out */
   font-weight: bold;
 }
 
@@ -1070,7 +1169,8 @@ form.login input::placeholder {
 .mission-vision-values {
   display: flex;
   justify-content: space-between;
-  gap: 25px; /* Increased spacing for better visual separation */
+  gap: 25px;
+  /* Increased spacing for better visual separation */
   flex-wrap: nowrap;
   align-items: stretch;
   padding: 20px;
@@ -1078,34 +1178,51 @@ form.login input::placeholder {
 
 /* Mission, Vision, and Values sections */
 /* Base styling for Mission, Vision, and Values */
-.mission, .vision, .values {
-  flex: 1; 
+.mission,
+.vision,
+.values {
+  flex: 1;
   padding: 25px;
-  background: rgba(245, 245, 245, 0.7); /* More transparent background */
+  background: rgba(245, 245, 245, 0.7);
+  /* More transparent background */
   border-radius: 12px;
-  box-shadow: 0 5px 12px rgba(0, 0, 0, 0.15); /* Soft shadow for depth */
+  box-shadow: 0 5px 12px rgba(0, 0, 0, 0.15);
+  /* Soft shadow for depth */
   text-align: center;
   transition: background 0.3s ease-in-out, transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out, border-left 0.3s ease-in-out;
   min-height: 170px;
-  border-left: 5px solid #8b6f47; /* Solid left border with the warm brown color */
+  border-left: 5px solid #8b6f47;
+  /* Solid left border with the warm brown color */
 }
 
 /* Hover effect for Mission, Vision, and Values */
-.mission:hover, .vision:hover, .values:hover {
-  background: rgba(255, 255, 255, 0.9); /* Slightly less transparent white on hover */
-  transform: translateY(-6px) scale(1.03); /* Lift up and slightly scale for emphasis */
-  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2); /* Deeper shadow for more focus */
-  border-left: 5px solid #6f4f28; /* Darker brown for the border on hover */
+.mission:hover,
+.vision:hover,
+.values:hover {
+  background: rgba(255, 255, 255, 0.9);
+  /* Slightly less transparent white on hover */
+  transform: translateY(-6px) scale(1.03);
+  /* Lift up and slightly scale for emphasis */
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+  /* Deeper shadow for more focus */
+  border-left: 5px solid #6f4f28;
+  /* Darker brown for the border on hover */
   transition: background 0.3s ease-in-out, transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out, border-left 0.3s ease-in-out;
 }
 
 
-.mission:hover h2, .vision:hover h2, .values:hover h2 {
-  color: #8b6f47; /* Change header color to the warm brown */
+.mission:hover h2,
+.vision:hover h2,
+.values:hover h2 {
+  color: #8b6f47;
+  /* Change header color to the warm brown */
 }
 
-.mission:hover p, .vision:hover p, .values:hover p {
-  color: #555; /* Darker text color on hover for paragraphs */
+.mission:hover p,
+.vision:hover p,
+.values:hover p {
+  color: #555;
+  /* Darker text color on hover for paragraphs */
 }
 
 
@@ -1158,25 +1275,28 @@ form.login input::placeholder {
 /* Ensure responsiveness */
 @media (max-width: 900px) {
   .mission-vision-values {
-    flex-wrap: wrap; 
+    flex-wrap: wrap;
   }
 
-  .mission, .vision, .values {
+  .mission,
+  .vision,
+  .values {
     flex: 1 1 calc(33.33% - 25px);
   }
 }
 
 @media (max-width: 600px) {
   .mission-vision-values {
-    flex-direction: column; 
+    flex-direction: column;
     gap: 15px;
   }
 }
+
 /* Team section styles */
 .team {
   text-align: center;
   padding: 50px 20px;
-  
+
 }
 
 .team .about-us-section-title {
@@ -1200,7 +1320,8 @@ form.login input::placeholder {
   background: rgba(245, 245, 245, 0.7);
   border-radius: 12px;
   padding: 20px;
-  width: 280px; /* Slightly larger for better spacing */
+  width: 280px;
+  /* Slightly larger for better spacing */
   text-align: center;
   transition: transform 0.3s ease, box-shadow 0.3s ease;
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
@@ -1295,40 +1416,56 @@ form.login input::placeholder {
     max-width: 300px;
   }
 }
+
 /* Add a horizontal line before the contact section */
 .contact {
   text-align: center;
-  padding: 40px 20px; /* Adjust padding as needed */
-   /* Positions the element relative to its parent */
-  bottom: 0; /* Positions the element at the bottom of its parent */
-  left: 0; /* Aligns the element to the left edge */
-  right: 0; /* Aligns the element to the right edge */
-  height: 300px; /* Increase height as needed */
-  border: 1px solid #000; /* Adds a solid black border */
-  border-radius: 1px; /* Optional: Adds rounded corners */
-  background-color: rgba(21, 20, 20, 0.8); /* Transparent black background */
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Optional: Adds a subtle shadow */
-  width: 150%; /* Increase width to 150% of the container */
-  margin-left: -25%; /* Shift left to center the wider element */
-  margin-right: -25%; /* Shift right to center the wider element */
+  padding: 40px 20px;
+  /* Adjust padding as needed */
+  /* Positions the element relative to its parent */
+  bottom: 0;
+  /* Positions the element at the bottom of its parent */
+  left: 0;
+  /* Aligns the element to the left edge */
+  right: 0;
+  /* Aligns the element to the right edge */
+  height: 300px;
+  /* Increase height as needed */
+  border: 1px solid #000;
+  /* Adds a solid black border */
+  border-radius: 1px;
+  /* Optional: Adds rounded corners */
+  background-color: rgba(21, 20, 20, 0.8);
+  /* Transparent black background */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  /* Optional: Adds a subtle shadow */
+  width: 150%;
+  /* Increase width to 150% of the container */
+  margin-left: -25%;
+  /* Shift left to center the wider element */
+  margin-right: -25%;
+  /* Shift right to center the wider element */
   color: white;
-  height:200px;
+  height: 200px;
   /* Ensures the element stays on top of other content */
 }
+
 /* Styling for the horizontal line */
 
 
 .contact .section-title,
 .contact .section-text,
 .contact .about-us-ul,
-.contact .about-us-ul li{
-  color: white; /* Ensures all text and links are white */
+.contact .about-us-ul li {
+  color: white;
+  /* Ensures all text and links are white */
 }
 
 
 /* Style for the form container */
 .create {
-  background-color: rgba(255, 255, 255, 0.7); /* More transparent white */
+  background-color: rgba(255, 255, 255, 0.7);
+  /* More transparent white */
   padding: 20px;
   border-radius: 8px;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
@@ -1389,20 +1526,25 @@ form.login input::placeholder {
   margin-top: 10px;
   text-align: center;
 }
+
 /* Success message styling */
 .success {
-  color: black; /* Green color */
+  color: black;
+  /* Green color */
   font-weight: bold;
   margin-top: 15px;
-  padding: 10px; /* Light green background */
+  padding: 10px;
+  /* Light green background */
   /* Border to match the background */
   border-radius: 5px;
   text-align: center;
 }
+
 /* Button to toggle form visibility */
 .toggle-form-button {
   padding: 12px 20px;
-  background-color: black; /* Green background for "Add New Item" */
+  background-color: black;
+  /* Green background for "Add New Item" */
   color: white;
   border: none;
   border-radius: 1px;
@@ -1417,29 +1559,37 @@ form.login input::placeholder {
 /* Hover effect */
 .toggle-form-button:hover {
   background-color: gray;
-  color: white; /* Darker green on hover */
-  transform: translateY(-2px); /* Slight lift on hover */
+  color: white;
+  /* Darker green on hover */
+  transform: translateY(-2px);
+  /* Slight lift on hover */
 }
 
 /* Active/clicked state */
 .toggle-form-button:active {
-  background-color: black; /* Even darker green when clicked */
-  transform: translateY(0); /* No lift when clicked */
+  background-color: black;
+  /* Even darker green when clicked */
+  transform: translateY(0);
+  /* No lift when clicked */
 }
 
 /* Styling for the "Cancel" state */
 .toggle-form-button.cancel {
-  background-color: #dc3545; /* Red background for "Cancel" */
+  background-color: #dc3545;
+  /* Red background for "Cancel" */
 }
 
 .toggle-form-button.cancel:hover {
-  background-color: #c82333; /* Darker red on hover */
+  background-color: #c82333;
+  /* Darker red on hover */
 }
 
 /* Active/clicked state for "Cancel" */
 .toggle-form-button.cancel:active {
-  background-color: #bd2130; /* Even darker red when clicked */
+  background-color: #bd2130;
+  /* Even darker red when clicked */
 }
+
 /* Dropdown container */
 .dropdown {
   position: relative;
@@ -1453,9 +1603,11 @@ form.login input::placeholder {
   font-size: 16px;
   border: none;
   cursor: pointer;
-  text-decoration: none; /* Remove underline from the link */
+  text-decoration: none;
+  /* Remove underline from the link */
   display: block;
-  width: 60%; /* Make the button span the width of the container */
+  width: 60%;
+  /* Make the button span the width of the container */
 }
 
 /* Dropdown menu (hidden by default) */
@@ -1464,9 +1616,12 @@ form.login input::placeholder {
   position: absolute;
   min-width: 120px;
   z-index: 1;
-  background-color: #a18359; /* Set the background color of the dropdown */
-  margin-top: 8px; /* Adjust vertical spacing */
-  border-radius: 4px; /* Optional: rounded corners */
+  background-color: #a18359;
+  /* Set the background color of the dropdown */
+  margin-top: 8px;
+  /* Adjust vertical spacing */
+  border-radius: 4px;
+  /* Optional: rounded corners */
 }
 
 /* Dropdown menu items */
@@ -1484,7 +1639,8 @@ form.login input::placeholder {
 
 /* Remove background color on hover */
 .dropdown-menu li a:hover {
-  background-color: transparent; /* No background color on hover */
+  background-color: transparent;
+  /* No background color on hover */
 }
 
 /* Show the dropdown when hovered */
@@ -1503,19 +1659,21 @@ form.login input::placeholder {
   opacity: 1;
   visibility: visible;
 }
+
 .item-card {
   position: relative;
   width: 250px;
   height: 370px;
   border-radius: 1px;
   overflow: hidden;
-  
+
   cursor: pointer;
   transition: transform 0.3s ease-in-out;
 }
 
 .item-card:hover {
-  transform: scale(1.05); /* Slight zoom effect on hover */
+  transform: scale(1.05);
+  /* Slight zoom effect on hover */
 }
 
 /* Image Background */
@@ -1534,13 +1692,14 @@ form.login input::placeholder {
   height: 100%;
   top: 0;
   left: 0;
-   /* Dark transparent overlay */
+  /* Dark transparent overlay */
   color: black;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  opacity: 0; /* Hidden by default */
+  opacity: 0;
+  /* Hidden by default */
   transition: opacity 0.3s ease-in-out;
 }
 
@@ -1553,6 +1712,7 @@ form.login input::placeholder {
 .item-card:hover .item-image {
   filter: blur(4px);
 }
+
 .image-preview-container {
   margin-top: 10px;
 }
@@ -1578,9 +1738,12 @@ form.login input::placeholder {
   padding: 40px;
   display: flex;
   flex-direction: column;
-  align-items: center;  /* Center contents horizontally */
-  justify-content: center;  /* Center contents vertically */
-  min-height: 500px; /* Full screen height */
+  align-items: center;
+  /* Center contents horizontally */
+  justify-content: center;
+  /* Center contents vertically */
+  min-height: 500px;
+  /* Full screen height */
   position: relative;
 }
 
@@ -1591,7 +1754,8 @@ form.login input::placeholder {
   padding: 0px;
   text-align: center;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  margin-bottom: 40px; /* Space between Dressup and container */
+  margin-bottom: 40px;
+  /* Space between Dressup and container */
   width: 80%;
   max-width: 400px;
   margin-left: auto;
@@ -1601,12 +1765,15 @@ form.login input::placeholder {
   margin-top: 0;
   transform: none;
 }
+
 .DressUp-container {
   padding: 40px;
   background-color: rgba(255, 255, 255, 0.4);
   font-family: 'Arial', sans-serif;
-  width: 100%; /* Ensure container fills the available width */
-  height: 400px; /* Fixed height for consistent container size */
+  width: 100%;
+  /* Ensure container fills the available width */
+  height: 400px;
+  /* Fixed height for consistent container size */
   margin: 20px auto;
   border-radius: 10px;
   text-align: center;
@@ -1614,9 +1781,12 @@ form.login input::placeholder {
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
-  margin-top: 50px; /* Space between container and previous elements */
-  max-width: 1400px; /* Maintain maximum width */
-  box-sizing: border-box; /* Ensure padding is included in total size */
+  margin-top: 50px;
+  /* Space between container and previous elements */
+  max-width: 1400px;
+  /* Maintain maximum width */
+  box-sizing: border-box;
+  /* Ensure padding is included in total size */
 }
 
 /* Other styles for DressUp-container */
@@ -1645,7 +1815,8 @@ form.login input::placeholder {
   cursor: pointer;
   align-items: center;
   text-align: left;
-  width: 300px; /* Fixed width for consistent size */
+  width: 300px;
+  /* Fixed width for consistent size */
   height: 300px;
 }
 
@@ -1671,14 +1842,17 @@ form.login input::placeholder {
   .DressUp-container {
     padding: 20px;
   }
+
   .DressUp-list {
-    grid-template-columns: 1fr 1fr; /* 2 cards per row on smaller screens */
+    grid-template-columns: 1fr 1fr;
+    /* 2 cards per row on smaller screens */
   }
 }
 
 @media (max-width: 480px) {
   .DressUp-list {
-    grid-template-columns: 1fr; /* 1 card per row on very small screens */
+    grid-template-columns: 1fr;
+    /* 1 card per row on very small screens */
   }
 }
 
@@ -1701,50 +1875,76 @@ form.login input::placeholder {
   height: 200px;
   margin-bottom: 10px;
 }
+
 .DressUp-card h3 {
-  font-size: 24px; /* Medium font size for titles */
-  color: #333; /* Dark gray color for the text */
-  font-weight: 600; /* Slightly bold text */
-  text-align: center; /* Center the title text */
-  margin-bottom: 15px; /* Space between title and content */
-  text-transform: capitalize; /* Capitalize the first letter of each word */
-   /* Small spacing between letters */
-  padding: px 10px; /* Padding around the title */
-  
-  transition: transform 0.3s ease-in-out; /* Smooth transition effect on hover */
-}/* Style for the container that holds the button and the link */
+  font-size: 24px;
+  /* Medium font size for titles */
+  color: #333;
+  /* Dark gray color for the text */
+  font-weight: 600;
+  /* Slightly bold text */
+  text-align: center;
+  /* Center the title text */
+  margin-bottom: 15px;
+  /* Space between title and content */
+  text-transform: capitalize;
+  /* Capitalize the first letter of each word */
+  /* Small spacing between letters */
+  padding: px 10px;
+  /* Padding around the title */
+
+  transition: transform 0.3s ease-in-out;
+  /* Smooth transition effect on hover */
+}
+
+/* Style for the container that holds the button and the link */
 .nav-buttons {
-  display: flex; /* Use flexbox to arrange items horizontally */
-  align-items: center; /* Vertically center the button and link */
-  gap: 8px; /* Space between the button and link */
+  display: flex;
+  /* Use flexbox to arrange items horizontally */
+  align-items: center;
+  /* Vertically center the button and link */
+  gap: 8px;
+  /* Space between the button and link */
 }
 
-.nav-buttons button, 
+.nav-buttons button,
 .nav-buttons a {
-  padding: 10px 15px; /* Add some padding for clickable areas */
-  font-size: 16px; /* Ensure font size is consistent */
-  border: none; /* Remove default border from the button */
-  border-radius: 5px; /* Optional: rounded corners for button and link */
+  padding: 10px 15px;
+  /* Add some padding for clickable areas */
+  font-size: 16px;
+  /* Ensure font size is consistent */
+  border: none;
+  /* Remove default border from the button */
+  border-radius: 5px;
+  /* Optional: rounded corners for button and link */
   text-decoration: none;
- /* font-weight: bold; /* Remove underline from link */
-  cursor: pointer; /* Make it clear it's clickable */
+  /* font-weight: bold; /* Remove underline from link */
+  cursor: pointer;
+  /* Make it clear it's clickable */
 }
 
-.nav-buttons button { /* Button background color */
-  color: black; /* Button text color */
+.nav-buttons button {
+  /* Button background color */
+  color: black;
+  /* Button text color */
 }
 
-.nav-buttons a {/* Light background for the link */
-  color:  black;/* Blue color for the link */
-  padding: 10px 15px; /* Ensure the link has similar padding to the button */
-  border-radius: 5px; /* Rounded corners for the link */
+.nav-buttons a {
+  /* Light background for the link */
+  color: black;
+  /* Blue color for the link */
+  padding: 10px 15px;
+  /* Ensure the link has similar padding to the button */
+  border-radius: 5px;
+  /* Rounded corners for the link */
 }
 
 .nav-buttons button:hover,
 .nav-buttons a:hover {
-  border-bottom: 1px solid ; 
+  border-bottom: 1px solid;
   /* Slight opacity change on hover for both button and link */
 }
+
 .virtual-container {
   border-radius: 15px;
   box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
@@ -1754,11 +1954,15 @@ form.login input::placeholder {
   text-align: center;
   margin: 20px auto;
 }
+
 .virtual-category-container {
   display: flex;
-  gap: 15px; /* Adds space between each item */
-  flex-wrap: wrap; /* Allows items to wrap to the next line if necessary */
-  justify-content: center; /* Centers the items horizontally */
+  gap: 15px;
+  /* Adds space between each item */
+  flex-wrap: wrap;
+  /* Allows items to wrap to the next line if necessary */
+  justify-content: center;
+  /* Centers the items horizontally */
 }
 
 .virtual-category-item1 {
@@ -1766,7 +1970,8 @@ form.login input::placeholder {
   padding: 15px;
   font-size: 18px;
   font-weight: 500;
-  width: 310px; /* Set fixed width */
+  width: 310px;
+  /* Set fixed width */
   cursor: pointer;
   transition: all 0.3s ease;
   border: 1px solid #e0e0e0;
@@ -1810,26 +2015,33 @@ form.login input::placeholder {
 .virtual-plus-icon {
   margin-right: 10px;
   font-size: 20px;
-}.virtual-go-back-button {
+}
+
+.virtual-go-back-button {
   position: absolute;
-  
+
   left: 20px;
   background-color: transparent;
   border: none;
   padding: 10px;
   cursor: pointer;
-  z-index: 10; /* Ensures the button stays on top */
+  z-index: 10;
+  /* Ensures the button stays on top */
 }
 
 .virtual-go-back-button:hover .go-back-icon {
-  transform: scale(1.1); /* Subtle scale effect on hover */
-  transition: transform 0.3s ease; /* Smooth transition */
+  transform: scale(1.1);
+  /* Subtle scale effect on hover */
+  transition: transform 0.3s ease;
+  /* Smooth transition */
 }
 
 .go-back-icon {
-  width: 30px; /* Adjust the size of the icon */
+  width: 30px;
+  /* Adjust the size of the icon */
   height: 30px;
-  object-fit: contain; /* Ensures the image scales well */
+  object-fit: contain;
+  /* Ensures the image scales well */
 }
 
 .virtual-container1 {
@@ -1841,15 +2053,22 @@ form.login input::placeholder {
   text-align: center;
   margin: 20px auto;
   height: 1000px;
- 
+
 }
+
 .virtual-category-container1 {
-  display: flex; /* Use flexbox */
-  flex-direction: column; /* Stack items vertically */
-  gap: 15px; /* Adds space between each item */
-  align-items: center; /* Centers the items horizontally */
-  justify-content: center; /* Centers the items vertically */
-  height: 600px; /* Ensures full screen height */
+  display: flex;
+  /* Use flexbox */
+  flex-direction: column;
+  /* Stack items vertically */
+  gap: 15px;
+  /* Adds space between each item */
+  align-items: center;
+  /* Centers the items horizontally */
+  justify-content: center;
+  /* Centers the items vertically */
+  height: 600px;
+  /* Ensures full screen height */
 }
 
 .virtual-category-item1 {
@@ -1857,7 +2076,8 @@ form.login input::placeholder {
   padding: 15px;
   font-size: 18px;
   font-weight: 500;
-  width: 310px; /* Set fixed width */
+  width: 310px;
+  /* Set fixed width */
   cursor: pointer;
   transition: all 0.3s ease;
   border: 4px solid #e0e0e0;
@@ -1871,11 +2091,12 @@ form.login input::placeholder {
   padding: 15px;
   font-size: 18px;
   font-weight: 500;
-  width: 310px; /* Set fixed width */
+  width: 310px;
+  /* Set fixed width */
   cursor: pointer;
   transition: all 0.3s ease;
   border: 4px solid #e0e0e0;
-  height:200px;
+  height: 200px;
   margin-top: 5px;
 }
 
@@ -1923,4 +2144,158 @@ form.login input::placeholder {
 /* Hover Effects */
 .side-icon:hover {
   transform: scale(1.2);
+}
+
+.fashion-tips-wrapper {
+  padding: 0px 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  font-family: 'Poppins', sans-serif;
+}
+
+.fashion-tips-title {
+  font-size: 32px;
+  font-weight: 600;
+  color: #333;
+  margin-bottom: 40px;
+  text-align: center;
+}
+
+.fashion-tips-box {
+  background: rgba(255, 255, 255, 0.85);
+  border-radius: 20px;
+  padding: 40px 30px;
+  max-width: 850px;
+  /* width: 90%; */
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.tip {
+  margin-bottom: 40px;
+  text-align: center;
+}
+
+.tip-row {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  /* Center the tip content */
+  gap: 40px;
+  /* Reduce space between circle and paragraph */
+  margin-bottom: 40px;
+  flex-wrap: nowrap;
+  /* Keeps circle and text on the same line */
+}
+
+
+.reverse-row {
+  flex-direction: row-reverse;
+  justify-content: center;
+  text-align: left;
+  /* Change from right to left for cleaner layout */
+}
+
+
+.circle-tip {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  background: white;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 600;
+  font-size: 16px;
+  color: #333;
+  flex-shrink: 0;
+}
+
+.tip-row p {
+  flex: 1;
+  font-size: 16px;
+  color: #333;
+  line-height: 1.6;
+  max-width: 500px;
+  margin: 0;
+}
+
+.tip p {
+  font-size: 16px;
+  color: #333;
+  max-width: 500px;
+  margin: 0 auto;
+  line-height: 1.6;
+}
+
+/* Responsive */
+@media screen and (max-width: 600px) {
+  .circle-tip {
+    width: 80px;
+    height: 80px;
+    font-size: 14px;
+  }
+
+  .fashion-tips-title {
+    font-size: 26px;
+  }
+
+  .tip p {
+    font-size: 14px;
+  }
+
+  .tip-row {
+    flex-direction: column;
+    text-align: center;
+    gap: 0%;
+  }
+
+  .circle-tip {
+    margin-bottom: 10px;
+  }
+
+  .tip-row p {
+    max-width: 100%;
+    text-align: center;
+  }
+}
+
+/* Make the smallGlass title box lighter */
+.lighter-glass {
+  width: 30vw;
+  height: 3vw;
+  margin: 0 auto;
+
+  /* Existing styles */
+  backdrop-filter: blur(2px);
+  -webkit-backdrop-filter: blur(2px);
+  background: rgba(255, 255, 255, 0.45);
+  padding: 20px;
+  border-radius: 10px;
+  margin-bottom: 30px;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+
+  /* Ensure it's horizontally centered with margin */
+  display: block;
+  /* To remove any flex-related issues */
+}
+
+.fashion-tips-title {
+  font-size: 28px;
+  font-weight: bold;
+  color: black;
+  margin: 0;
+  text-transform: uppercase;
+  text-align: center;
+}
+
+@media only screen and (max-width: 440px) {
+  .lighter-glass {
+    height: 30%;
+    width: 50vw;
+    margin: 0 auto;
+    text-align: center;
+    margin-bottom: 5%;
+  }
 }
