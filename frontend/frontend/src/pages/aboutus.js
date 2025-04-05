@@ -3,13 +3,13 @@ import './aboutus'; // Ensure this file is correctly named and linked
 
 const AboutUs = () => {
   return (
-    <div className="about-us-container">
-      <div class="centering-container">
-  <h1 class="about-us-title">About Us</h1>
-</div>
+    <div className="about-us-container" style={{ minHeight: '100vh' }}>
+      <div className="centering-container">
+        <h1 class="about-us-title">About Us</h1>
+      </div>
       <p className="section-text">
-        Welcome to <strong>MOODA</strong>! We're a fashion assistant platform created to simplify your wardrobe decisions while promoting sustainability. 
-        Our mission is to help you create personalized outfits, plan for events, and make the most out of your closet, all while reducing fashion waste. 
+        Welcome to <strong>MOODA</strong>! We're a fashion assistant platform created to simplify your wardrobe decisions while promoting sustainability.
+        Our mission is to help you create personalized outfits, plan for events, and make the most out of your closet, all while reducing fashion waste.
         Powered by AI, we’re here to help you make smarter choices about fashion and style.
       </p>
 
@@ -18,7 +18,7 @@ const AboutUs = () => {
         <section className="section mission">
           <h2 className="section-title">Our Mission</h2>
           <p className="section">
-            Our mission is to revolutionize the way you approach fashion by offering personalized styling recommendations and a virtual wardrobe that helps reduce clothing waste. 
+            Our mission is to revolutionize the way you approach fashion by offering personalized styling recommendations and a virtual wardrobe that helps reduce clothing waste.
             We empower you to make smarter fashion decisions, plan your outfits effortlessly, and explore endless styling possibilities.
           </p>
         </section>
@@ -26,7 +26,7 @@ const AboutUs = () => {
         <section className="section vision">
           <h2 className="section-title">Our Vision</h2>
           <p className="section">
-            We envision a world where everyone can express their unique style while contributing to a more sustainable future. 
+            We envision a world where everyone can express their unique style while contributing to a more sustainable future.
             By leveraging AI, we aim to make fashion more accessible, personalized, and environmentally responsible.
           </p>
         </section>
