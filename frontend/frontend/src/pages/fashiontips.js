@@ -35,7 +35,7 @@ const FashionTips = () => {
             Harmonizing your hairstyles with your outfits can take your outfits from nice to top-notch.
             This will make you look more classy and confident when you venture out.
           </p>
-          </div>
+        </div>
 
       </div>
     </div>
