@@ -17,7 +17,9 @@ import Plan from "./pages/plan";  // Correct the path if needed
 function Pages() {
   const location = useLocation();
   const background =
-    location.pathname === "/contactUs"
+    location.pathname === "/contactUs" ||
+      location.pathname === "/fashiontips" ||
+      location.pathname === "/AboutUs"
       ? "url('/contactus1.png')"
       : "url('/home.jpg')";
 
