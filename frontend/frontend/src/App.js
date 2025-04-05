@@ -55,6 +55,7 @@ function App() {
       <BrowserRouter>
         <Navbar />
         <Pages />
+        /*footer*/
       </BrowserRouter>
     </div>
   );
