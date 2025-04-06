@@ -1,79 +1,171 @@
-import React, { useState } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import './virtual';
-import { useNavigate } from 'react-router-dom';
-import Webcam from 'react-webcam'; // Import Webcam component
 
 const Virtual = () => {
-  const navigate = useNavigate();
+  const [imageSrc, setImageSrc] = useState(null);
+  const [error, setError] = useState(null);
+  const [cameraReady, setCameraReady] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+  const videoRef = useRef(null);
+  const streamRef = useRef(null);
 
-  // State to hold the captured image
-  const [photo, setPhoto] = useState(null);
+  // Start camera with timeout and fallbacks
+  const startCamera = async () => {
+    setError(null);
+    setIsLoading(true);
+    
+    try {
+      // First try: Ideal resolution
+      try {
+        await attemptCameraStart({
+          width: { ideal: 1280 },
+          height: { ideal: 720 },
+          facingMode: 'user'
+        });
+        return;
+      } catch (highResError) {
+        console.warn('High-res failed, trying default...', highResError);
+      }
 
-  // Function to handle the click event for taking a photo
-  const handleCapture = (image) => {
-    setPhoto(image); // Store the captured image
+      // Fallback: Basic constraints
+      await attemptCameraStart(true);
+    } catch (err) {
+      handleCameraError(err);
+    } finally {
+      setIsLoading(false);
+    }
   };
 
-  const handleVirtualFitClick = () => {
-    navigate('/virtual-fit');
+  const attemptCameraStart = async (constraints) => {
+    const controller = new AbortController();
+    const timeoutId = setTimeout(() => controller.abort(), 5000);
+
+    try {
+      const stream = await navigator.mediaDevices.getUserMedia({
+        video: constraints,
+        audio: false,
+        signal: controller.signal
+      });
+
+      clearTimeout(timeoutId);
+      setupCameraStream(stream);
+    } catch (err) {
+      clearTimeout(timeoutId);
+      throw err;
+    }
   };
 
-  const handleGoBack = () => {
-    navigate(-1); // Goes back to the previous page
+  const setupCameraStream = (stream) => {
+    if (videoRef.current) {
+      streamRef.current = stream;
+      videoRef.current.srcObject = stream;
+      videoRef.current.onloadedmetadata = () => {
+        setCameraReady(true);
+      };
+    }
   };
+
+  const handleCameraError = (err) => {
+    const errorMap = {
+      'AbortError': 'Camera timed out. Try refreshing or check other apps using camera.',
+      'NotAllowedError': 'Permission denied. Please allow camera access.',
+      'NotFoundError': 'No camera found. Check your device connections.',
+      'NotReadableError': 'Camera is already in use by another application.'
+    };
+
+    setError(errorMap[err.name] || `Camera Error: ${err.message}`);
+    console.error('Camera access failed:', err);
+  };
+
+  // Capture photo
+  const capturePhoto = () => {
+    if (!cameraReady || !videoRef.current) return;
+
+    const video = videoRef.current;
+    const canvas = document.createElement('canvas');
+    canvas.width = video.videoWidth;
+    canvas.height = video.videoHeight;
+    const ctx = canvas.getContext('2d');
+    ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+    
+    setImageSrc(canvas.toDataURL('image/jpeg'));
+    stopCamera();
+  };
+
+  // Stop camera
+  const stopCamera = () => {
+    if (streamRef.current) {
+      streamRef.current.getTracks().forEach(track => track.stop());
+      streamRef.current = null;
+    }
+    if (videoRef.current) {
+      videoRef.current.srcObject = null;
+    }
+    setCameraReady(false);
+  };
+
+  // Cleanup
+  useEffect(() => {
+    return () => stopCamera();
+  }, []);
 
   return (
-    <div> {/* This is the parent wrapper */}
-      {/* Go Back button with custom image */}
-      <button className="virtual-go-back-button" onClick={handleGoBack}>
-        <img src="/back.png" alt="Go Back" className="go-back-icon" />
-      </button>
+    <div className="camera-container">
+      <h1>Virtual Try-On</h1>
 
-      <div className="smallGlass">
-        <h2>Virtual Try-ons</h2>
-      </div>
-  
-      <div className="virtual-container">
-        {/* Categories container */}
-        <div className="virtual-category-container">
-          <div className="virtual-category-item">Full body</div>
-          <div className="virtual-category-item">Upper body</div>
-          <div className="virtual-category-item">Lower Body</div>
-          <div className="virtual-category-item">Foot</div>
-        </div>
-  
-        {/* Camera container in the center */}
-        <div className="camera-container">
-          <Webcam
-            audio={false}
-            height="auto"
-            width="100%"
-            screenshotFormat="image/jpeg"
-            videoConstraints={{
-              facingMode: "user", // Use the front camera
-            }}
+      {!imageSrc ? (
+        <div className="camera-section">
+          <video
+            ref={videoRef}
+            autoPlay
+            playsInline
+            muted
+            className={`camera-feed ${!cameraReady ? 'hidden' : ''}`}
           />
+          
+          {isLoading ? (
+            <div className="loader">Starting camera...</div>
+          ) : !cameraReady ? (
+            <button 
+              onClick={startCamera}
+              className="btn primary"
+            >
+              Start Camera
+            </button>
+          ) : (
+            <div className="controls">
+              <button onClick={capturePhoto} className="btn capture">
+                Capture Photo
+              </button>
+              <button onClick={stopCamera} className="btn secondary">
+                Stop Camera
+              </button>
+            </div>
+          )}
+        </div>
+      ) : (
+        <div className="preview-section">
+          <img src={imageSrc} alt="Captured" className="preview" />
           <button 
-            className="virtual-capture-button" 
-            onClick={() => handleCapture(document.querySelector('video').getScreenshot())}
+            onClick={() => setImageSrc(null)}
+            className="btn primary"
           >
-            Capture
+            Take Another
           </button>
         </div>
-  
-        {/* Display captured image */}
-        {photo && (
-          <div className="captured-photo">
-            <h3>Captured Photo:</h3>
-            <img src={photo} alt="Captured" />
-          </div>
-        )}
-  
-        {/* Virtual Fit button */}
-        <button className="virtual-fit-button" onClick={handleVirtualFitClick}>
-          <span className="virtual-plus-icon">+</span> Virtual Fit
-        </button>
-      </div>
+      )}
+
+      {error && (
+        <div className="error">
+          {error}
+          <button 
+            onClick={startCamera}
+            className="btn retry"
+          >
+            Try Again
+          </button>
+        </div>
+      )}
     </div>
   );
 };
