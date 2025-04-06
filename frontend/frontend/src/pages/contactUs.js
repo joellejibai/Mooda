@@ -74,44 +74,27 @@ const ContactUs = () => {
     };
 
     return (
-        <div className="glass">
-            {/* Contact Form Section */}
-            <div className="contact-us-container">
-                <h2>Contact Us</h2>
-                {error && <p className="error">{error}</p>}
-                {success && <p className="success">{success}</p>}
-                <form onSubmit={handleSubmit}>
+        <div className="contact-page-wrapper">
+            <div className="contact-glass-box">
+                <h2 className="contact-title">Contact Us</h2>
+
+                {error && <p className="form-error">{error}</p>}
+                {success && <p className="form-success">{success}</p>}
+
+                <form className="contact-form" onSubmit={handleSubmit}>
                     <label htmlFor="name">Name:</label>
-                    <input
-                        type="text"
-                        id="name"
-                        name="name"
-                        value={formData.name}
-                        onChange={handleChange}
-                        placeholder="Your name"
-                    />
+                    <input type="text" id="name" name="name" value={formData.name} onChange={handleChange} placeholder="Your name" />
+
                     <label htmlFor="email">Email:</label>
-                    <input
-                        type="email"
-                        id="email"
-                        name="email"
-                        value={formData.email}
-                        onChange={handleChange}
-                        placeholder="Your email"
-                    />
+                    <input type="email" id="email" name="email" value={formData.email} onChange={handleChange} placeholder="Your email" />
+
                     <label htmlFor="message">Message:</label>
-                    <textarea
-                        id="message"
-                        name="message"
-                        value={formData.message}
-                        onChange={handleChange}
-                        placeholder="Your message"
-                    />
+                    <textarea id="message" name="message" value={formData.message} onChange={handleChange} placeholder="Your message" />
+
                     <button type="submit">Submit</button>
                 </form>
 
-                {/* Display messages */}
-                <div>
+                <div className="submitted-messages">
                     <h3>Submitted Messages</h3>
                     {messages.length > 0 ? (
                         <ul>

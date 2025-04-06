@@ -12,6 +12,7 @@ import DressUp from "./pages/DressUp";
 import Virtual from "./pages/virtual";
 import Outfit from "./pages/outfit";
 import Plan from "./pages/plan";  // Correct the path if needed
+import Footer from "./components/Footer";
 
 
 function Pages() {
@@ -57,7 +58,7 @@ function App() {
       <BrowserRouter>
         <Navbar />
         <Pages />
-        /*footer*/
+        <Footer />
       </BrowserRouter>
     </div>
   );
