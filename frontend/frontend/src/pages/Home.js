@@ -170,9 +170,13 @@ const Home = () => {
             <div className="glass">
                 <div className="circle-container">
                     {icons.map((icon, index) => (
-                        <span key={index} className="clothing-circle" onClick={() => setSelectedCategory(icon.category)}>
-                            {icon.icon}
-                        </span>
+                        <span
+                        key={index}
+                        className={`clothing-circle ${selectedCategory === icon.category ? "active" : ""}`}
+                        onClick={() => setSelectedCategory(icon.category)}
+                      >
+                        {icon.icon}
+                      </span>
                     ))}
                 </div>
 
