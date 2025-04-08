@@ -57,7 +57,7 @@ const Virtual = () => {
             className="virtual-capture-button" 
             onClick={() => handleCapture(document.querySelector('video').getScreenshot())}
           >
-            Capture
+            Captureeee
           </button>
         </div>
   
