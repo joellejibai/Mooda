@@ -29,8 +29,8 @@ const Home = () => {
 
     const categoryMap = {
         all: [],
-        tops: ["tshirt", "sweater", "hoodie", "top"],
-        pants: ["pants", "jeans", "shorts"],
+        tops: ["tshirt", "sweater", "hoodie", "top", "crop-top", "tank-top"],
+        pants: ["pants", "jeans", "shorts", "skirt", "sweatpants", "trousers", "skort", "leggings"],
         jackets: ["jacket", "coat", "blazer"],
         dresses: ["dress", "gown"],
         shoes: ["boots", "sneakers", "heels", "shoes"],
@@ -183,8 +183,6 @@ const Home = () => {
         };
         reader.readAsDataURL(file);
     };
-
-
 
     const closePhoto = () => {
         setHasPhoto(false);

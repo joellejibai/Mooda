@@ -2598,3 +2598,9 @@ form.login input::placeholder {
 .camera-section {
   position: relative;
 }
+
+.center-button-container {
+  display: flex;
+  justify-content: center;
+  margin-top: 1rem;
+}

@@ -15,15 +15,14 @@ const Outfit = () => {
   const [bottomIndex, setBottomIndex] = useState(0);
   const [footIndex, setFootIndex] = useState(0);
 
-  const topGroup = ["tshirt", "sweater", "hoodie", "top", "jacket", "dress"];
-  const bottomGroup = ["pants", "jeans", "shorts"];
+  const topGroup = ["tshirt", "sweater", "hoodie", "top", "jacket", "dress", "crop-top", "tank-top"];
+  const bottomGroup = ["pants", "jeans", "shorts", "skirt", "sweatpants", "trousers", "skort", "leggings"];
   const footGroup = ["boots", "sneakers", "heels", "shoes"];
 
   const selectedTopId = location.state?.selectedTopId || null;
   const selectedBottomId = location.state?.selectedBottomId || null;
   const selectedFootwearId = location.state?.selectedFootwearId || null;
 
-  // Fetch items based on categories
   useEffect(() => {
     const fetchItems = async () => {
       try {
@@ -36,22 +35,14 @@ const Outfit = () => {
         const data = await response.json();
         if (!response.ok) throw new Error(data.message);
 
-        console.log(data);  // Log to ensure we are getting the data
-
-        // Filter items by category
         const topsList = data.filter(item => topGroup.includes(item.category?.toLowerCase()));
         const bottomsList = data.filter(item => bottomGroup.includes(item.category?.toLowerCase()));
         const footwearList = data.filter(item => footGroup.includes(item.category?.toLowerCase()));
-
-        console.log("Tops: ", topsList.length);
-        console.log("Bottoms: ", bottomsList.length);
-        console.log("Footwear: ", footwearList.length);
 
         setTops(topsList);
         setBottoms(bottomsList);
         setFootwear(footwearList);
 
-        // Preselect items if IDs are available
         if (selectedTopId) {
           const index = topsList.findIndex(item => item._id === selectedTopId);
           if (index !== -1) setTopIndex(index);
@@ -66,7 +57,6 @@ const Outfit = () => {
           const index = footwearList.findIndex(item => item._id === selectedFootwearId);
           if (index !== -1) setFootIndex(index);
         }
-
       } catch (err) {
         console.error("Error fetching items:", err);
       }
@@ -77,7 +67,6 @@ const Outfit = () => {
 
   const handleGoBack = () => navigate(-1);
 
-  // Function to navigate through items (top, bottom, footwear)
   const slide = (type, direction) => {
     if (type === "top") {
       setTopIndex(prev => (prev + direction + tops.length) % tops.length);
@@ -113,7 +102,6 @@ const Outfit = () => {
         {/* BOTTOM */}
         <div className="virtual-category-container">
           <img src="/left.png" alt="Left" className="side-icon left-icon" onClick={() => slide("bottom", -1)} />
-
           {bottoms.length > 0 && bottoms[bottomIndex]?.image && (
             <img src={bottoms[bottomIndex].image} alt="Bottom" className="outfit-preview-image" />
           )}
@@ -123,7 +111,6 @@ const Outfit = () => {
         {/* FOOT */}
         <div className="virtual-category-container">
           <img src="/left.png" alt="Left" className="side-icon left-icon" onClick={() => slide("foot", -1)} />
-
           {footwear.length > 0 && footwear[footIndex]?.image && (
             <img src={footwear[footIndex].image} alt="Foot" className="outfit-preview-image" />
           )}
@@ -133,6 +120,23 @@ const Outfit = () => {
 
       <div className="bottom-button-container">
         <button className="proceed-button">AUTO-GENERATE</button>
+      </div>
+
+      <div className="center-button-container">
+        <button
+          className="proceed-button"
+          onClick={() => {
+            navigate("/virtual", {
+              state: {
+                topImage: tops[topIndex]?.image,
+                bottomImage: bottoms[bottomIndex]?.image,
+                footImage: footwear[footIndex]?.image,
+              },
+            });
+          }}
+        >
+          See How It Looks
+        </button>
       </div>
     </div>
   );
