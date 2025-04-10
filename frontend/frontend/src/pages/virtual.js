@@ -177,41 +177,41 @@ const Virtual = () => {
       <h1>Virtual Try-On</h1>
 
       {!imageSrc ? (
-        <div className="camera-section">
-          <div className="camera-wrapper" style={{ position: 'relative' }}>
-            <video
-              ref={videoRef}
-              autoPlay
-              playsInline
-              muted
-              className={`camera-feed ${!cameraReady ? 'hidden' : ''}`}
-            />
-            <canvas
-              ref={canvasRef}
-              className="pose-canvas"
-              style={{ position: 'absolute', top: 0, left: 0 }}
-            ></canvas>
-          </div>
+      <div className="camera-section">
+        <div className="camera-wrapper" style={{ position: 'relative' }}>
+          <video
+            ref={videoRef}
+            autoPlay
+            playsInline
+            muted
+            className={`camera-feed ${!cameraReady ? 'hidden' : ''}`}
+          />
+          <canvas
+            ref={canvasRef}
+            className="pose-canvas"
+            style={{ position: 'absolute', top: 0, left: 0 }}
+          ></canvas>
+        </div>
 
 
 
-          {isLoading ? (
-            <div className="loader">Starting camera...</div>
-          ) : !cameraReady ? (
-            <button onClick={startCamera} className="btn primary">
-              Start Camera
-            </button>
-          ) : (
+        {isLoading ? (
+          <div className="loader">Starting camera...</div>
+        ) : !cameraReady ? (
+          <button onClick={startCamera} className="btn primary">
+            Start Camera
+          </button>
+        ) : (
             <div className="controls">
               <button onClick={capturePhoto} className="btn capture">
                 Capture Photo
               </button>
-              <button onClick={stopCamera} className="btn secondary">
-                Stop Camera
-              </button>
+          <button onClick={stopCamera} className="btn secondary">
+            Stop Camera
+          </button>
             </div>
-          )}
-        </div>
+        )}
+      </div>
       ) : (
         <div className="preview-section">
           <img src={imageSrc} alt="Captured" className="preview" />
