@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { useAuthPages } from "../hooks/useAuthPages";
 
 const Outfit = () => {
   const navigate = useNavigate();
   const { user } = useAuthPages();
+  const location = useLocation();
 
   const [tops, setTops] = useState([]);
   const [bottoms, setBottoms] = useState([]);
@@ -14,10 +15,15 @@ const Outfit = () => {
   const [bottomIndex, setBottomIndex] = useState(0);
   const [footIndex, setFootIndex] = useState(0);
 
-  const topGroup = ["tshirt", "sweater", "hoodie", "top", "jacket"];
+  const topGroup = ["tshirt", "sweater", "hoodie", "top", "jacket", "dress"];
   const bottomGroup = ["pants", "jeans", "shorts"];
   const footGroup = ["boots", "sneakers", "heels", "shoes"];
 
+  const selectedTopId = location.state?.selectedTopId || null;
+  const selectedBottomId = location.state?.selectedBottomId || null;
+  const selectedFootwearId = location.state?.selectedFootwearId || null;
+
+  // Fetch items based on categories
   useEffect(() => {
     const fetchItems = async () => {
       try {
@@ -28,31 +34,57 @@ const Outfit = () => {
         });
 
         const data = await response.json();
-        console.log("Fetched items:", data); // ✅ ADD THIS
-
         if (!response.ok) throw new Error(data.message);
 
-        setTops(data.filter(item => topGroup.includes(item.category?.toLowerCase())));
-        setBottoms(data.filter(item => bottomGroup.includes(item.category?.toLowerCase())));
-        setFootwear(data.filter(item => footGroup.includes(item.category?.toLowerCase())));
+        console.log(data);  // Log to ensure we are getting the data
+
+        // Filter items by category
+        const topsList = data.filter(item => topGroup.includes(item.category?.toLowerCase()));
+        const bottomsList = data.filter(item => bottomGroup.includes(item.category?.toLowerCase()));
+        const footwearList = data.filter(item => footGroup.includes(item.category?.toLowerCase()));
+
+        console.log("Tops: ", topsList.length);
+        console.log("Bottoms: ", bottomsList.length);
+        console.log("Footwear: ", footwearList.length);
+
+        setTops(topsList);
+        setBottoms(bottomsList);
+        setFootwear(footwearList);
+
+        // Preselect items if IDs are available
+        if (selectedTopId) {
+          const index = topsList.findIndex(item => item._id === selectedTopId);
+          if (index !== -1) setTopIndex(index);
+        }
+
+        if (selectedBottomId) {
+          const index = bottomsList.findIndex(item => item._id === selectedBottomId);
+          if (index !== -1) setBottomIndex(index);
+        }
+
+        if (selectedFootwearId) {
+          const index = footwearList.findIndex(item => item._id === selectedFootwearId);
+          if (index !== -1) setFootIndex(index);
+        }
+
       } catch (err) {
         console.error("Error fetching items:", err);
       }
     };
 
     if (user) fetchItems();
-  }, [user]);
-
+  }, [user, selectedTopId, selectedBottomId, selectedFootwearId]);
 
   const handleGoBack = () => navigate(-1);
 
+  // Function to navigate through items (top, bottom, footwear)
   const slide = (type, direction) => {
     if (type === "top") {
-      setTopIndex((prev) => (prev + direction + tops.length) % tops.length);
+      setTopIndex(prev => (prev + direction + tops.length) % tops.length);
     } else if (type === "bottom") {
-      setBottomIndex((prev) => (prev + direction + bottoms.length) % bottoms.length);
+      setBottomIndex(prev => (prev + direction + bottoms.length) % bottoms.length);
     } else if (type === "foot") {
-      setFootIndex((prev) => (prev + direction + footwear.length) % footwear.length);
+      setFootIndex(prev => (prev + direction + footwear.length) % footwear.length);
     }
   };
 
@@ -70,23 +102,19 @@ const Outfit = () => {
         {/* TOP */}
         <div className="virtual-category-container">
           <img src="/left.png" alt="Left" className="side-icon left-icon" onClick={() => slide("top", -1)} />
-
           <div className="virtual-content-box">
-            <div className="virtual-category-item1">Top</div>
-            {tops.length > 0 && tops[topIndex] && tops[topIndex].image && (
+            {tops.length > 0 && tops[topIndex]?.image && (
               <img src={tops[topIndex].image} alt="Top" className="outfit-preview-image" />
             )}
           </div>
-
           <img src="/right.png" alt="Right" className="side-icon right-icon" onClick={() => slide("top", 1)} />
         </div>
-
 
         {/* BOTTOM */}
         <div className="virtual-category-container">
           <img src="/left.png" alt="Left" className="side-icon left-icon" onClick={() => slide("bottom", -1)} />
-          <div className="virtual-category-item1">Bottom</div>
-          {bottoms.length > 0 && bottoms[bottomIndex] && bottoms[bottomIndex].image && (
+
+          {bottoms.length > 0 && bottoms[bottomIndex]?.image && (
             <img src={bottoms[bottomIndex].image} alt="Bottom" className="outfit-preview-image" />
           )}
           <img src="/right.png" alt="Right" className="side-icon right-icon" onClick={() => slide("bottom", 1)} />
@@ -95,8 +123,8 @@ const Outfit = () => {
         {/* FOOT */}
         <div className="virtual-category-container">
           <img src="/left.png" alt="Left" className="side-icon left-icon" onClick={() => slide("foot", -1)} />
-          <div className="virtual-category-item2">Foot</div>
-          {footwear.length > 0 && footwear[footIndex] && footwear[footIndex].image && (
+
+          {footwear.length > 0 && footwear[footIndex]?.image && (
             <img src={footwear[footIndex].image} alt="Foot" className="outfit-preview-image" />
           )}
           <img src="/right.png" alt="Right" className="side-icon right-icon" onClick={() => slide("foot", 1)} />
