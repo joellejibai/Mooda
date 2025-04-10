@@ -60,13 +60,21 @@ const Home = () => {
                 if (!response.ok) throw new Error("Failed to fetch items");
 
                 const json = await response.json();
+
+                // Log the fetched data to ensure items are coming through
+                console.log("Fetched items:", json);
+
                 let filteredItems = json;
 
+                // Check if the selected category is not "all"
                 if (selectedCategory !== "all") {
                     filteredItems = json.filter(item =>
                         categoryMap[selectedCategory].includes(item.category)
                     );
                 }
+
+                // Log the filtered data to ensure the filtering works as expected
+                console.log("Filtered items:", filteredItems);
 
                 setItems(filteredItems);
             } catch (error) {
@@ -170,7 +178,6 @@ const Home = () => {
                             <div className="item-wrapper" key={item._id}>
                                 <ItemDetails item={item} />
                                 {/* Display image if exists */}
-
                             </div>
                         ))}
                     </div>
