@@ -70,12 +70,17 @@ const Outfit = () => {
         {/* TOP */}
         <div className="virtual-category-container">
           <img src="/left.png" alt="Left" className="side-icon left-icon" onClick={() => slide("top", -1)} />
-          <div className="virtual-category-item1">Top</div>
-          {tops.length > 0 && tops[topIndex] && tops[topIndex].image && (
-            <img src={tops[topIndex].image} alt="Top" className="outfit-preview-image" />
-          )}
+
+          <div className="virtual-content-box">
+            <div className="virtual-category-item1">Top</div>
+            {tops.length > 0 && tops[topIndex] && tops[topIndex].image && (
+              <img src={tops[topIndex].image} alt="Top" className="outfit-preview-image" />
+            )}
+          </div>
+
           <img src="/right.png" alt="Right" className="side-icon right-icon" onClick={() => slide("top", 1)} />
         </div>
+
 
         {/* BOTTOM */}
         <div className="virtual-category-container">
