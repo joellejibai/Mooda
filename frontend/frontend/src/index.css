@@ -579,7 +579,7 @@ header img {
 
 canvas {
   border: 2px solid #ccc;
-  margin-top: 10px;
+  /* margin-top: 10px; */
 }
 
 button {
@@ -2593,4 +2593,8 @@ form.login input::placeholder {
   gap: 16px;
   justify-content: center;
   margin-top: 40px;
+}
+
+.camera-section {
+  position: relative;
 }

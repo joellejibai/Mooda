@@ -2,12 +2,12 @@ import React, { useState } from "react";
 import { useAuthPages } from "../hooks/useAuthPages";
 import { AuthPages } from "../context/AuthPages";
 
-const ItemsForm = ({ addItem, imageData }) => {
+const ItemsForm = ({ addItem, imageData, onClose }) => {
     const { user, dispatch } = useAuthPages();
 
     const [category, setCategory] = useState('');
     const [color, setColor] = useState('');
-    const [imageURL, setImageURL] = useState('');
+    const [imageURL, setImageURL] = useState(imageData || '');
 
     const [error, setError] = useState(null);
     const [successMessage, setSuccessMessage] = useState('');
@@ -20,14 +20,13 @@ const ItemsForm = ({ addItem, imageData }) => {
             return;
         }
 
-        if (!imageData || imageData.trim() === "") {
-
+        if (!imageData || imageData.trim() === "" || imageData.length < 100) {
             setError("Please take or upload a photo before submitting.");
             return;
         }
 
         const item = {
-            image: imageData,
+            image: imageData || imageURL,
             category,
             color,
         };
@@ -52,6 +51,9 @@ const ItemsForm = ({ addItem, imageData }) => {
             setColor("");
             setError(null);
             setSuccessMessage("Item was added successfully!");
+
+            // ✅ Close the form after success
+            if (onClose) onClose();
         }
     };
 
