@@ -6,6 +6,7 @@ import { CiCirclePlus } from "react-icons/ci";
 import { useAuthPages } from "../hooks/useAuthPages";
 import ItemDetails from "../components/ItemDetails";
 import ItemsForm from "../components/ItemsForm";  // Import the ItemsForm component
+import axios from "axios";
 
 const Home = () => {
     const { user } = useAuthPages();
@@ -14,9 +15,10 @@ const Home = () => {
     const [searchTerm, setSearchTerm] = useState("");
     const [selectedCategory, setSelectedCategory] = useState("all");
     const [showForm, setShowForm] = useState(false);  // State to control form visibility
+    const [uploadedFile, setUploadedFile] = useState(null);
 
     const [hasPhoto, setHasPhoto] = useState(false);
-    const [imageData, setImageData] = useState(null);
+    const [imageData, setImageData] = useState("");
     const photoRef = useRef(null);
     const videoRef = useRef(null);
     const [isCameraActive, setIsCameraActive] = useState(false);
@@ -89,7 +91,8 @@ const Home = () => {
         }
     };
 
-    const takePhoto = () => {
+    // ✅ Replace your existing takePhoto with this:
+    const takePhoto = async () => {
         const canvas = photoRef.current;
         const video = videoRef.current;
 
@@ -98,19 +101,84 @@ const Home = () => {
             return;
         }
 
-        const ctx = canvas.getContext('2d');
-
+        const ctx = canvas.getContext("2d");
         const width = 414;
         const height = width / (16 / 9);
         canvas.width = width;
         canvas.height = height;
-
         ctx.drawImage(video, 0, 0, width, height);
+
+        const imageBase64 = canvas.toDataURL("image/png").split(",")[1]; // Remove data:image/png;base64,
         setHasPhoto(true);
 
-        const imageUrl = canvas.toDataURL("image/png");
-        setImageData(imageUrl);
+        try {
+            const response = await axios.post(
+                "https://api.remove.bg/v1.0/removebg",
+                {
+                    image_file_b64: imageBase64,
+                    size: "auto",
+                },
+                {
+                    headers: {
+                        // "X-Api-Key": process.env.REACT_APP_REMOVEBG_API_KEY,
+                        "X-Api-Key": "TaXmUpt4bWqZYoQVWkavCxnb",
+                        "Content-Type": "application/json",
+                    },
+                    responseType: "arraybuffer",
+                }
+            );
+
+            const removedBgImage = `data:image/png;base64,${btoa(
+                new Uint8Array(response.data).reduce(
+                    (data, byte) => data + String.fromCharCode(byte),
+                    ""
+                )
+            )}`;
+
+            setImageData(removedBgImage); // ✅ Store cleaned image here
+        } catch (err) {
+            console.error("❌ Error removing background:", err.response?.data || err.message);
+        }
     };
+
+    const handleUpload = async (event) => {
+        const file = event.target.files[0];
+        if (!file) return;
+
+        const reader = new FileReader();
+        reader.onloadend = async () => {
+            const base64 = reader.result.split(",")[1]; // remove data:image/...
+            try {
+                const response = await axios.post(
+                    "https://api.remove.bg/v1.0/removebg",
+                    {
+                        image_file_b64: base64,
+                        size: "auto"
+                    },
+                    {
+                        headers: {
+                            "X-Api-Key": process.env.REACT_APP_REMOVEBG_API_KEY,
+                            "Content-Type": "application/json"
+                        },
+                        responseType: "arraybuffer"
+                    }
+                );
+
+                const result = `data:image/png;base64,${btoa(
+                    new Uint8Array(response.data).reduce(
+                        (data, byte) => data + String.fromCharCode(byte),
+                        ""
+                    )
+                )}`;
+                setHasPhoto(true);
+                setImageData(result); // 🧼 This is the cleaned image
+            } catch (err) {
+                console.error("❌ Upload & Remove.bg error:", err);
+            }
+        };
+        reader.readAsDataURL(file);
+    };
+
 
     const closePhoto = () => {
         setHasPhoto(false);
@@ -189,6 +257,12 @@ const Home = () => {
                             <button onClick={takePhoto}>Take Photo</button>
                         )}
                     </div>
+                    <input
+                        type="file"
+                        accept="image/*"
+                        onChange={(e) => handleUpload(e)}
+                        style={{ marginTop: "1rem" }}
+                    />
 
                     <div className={`result ${hasPhoto ? "hasPhoto" : ""}`}>
                         <canvas ref={photoRef}></canvas>
@@ -210,7 +284,6 @@ const Home = () => {
                         <button onClick={takePhoto}>Take Photo</button>
                     </div>
                 )}
-
             </div>
         </>
     );

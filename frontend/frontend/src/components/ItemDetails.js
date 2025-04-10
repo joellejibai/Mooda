@@ -20,7 +20,6 @@ const ItemDetails = ({ item }) => {
             <div className="item-info">
                 <p><strong>Category:</strong> {item.category || "No Category"}</p>
                 <p><strong>Color:</strong> {item.color || "No Color"}</p>
-                <p><strong>Description:</strong> {item.description || "No Description"}</p>
             </div>
         </div>
     );

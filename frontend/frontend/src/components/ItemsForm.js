@@ -8,7 +8,6 @@ const ItemsForm = ({ addItem, imageData }) => {
     const [category, setCategory] = useState('');
     const [color, setColor] = useState('');
     const [imageURL, setImageURL] = useState('');
-    const [description, setDescription] = useState('');
 
     const [error, setError] = useState(null);
     const [successMessage, setSuccessMessage] = useState('');
@@ -21,8 +20,9 @@ const ItemsForm = ({ addItem, imageData }) => {
             return;
         }
 
-        if (!imageData) {
-            setError("Please take a photo before submitting.");
+        if (!imageData || imageData.trim() === "") {
+
+            setError("Please take or upload a photo before submitting.");
             return;
         }
 
@@ -30,7 +30,6 @@ const ItemsForm = ({ addItem, imageData }) => {
             image: imageData,
             category,
             color,
-            description
         };
 
         const response = await fetch("/api/upload", {  // ✅ <- use /upload
@@ -51,7 +50,6 @@ const ItemsForm = ({ addItem, imageData }) => {
             addItem(json);
             setCategory("");
             setColor("");
-            setDescription("");
             setError(null);
             setSuccessMessage("Item was added successfully!");
         }
@@ -69,9 +67,6 @@ const ItemsForm = ({ addItem, imageData }) => {
 
             <label>COLOR</label>
             <input type="text" onChange={(e) => setColor(e.target.value)} value={color} />
-
-            <label>Description</label>
-            <input type="text" onChange={(e) => setDescription(e.target.value)} value={description} />
 
             {imageData && (
                 <div className="image-preview-container">
