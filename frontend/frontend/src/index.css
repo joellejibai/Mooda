@@ -2580,3 +2580,34 @@ form.login input::placeholder {
   border-radius: 12px;
   margin-top: 10px;
 }
+
+@media only screen and (max-width: 600px) {
+  .virtual-container1 {
+    width: 95vw;
+    padding: 10px;
+    height: auto;
+  }
+
+  .virtual-category-container {
+    flex-direction: column;
+    gap: 15px;
+  }
+
+  .side-icon {
+    margin: 0;
+    width: 25px;
+    height: 25px;
+  }
+
+  .outfit-preview-image {
+    max-width: 70vw;
+    max-height: 250px;
+  }
+
+  .virtual-category-item1,
+  .virtual-category-item2 {
+    width: 90vw;
+    height: auto;
+    padding: 10px;
+  }
+}
