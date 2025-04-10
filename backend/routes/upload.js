@@ -1,22 +1,32 @@
 const express = require('express');
 const router = express.Router();
-const Item = require('../models/itemModel'); // Make sure you have this
-const requireAuth = require('../middleware/requireAuth'); // Same as your items routes
+const Item = require('../models/itemModel');
+const requireAuth = require('../middleware/requireAuth');
 
-// Protect the route (user must be logged in)
 router.post('/', requireAuth, async (req, res) => {
     try {
-        const { image } = req.body;
+        console.log("✅ Upload endpoint hit");
+        console.log("📦 Body received:", req.body);
+
+        const { image, category, color } = req.body;
+
+        if (!image || !category || !color) {
+            console.log("⚠️ Missing required fields");
+            return res.status(400).json({ message: "Missing required fields" });
+        }
 
         const newItem = new Item({
-            image, // We will store base64 here for now
-            category: "unknown", // you can change later
-            user_id: req.user._id, // Link to the user
+            image,
+            category,
+            color,
+            user_id: req.user._id,
         });
 
         await newItem.save();
+        console.log("✅ Image item saved:", newItem);
         res.status(201).json(newItem);
     } catch (error) {
+        console.error("❌ Upload failed:", error.message);
         res.status(500).json({ message: 'Image upload failed', error: error.message });
     }
 });

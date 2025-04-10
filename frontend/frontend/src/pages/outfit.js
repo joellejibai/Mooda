@@ -1,17 +1,63 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useAuthPages } from "../hooks/useAuthPages";
 
 const Outfit = () => {
   const navigate = useNavigate();
+  const { user } = useAuthPages();
 
-  // Function to handle Go Back button click
-  const handleGoBack = () => {
-    navigate(-1); // Navigates back to the previous page
+  const [tops, setTops] = useState([]);
+  const [bottoms, setBottoms] = useState([]);
+  const [footwear, setFootwear] = useState([]);
+
+  const [topIndex, setTopIndex] = useState(0);
+  const [bottomIndex, setBottomIndex] = useState(0);
+  const [footIndex, setFootIndex] = useState(0);
+
+  const topGroup = ["tshirt", "sweater", "hoodie", "top", "jacket"];
+  const bottomGroup = ["pants", "jeans", "shorts"];
+  const footGroup = ["boots", "sneakers", "heels", "shoes"];
+
+  useEffect(() => {
+    const fetchItems = async () => {
+      try {
+        const response = await fetch("/api/items", {
+          headers: {
+            Authorization: `Bearer ${user.token}`,
+          },
+        });
+
+        const data = await response.json();
+        console.log("Fetched items:", data); // ✅ ADD THIS
+
+        if (!response.ok) throw new Error(data.message);
+
+        setTops(data.filter(item => topGroup.includes(item.category?.toLowerCase())));
+        setBottoms(data.filter(item => bottomGroup.includes(item.category?.toLowerCase())));
+        setFootwear(data.filter(item => footGroup.includes(item.category?.toLowerCase())));
+      } catch (err) {
+        console.error("Error fetching items:", err);
+      }
+    };
+
+    if (user) fetchItems();
+  }, [user]);
+
+
+  const handleGoBack = () => navigate(-1);
+
+  const slide = (type, direction) => {
+    if (type === "top") {
+      setTopIndex((prev) => (prev + direction + tops.length) % tops.length);
+    } else if (type === "bottom") {
+      setBottomIndex((prev) => (prev + direction + bottoms.length) % bottoms.length);
+    } else if (type === "foot") {
+      setFootIndex((prev) => (prev + direction + footwear.length) % footwear.length);
+    }
   };
 
   return (
-    <div className="outfit-container"> 
-      {/* Go Back Button */}
+    <div className="outfit-container">
       <button className="virtual-go-back-button" onClick={handleGoBack}>
         <img src="/back.png" alt="Go Back" className="go-back-icon" />
       </button>
@@ -21,27 +67,42 @@ const Outfit = () => {
       </div>
 
       <div className="virtual-container1">
-        {/* Categories with Left and Right Arrows */}
+        {/* TOP */}
         <div className="virtual-category-container">
-          <img src="/left.png" alt="Left" className="side-icon left-icon" />
-          <div className="virtual-category-item1">Top</div>
-          <img src="/right.png" alt="Right" className="side-icon right-icon" />
+          <img src="/left.png" alt="Left" className="side-icon left-icon" onClick={() => slide("top", -1)} />
+
+          <div className="virtual-content-box">
+            <div className="virtual-category-item1">Top</div>
+            {tops.length > 0 && tops[topIndex] && tops[topIndex].image && (
+              <img src={tops[topIndex].image} alt="Top" className="outfit-preview-image" />
+            )}
+          </div>
+
+          <img src="/right.png" alt="Right" className="side-icon right-icon" onClick={() => slide("top", 1)} />
         </div>
 
+
+        {/* BOTTOM */}
         <div className="virtual-category-container">
-          <img src="/left.png" alt="Left" className="side-icon left-icon" />
+          <img src="/left.png" alt="Left" className="side-icon left-icon" onClick={() => slide("bottom", -1)} />
           <div className="virtual-category-item1">Bottom</div>
-          <img src="/right.png" alt="Right" className="side-icon right-icon" />
+          {bottoms.length > 0 && bottoms[bottomIndex] && bottoms[bottomIndex].image && (
+            <img src={bottoms[bottomIndex].image} alt="Bottom" className="outfit-preview-image" />
+          )}
+          <img src="/right.png" alt="Right" className="side-icon right-icon" onClick={() => slide("bottom", 1)} />
         </div>
 
+        {/* FOOT */}
         <div className="virtual-category-container">
-          <img src="/left.png" alt="Left" className="side-icon left-icon" />
+          <img src="/left.png" alt="Left" className="side-icon left-icon" onClick={() => slide("foot", -1)} />
           <div className="virtual-category-item2">Foot</div>
-          <img src="/right.png" alt="Right" className="side-icon right-icon" />
+          {footwear.length > 0 && footwear[footIndex] && footwear[footIndex].image && (
+            <img src={footwear[footIndex].image} alt="Foot" className="outfit-preview-image" />
+          )}
+          <img src="/right.png" alt="Right" className="side-icon right-icon" onClick={() => slide("foot", 1)} />
         </div>
       </div>
 
-      {/* Proceed Button at the Bottom */}
       <div className="bottom-button-container">
         <button className="proceed-button">AUTO-GENERATE</button>
       </div>
