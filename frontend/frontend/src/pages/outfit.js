@@ -69,67 +69,38 @@ const Outfit = () => {
       <div className="virtual-container1">
         {/* TOP */}
         <div className="virtual-category-container">
-          <div className="virtual-category-item1">
-            <p className="category-title">Top</p>
-            <div className="image-slider">
-              <img src="/left.png" alt="Left" className="side-icon left-icon" onClick={() => slide("top", -1)} />
-              {tops.length > 0 && tops[topIndex]?.image && (
-                <img src={tops[topIndex].image} alt="Top" className="outfit-preview-image" />
-              )}
-              <img src="/right.png" alt="Right" className="side-icon right-icon" onClick={() => slide("top", 1)} />
-            </div>
+          <img src="/left.png" alt="Left" className="side-icon left-icon" onClick={() => slide("top", -1)} />
+
+          <div className="virtual-content-box">
+            <div className="virtual-category-item1">Top</div>
+            {tops.length > 0 && tops[topIndex] && tops[topIndex].image && (
+              <img src={tops[topIndex].image} alt="Top" className="outfit-preview-image" />
+            )}
           </div>
+
+          <img src="/right.png" alt="Right" className="side-icon right-icon" onClick={() => slide("top", 1)} />
         </div>
 
 
-
         {/* BOTTOM */}
-        {/* <div className="virtual-category-container">
+        <div className="virtual-category-container">
           <img src="/left.png" alt="Left" className="side-icon left-icon" onClick={() => slide("bottom", -1)} />
           <div className="virtual-category-item1">Bottom</div>
           {bottoms.length > 0 && bottoms[bottomIndex] && bottoms[bottomIndex].image && (
             <img src={bottoms[bottomIndex].image} alt="Bottom" className="outfit-preview-image" />
           )}
           <img src="/right.png" alt="Right" className="side-icon right-icon" onClick={() => slide("bottom", 1)} />
-        </div> */}
-
-        <div className="virtual-category-container">
-          <div className="virtual-category-item1">
-            <p className="category-title">Bottom</p>
-            <div className="image-slider">
-              <img src="/left.png" alt="Left" className="side-icon left-icon" onClick={() => slide("bottom", -1)} />
-              {bottoms.length > 0 && bottoms[bottomIndex]?.image && (
-                <img src={bottoms[bottomIndex].image} alt="Bottom" className="outfit-preview-image" />
-              )}
-              <img src="/right.png" alt="Right" className="side-icon right-icon" onClick={() => slide("bottom", 1)} />
-            </div>
-          </div>
         </div>
 
-
         {/* FOOT */}
-        {/* <div className="virtual-category-container">
+        <div className="virtual-category-container">
           <img src="/left.png" alt="Left" className="side-icon left-icon" onClick={() => slide("foot", -1)} />
           <div className="virtual-category-item2">Foot</div>
           {footwear.length > 0 && footwear[footIndex] && footwear[footIndex].image && (
             <img src={footwear[footIndex].image} alt="Foot" className="outfit-preview-image" />
           )}
           <img src="/right.png" alt="Right" className="side-icon right-icon" onClick={() => slide("foot", 1)} />
-        </div> */}
-
-        <div className="virtual-category-container">
-          <div className="virtual-category-item1">
-            <p className="category-title">Foot</p>
-            <div className="image-slider">
-              <img src="/left.png" alt="Left" className="side-icon left-icon" onClick={() => slide("foot", -1)} />
-              {footwear.length > 0 && footwear[footIndex]?.image && (
-                <img src={footwear[footIndex].image} alt="Foot" className="outfit-preview-image" />
-              )}
-              <img src="/right.png" alt="Right" className="side-icon right-icon" onClick={() => slide("foot", 1)} />
-            </div>
-          </div>
         </div>
-
       </div>
 
       <div className="bottom-button-container">
