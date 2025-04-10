@@ -1,45 +1,33 @@
 import { useState } from 'react';
-import { useAuthPages } from './useAuthPages';
+import { useNavigate } from 'react-router-dom';
 
 export const useSignup = () => {
-  const [error, setError] = useState(null);
-  const [isLoading, setIsLoading] = useState(false);
-  
-  // IMPORTANT: Call the hook (with parentheses) to get the context values.
-  const { dispatch } = useAuthPages();
+    const [error, setError] = useState(null);
+    const [isLoading, setIsLoading] = useState(null);
+    const navigate = useNavigate();
 
-  const signup = async (email, password) => {
-    setIsLoading(true);
-    setError(null);
+    const signup = async (email, password, gender) => {
+        setIsLoading(true);
+        setError(null);
 
-    try {
-      const response = await fetch('/api/user/signup', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email, password }),
-      });
+        const response = await fetch('/api/user/signup', {
+            method: 'POST',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify({ email, password, gender })
+        });
 
-      const json = await response.json();
+        const json = await response.json();
 
-      if (!response.ok) {
-        setIsLoading(false);
-        // Adjust the property name based on your backend's error response.
-        setError(json.error || json.Error || 'Signup failed');
-        return;
-      }
+        if (!response.ok) {
+            setIsLoading(false);
+            setError(json.error);
+        }
+        if (response.ok) {
+            localStorage.setItem('user', JSON.stringify(json));
+            setIsLoading(false);
+            navigate('/home');
+        }
+    };
 
-      // Save the user data to local storage
-      localStorage.setItem('user', JSON.stringify(json));
-
-      // Update the auth state via dispatch
-      dispatch({ type: 'LOGIN', payload: json });
-      setIsLoading(false);
-    } catch (err) {
-      setIsLoading(false);
-      setError(err.message);
-    }
-  };
-
-  return { signup, isLoading, error };
+    return { signup, isLoading, error };
 };
-

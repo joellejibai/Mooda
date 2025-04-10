@@ -11,8 +11,7 @@ const Signup = () => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        // Send the gender along with email and password to the signup function
-        await signup(email, password, gender);
+        await signup(email, password, gender); // Send gender along with email and password
     }
 
     const handleMoveToLogin = () => {

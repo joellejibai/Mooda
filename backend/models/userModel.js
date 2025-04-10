@@ -28,7 +28,6 @@ const userSchema = new Schema({
 
 // Static signup method
 userSchema.statics.signup = async function (email, password, gender) {
-    // Validation
     if (!email || !password || !gender) {
         throw Error('All fields must be filled');
     }
@@ -50,13 +49,10 @@ userSchema.statics.signup = async function (email, password, gender) {
     const salt = await bcrypt.genSalt(10);
     const hash = await bcrypt.hash(password, salt);
 
-    // Create a new user
     const user = await this.create({ email, password: hash, gender });
 
-    // Create a wardrobe for the user
     const wardrobe = await Wardrobe.create({ user: user._id });
 
-    // Link the wardrobe to the user
     user.wardrobe = wardrobe._id;
     await user.save();
 

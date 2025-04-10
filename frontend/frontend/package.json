@@ -6,11 +6,8 @@
   "dependencies": {
     "@mediapipe/camera_utils": "^0.3.1675466862",
     "@mediapipe/pose": "^0.5.1675469404",
-<<<<<<< HEAD
-=======
     "@react-three/drei": "^10.0.6",
     "@react-three/fiber": "^9.1.2",
->>>>>>> 95e9b2a434bcef6f00480e926758b66e05f76137
     "axios": "^1.8.4",
     "cra-template": "1.2.0",
     "multer": "^1.4.5-lts.1",

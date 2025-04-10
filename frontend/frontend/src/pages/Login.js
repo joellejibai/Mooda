@@ -10,10 +10,8 @@ const Login = () => {
     
     const handleSubmit = async (e) => {
         e.preventDefault();
-        console.log("Login form submitted with:", email, password); // Debugging log
         await login(email, password);
     };
-    
 
     const handleMoveToHome = () => {
         navigate('/home');
@@ -28,7 +26,6 @@ const Login = () => {
         try {
             const credential = await navigator.credentials.get({ publicKey: { challenge: new Uint8Array(32), userVerification: 'required' } });
             if (credential) {
-                // Simulate login success (You should send credential data to the backend for verification)
                 alert('Fingerprint authentication successful!');
                 navigate('/home');
             }
@@ -50,8 +47,6 @@ const Login = () => {
                 <img src="/finger.png" alt="Login with Fingerprint" style={{ width: '50px', height: '50px', cursor: 'pointer' }} />
             </button>
             <button disabled={isLoading} onClick={handleMoveToHome}>LOG IN</button>
-            
-            
             {error && <div className="error">{error}</div>}
         </form>
     );

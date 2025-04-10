@@ -29,8 +29,8 @@ const Home = () => {
 
     const categoryMap = {
         all: [],
-        tops: ["tshirt", "sweater", "hoodie", "top"],
-        pants: ["pants", "jeans", "shorts"],
+        tops: ["tshirt", "sweater", "hoodie", "top", "crop-top", "tank-top"],
+        pants: ["pants", "jeans", "shorts", "skirt", "sweatpants", "trousers", "skort", "leggings"],
         jackets: ["jacket", "coat", "blazer"],
         dresses: ["dress", "gown"],
         shoes: ["boots", "sneakers", "heels", "shoes"],
@@ -120,8 +120,7 @@ const Home = () => {
                 },
                 {
                     headers: {
-                        // "X-Api-Key": process.env.REACT_APP_REMOVEBG_API_KEY,
-                        "X-Api-Key": "TaXmUpt4bWqZYoQVWkavCxnb",
+                        "X-Api-Key": "TaXmUpt4bWqZYoQVWkavCxnb",  // Replace with your API key
                         "Content-Type": "application/json",
                     },
                     responseType: "arraybuffer",
@@ -174,7 +173,7 @@ const Home = () => {
                 setHasPhoto(true);
                 setImageData(result);
 
-                // ✅ Show form *after* imageData is set
+                // ✅ Show form after imageData is set
                 setTimeout(() => setShowForm(true), 100);
 
             } catch (err) {
@@ -183,8 +182,6 @@ const Home = () => {
         };
         reader.readAsDataURL(file);
     };
-
-
 
     const closePhoto = () => {
         setHasPhoto(false);
@@ -244,7 +241,6 @@ const Home = () => {
                             <div className="item-wrapper" key={item._id}>
                                 <ItemDetails item={item} />
                                 {/* Display image if exists */}
-
                             </div>
                         ))}
                     </div>
@@ -283,7 +279,6 @@ const Home = () => {
                             }}
                         />
                     )}
-
                 </div>
 
                 <button onClick={() => { setShowForm(!showForm); startCamera(); }} className="toggle-form-button">
