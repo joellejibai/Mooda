@@ -15,7 +15,7 @@ const Outfit = () => {
   const [bottomIndex, setBottomIndex] = useState(0);
   const [footIndex, setFootIndex] = useState(0);
 
-  const topGroup = ["tshirt", "sweater", "hoodie", "top", "jacket"];
+  const topGroup = ["tshirt", "sweater", "hoodie", "top", "jacket","dress"];
   const bottomGroup = ["pants", "jeans", "shorts"];
   const footGroup = ["boots", "sneakers", "heels", "shoes"];
 
