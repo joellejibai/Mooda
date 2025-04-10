@@ -19,7 +19,6 @@ const Home = () => {
     const [imageData, setImageData] = useState(null);
     const photoRef = useRef(null);
     const videoRef = useRef(null);
-
     const [isCameraActive, setIsCameraActive] = useState(false);
 
     const ITEMS_PER_ROW = 4;
@@ -92,8 +91,14 @@ const Home = () => {
 
     const takePhoto = () => {
         const canvas = photoRef.current;
-        const ctx = canvas.getContext('2d');
         const video = videoRef.current;
+
+        if (!canvas || !video) {
+            console.error("❌ Canvas or video element not found.");
+            return;
+        }
+
+        const ctx = canvas.getContext('2d');
 
         const width = 414;
         const height = width / (16 / 9);
@@ -106,41 +111,6 @@ const Home = () => {
         const imageUrl = canvas.toDataURL("image/png");
         setImageData(imageUrl);
     };
-
-    const uploadImage = async () => {
-        if (!imageData) return;
-
-        try {
-            const response = await fetch("/api/upload", {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                    Authorization: `Bearer ${user.token}`,
-                },
-                body: JSON.stringify({ image: imageData }),
-            });
-
-            if (!response.ok) throw new Error("Upload failed");
-
-            const result = await response.json();
-            console.log("Image uploaded successfully:", result);
-
-            setItems((prevItems) => [...prevItems, result]);
-
-            setShowForm(false);
-            setHasPhoto(false);
-            setImageData(null);
-
-            if (videoRef.current && videoRef.current.srcObject) {
-                videoRef.current.srcObject.getTracks().forEach(track => track.stop());
-            }
-            setIsCameraActive(false);
-
-        } catch (error) {
-            console.error("Error uploading image:", error);
-        }
-    };
-
 
     const closePhoto = () => {
         setHasPhoto(false);
@@ -171,12 +141,12 @@ const Home = () => {
                 <div className="circle-container">
                     {icons.map((icon, index) => (
                         <span
-                        key={index}
-                        className={`clothing-circle ${selectedCategory === icon.category ? "active" : ""}`}
-                        onClick={() => setSelectedCategory(icon.category)}
-                      >
-                        {icon.icon}
-                      </span>
+                            key={index}
+                            className={`clothing-circle ${selectedCategory === icon.category ? "active" : ""}`}
+                            onClick={() => setSelectedCategory(icon.category)}
+                        >
+                            {icon.icon}
+                        </span>
                     ))}
                 </div>
 
@@ -200,13 +170,7 @@ const Home = () => {
                             <div className="item-wrapper" key={item._id}>
                                 <ItemDetails item={item} />
                                 {/* Display image if exists */}
-                                {item.image && (
-                                    <img
-                                        src={item.image}
-                                        alt="Item"
-                                        style={{ width: "100px", marginTop: "10px", borderRadius: "8px" }}
-                                    />
-                                )}
+
                             </div>
                         ))}
                     </div>
@@ -233,7 +197,7 @@ const Home = () => {
                     </div>
 
                     {/* Conditionally render the ItemsForm */}
-                    {showForm && <ItemsForm addItem={addItem} />}
+                    {showForm && <ItemsForm addItem={addItem} imageData={imageData} />}
                 </div>
 
                 <button onClick={() => { setShowForm(!showForm); startCamera(); }} className="toggle-form-button">
@@ -244,7 +208,6 @@ const Home = () => {
                         <video ref={videoRef} autoPlay playsInline style={{ display: isCameraActive ? 'block' : 'none' }}></video>
                         {hasPhoto && <canvas ref={photoRef}></canvas>}
                         <button onClick={takePhoto}>Take Photo</button>
-                        {hasPhoto && <button onClick={uploadImage}>Upload Image</button>}
                     </div>
                 )}
 

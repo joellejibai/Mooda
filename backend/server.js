@@ -8,10 +8,10 @@ const uploadRoutes = require('./routes/upload')
 const contactRoutes = require('./routes/contact')
 
 // ✅ Define express app BEFORE using it
-const app = express() 
+const app = express()
 
 // Middleware
-app.use(express.json())
+app.use(express.json({ limit: '20mb' }))
 app.use((req, res, next) => {
     console.log(req.path, req.method)
     next()

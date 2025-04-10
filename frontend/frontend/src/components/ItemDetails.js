@@ -10,7 +10,7 @@ const ItemDetails = ({ item }) => {
             <div
                 className="item-image"
                 style={{
-                    backgroundImage: `url(${item.imageURL})`,
+                    backgroundImage: `url(${item.image})`,
                     backgroundSize: "cover",
                     backgroundPosition: "center",
                 }}
@@ -18,13 +18,8 @@ const ItemDetails = ({ item }) => {
 
             {/* Item Info on Hover */}
             <div className="item-info">
-                <h3>{item.name || "No Name"}</h3>
-                <p><strong>Brand:</strong> {item.brand || "No Brand"}</p>
                 <p><strong>Category:</strong> {item.category || "No Category"}</p>
                 <p><strong>Color:</strong> {item.color || "No Color"}</p>
-                <p><strong>Size:</strong> {item.size || "No Size"}</p>
-                <p><strong>Material:</strong> {item.material || "No Material"}</p>
-                <p><strong>Fit:</strong> {item.fit || "No Fit"}</p>
                 <p><strong>Description:</strong> {item.description || "No Description"}</p>
             </div>
         </div>

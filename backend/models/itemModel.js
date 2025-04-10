@@ -8,7 +8,8 @@ const itemSchema = new Schema({
         required: true
     },
     image: {
-        type: String // This will hold the base64 image
+        type: String,
+        required: true // ✅ this is the one to keep
     },
     user_id: {
         type: String,
@@ -16,28 +17,9 @@ const itemSchema = new Schema({
     },
     color: {
         type: String,
-        required: true
+        required: true // ✅ still required
     },
-    brand: {
-        type: String,
-        required: false
-    },
-    size: {
-        type: String,
-        required: false
-    },
-    meterial: {
-        type: String,
-        required: false
-    },
-    fit: {
-        type: String,
-        required: false
-    },
-    imageURL: {
-        type: String,
-        required: true
-    }
 }, { timestamps: true })
+
 
 module.exports = mongoose.model('item', itemSchema)
