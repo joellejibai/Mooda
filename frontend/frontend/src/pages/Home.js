@@ -147,7 +147,7 @@ const Home = () => {
 
         const reader = new FileReader();
         reader.onloadend = async () => {
-            const base64 = reader.result.split(",")[1]; // remove data:image/...
+            const base64 = reader.result.split(",")[1];
             try {
                 const response = await axios.post(
                     "https://api.remove.bg/v1.0/removebg",
@@ -170,14 +170,20 @@ const Home = () => {
                         ""
                     )
                 )}`;
+
                 setHasPhoto(true);
-                setImageData(result); // 🧼 This is the cleaned image
+                setImageData(result);
+
+                // ✅ Show form *after* imageData is set
+                setTimeout(() => setShowForm(true), 100);
+
             } catch (err) {
                 console.error("❌ Upload & Remove.bg error:", err);
             }
         };
         reader.readAsDataURL(file);
     };
+
 
 
     const closePhoto = () => {
@@ -257,12 +263,6 @@ const Home = () => {
                             <button onClick={takePhoto}>Take Photo</button>
                         )}
                     </div>
-                    <input
-                        type="file"
-                        accept="image/*"
-                        onChange={(e) => handleUpload(e)}
-                        style={{ marginTop: "1rem" }}
-                    />
 
                     <div className={`result ${hasPhoto ? "hasPhoto" : ""}`}>
                         <canvas ref={photoRef}></canvas>
@@ -271,18 +271,38 @@ const Home = () => {
                     </div>
 
                     {/* Conditionally render the ItemsForm */}
-                    {showForm && <ItemsForm addItem={addItem} imageData={imageData} />}
+                    {showForm && (
+                        <ItemsForm
+                            addItem={addItem}
+                            imageData={imageData}
+                            onClose={() => {
+                                setShowForm(false);
+                                setImageData("");
+                                setHasPhoto(false);
+                                stopCamera(); // optional: stop camera after adding item
+                            }}
+                        />
+                    )}
+
                 </div>
 
                 <button onClick={() => { setShowForm(!showForm); startCamera(); }} className="toggle-form-button">
                     {showForm ? "Cancel" : "Add New Item"}
                 </button>
                 {showForm && (
-                    <div className="camera-section">
-                        <video ref={videoRef} autoPlay playsInline style={{ display: isCameraActive ? 'block' : 'none' }}></video>
-                        {hasPhoto && <canvas ref={photoRef}></canvas>}
-                        <button onClick={takePhoto}>Take Photo</button>
-                    </div>
+                    <>
+                        <input
+                            type="file"
+                            accept="image/*"
+                            onChange={(e) => handleUpload(e)}
+                            style={{ marginTop: "1rem" }}
+                        />
+                        <div className="camera-section">
+                            <video ref={videoRef} autoPlay playsInline style={{ display: isCameraActive ? 'block' : 'none' }}></video>
+                            {hasPhoto && <canvas ref={photoRef}></canvas>}
+                            <button onClick={takePhoto}>Take Photo</button>
+                        </div>
+                    </>
                 )}
             </div>
         </>

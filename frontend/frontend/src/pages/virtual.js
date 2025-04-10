@@ -1,5 +1,8 @@
 import React, { useState, useRef, useEffect } from 'react';
 import './virtual';
+import { Pose } from '@mediapipe/pose';
+import { Camera } from '@mediapipe/camera_utils';
+
 
 const Virtual = () => {
   const [imageSrc, setImageSrc] = useState(null);
@@ -7,15 +10,14 @@ const Virtual = () => {
   const [cameraReady, setCameraReady] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const videoRef = useRef(null);
+  const canvasRef = useRef(null);
   const streamRef = useRef(null);
 
-  // Start camera with timeout and fallbacks
   const startCamera = async () => {
     setError(null);
     setIsLoading(true);
-    
+
     try {
-      // First try: Ideal resolution
       try {
         await attemptCameraStart({
           width: { ideal: 1280 },
@@ -27,7 +29,6 @@ const Virtual = () => {
         console.warn('High-res failed, trying default...', highResError);
       }
 
-      // Fallback: Basic constraints
       await attemptCameraStart(true);
     } catch (err) {
       handleCameraError(err);
@@ -77,7 +78,6 @@ const Virtual = () => {
     console.error('Camera access failed:', err);
   };
 
-  // Capture photo
   const capturePhoto = () => {
     if (!cameraReady || !videoRef.current) return;
 
@@ -87,12 +87,11 @@ const Virtual = () => {
     canvas.height = video.videoHeight;
     const ctx = canvas.getContext('2d');
     ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
-    
+
     setImageSrc(canvas.toDataURL('image/jpeg'));
     stopCamera();
   };
 
-  // Stop camera
   const stopCamera = () => {
     if (streamRef.current) {
       streamRef.current.getTracks().forEach(track => track.stop());
@@ -104,10 +103,74 @@ const Virtual = () => {
     setCameraReady(false);
   };
 
-  // Cleanup
   useEffect(() => {
     return () => stopCamera();
   }, []);
+
+  useEffect(() => {
+    if (cameraReady && videoRef.current && canvasRef.current) {
+      const video = videoRef.current;
+      const canvas = canvasRef.current;
+
+      // Make the canvas match the size of the video
+      canvas.width = video.videoWidth;
+      canvas.height = video.videoHeight;
+    }
+  }, [cameraReady]);
+
+  useEffect(() => {
+    if (!cameraReady || !videoRef.current || !canvasRef.current) return;
+
+    const canvas = canvasRef.current;
+    const ctx = canvas.getContext('2d');
+    const video = videoRef.current;
+
+    const pose = new Pose({
+      locateFile: (file) => `https://cdn.jsdelivr.net/npm/@mediapipe/pose/${file}`
+    });
+
+    pose.setOptions({
+      modelComplexity: 1,
+      smoothLandmarks: true,
+      enableSegmentation: false,
+      minDetectionConfidence: 0.5,
+      minTrackingConfidence: 0.5
+    });
+
+    pose.onResults((results) => {
+      // Clear canvas
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+      // Draw the video frame first
+      ctx.drawImage(results.image, 0, 0, canvas.width, canvas.height);
+
+      if (results.poseLandmarks) {
+        for (let landmark of results.poseLandmarks) {
+          const x = landmark.x * canvas.width;
+          const y = landmark.y * canvas.height;
+          ctx.beginPath();
+          ctx.arc(x, y, 5, 0, 2 * Math.PI);
+          ctx.fillStyle = "red";
+          ctx.fill();
+        }
+      }
+    });
+
+    const camera = new Camera(video, {
+      onFrame: async () => {
+        await pose.send({ image: video });
+      },
+      width: 1280,
+      height: 720,
+    });
+
+    camera.start();
+
+    return () => {
+      camera.stop();
+    };
+  }, [cameraReady]);
+
 
   return (
     <div className="camera-container">
@@ -115,21 +178,27 @@ const Virtual = () => {
 
       {!imageSrc ? (
         <div className="camera-section">
-          <video
-            ref={videoRef}
-            autoPlay
-            playsInline
-            muted
-            className={`camera-feed ${!cameraReady ? 'hidden' : ''}`}
-          />
-          
+          <div className="camera-wrapper" style={{ position: 'relative' }}>
+            <video
+              ref={videoRef}
+              autoPlay
+              playsInline
+              muted
+              className={`camera-feed ${!cameraReady ? 'hidden' : ''}`}
+            />
+            <canvas
+              ref={canvasRef}
+              className="pose-canvas"
+              style={{ position: 'absolute', top: 0, left: 0 }}
+            ></canvas>
+          </div>
+
+
+
           {isLoading ? (
             <div className="loader">Starting camera...</div>
           ) : !cameraReady ? (
-            <button 
-              onClick={startCamera}
-              className="btn primary"
-            >
+            <button onClick={startCamera} className="btn primary">
               Start Camera
             </button>
           ) : (
@@ -146,10 +215,7 @@ const Virtual = () => {
       ) : (
         <div className="preview-section">
           <img src={imageSrc} alt="Captured" className="preview" />
-          <button 
-            onClick={() => setImageSrc(null)}
-            className="btn primary"
-          >
+          <button onClick={() => setImageSrc(null)} className="btn primary">
             Take Another
           </button>
         </div>
@@ -158,10 +224,7 @@ const Virtual = () => {
       {error && (
         <div className="error">
           {error}
-          <button 
-            onClick={startCamera}
-            className="btn retry"
-          >
+          <button onClick={startCamera} className="btn retry">
             Try Again
           </button>
         </div>
