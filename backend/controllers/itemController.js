@@ -1,92 +1,74 @@
-const item = require('../models/itemModel')
-const mongoose = require('mongoose')
+const Item = require('../models/itemModel');
+const mongoose = require('mongoose');
 
-// Get all items with optional search query
 const getItems = async (req, res) => {
-    const { search } = req.query; // Get the search query from the URL
-
-    try {
-        // If there's a search term, filter the items based on the query.
-        const filter = search
-            ? {
-                $or: [
-                    { category: { $regex: search, $options: 'i' } }, // Search in category field
-                    { brand: { $regex: search, $options: 'i' } },    // Search in brand field
-                    { color: { $regex: search, $options: 'i' } },    // Search in color field
-                ],
-            }
-            : {}; // If there's no search term, fetch all items
-
-        const items = await item.find(filter).sort({ createdAt: -1 });
-
-        res.status(200).json(items);
-    } catch (error) {
-        res.status(500).json({ error: error.message });
-    }
+    const user_id = req.user._id;
+    const items = await Item.find({ user_id }).sort({ createdAt: -1 });
+    res.status(200).json(items);
 };
 
-// Get a single item
 const getItem = async (req, res) => {
     const { id } = req.params;
 
     if (!mongoose.Types.ObjectId.isValid(id)) {
-        return res.status(404).json({ error: 'No such item' })
+        return res.status(404).json({ error: 'Invalid item ID' });
     }
 
-    try {
-        const foundItem = await item.findById(id);
+    const item = await Item.findOne({ _id: id, user_id: req.user._id });
 
-        if (!foundItem) {
-            return res.status(404).json({ error: 'No such item' });
-        }
-
-        res.status(200).json(foundItem);
-    } catch (error) {
-        res.status(500).json({ error: error.message });
+    if (!item) {
+        return res.status(404).json({ error: 'Item not found or unauthorized' });
     }
+
+    res.status(200).json(item);
 };
 
-// Create a new item
 const createItem = async (req, res) => {
-    const { category, color, brand, size, material, fit, imageURL } = req.body;
+    const { category, image, color } = req.body;
 
     try {
-        const newItem = await item.create({ category, color, brand, size, material, fit, imageURL });
-        res.status(200).json(newItem); // Return the newly created item
+        const user_id = req.user._id;
+        const item = await Item.create({ category, image, color, user_id });
+        res.status(200).json(item);
     } catch (error) {
         res.status(400).json({ error: error.message });
     }
 };
 
-// Delete an item
 const deleteItem = async (req, res) => {
     const { id } = req.params;
 
-    try {
-        const deletedItem = await item.findByIdAndDelete(id);
-        if (!deletedItem) {
-            return res.status(404).json({ error: 'No such item to delete' });
-        }
-        res.status(200).json({ message: 'Item deleted successfully' });
-    } catch (error) {
-        res.status(500).json({ error: error.message });
+    if (!mongoose.Types.ObjectId.isValid(id)) {
+        return res.status(404).json({ error: 'Invalid item ID' });
     }
+
+    const item = await Item.findOneAndDelete({ _id: id, user_id: req.user._id });
+
+    if (!item) {
+        return res.status(404).json({ error: 'Item not found or unauthorized' });
+    }
+
+    res.status(200).json(item);
 };
 
-// Update an item
 const updateItem = async (req, res) => {
     const { id } = req.params;
-    const updatedData = req.body;
 
-    try {
-        const updatedItem = await item.findByIdAndUpdate(id, updatedData, { new: true });
-        if (!updatedItem) {
-            return res.status(404).json({ error: 'No such item to update' });
-        }
-        res.status(200).json(updatedItem);
-    } catch (error) {
-        res.status(400).json({ error: error.message });
+    if (!mongoose.Types.ObjectId.isValid(id)) {
+        return res.status(404).json({ error: 'Invalid item ID' });
     }
+
+    const item = await Item.findOneAndUpdate(
+        { _id: id, user_id: req.user._id },
+        { ...req.body },
+        { new: true }
+    );
+
+    if (!item) {
+        return res.status(404).json({ error: 'Item not found or unauthorized' });
+    }
+
+    res.status(200).json(item);
 };
 
 module.exports = {
@@ -94,5 +76,5 @@ module.exports = {
     getItem,
     createItem,
     deleteItem,
-    updateItem,
+    updateItem
 };

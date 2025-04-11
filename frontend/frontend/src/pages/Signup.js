@@ -1,69 +1,63 @@
-import { useState } from 'react';
-import { useSignup } from '../hooks/useSignup';
-import { useNavigate } from 'react-router-dom';
+import React, { useState } from 'react';
+import { useSignup } from '../hooks/useSignup'; // Correct path if `useSignup.js` is in the `hooks` folder
+
+import './Signup'; // Optional: for styling
 
 const Signup = () => {
-    const navigate = useNavigate();
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
-    const [gender, setGender] = useState(''); // New state for gender selection
-    const { signup, error, isLoading } = useSignup();
+    const [gender, setGender] = useState('');
+    const { signup, isLoading, error } = useSignup();
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        await signup(email, password, gender); // Send gender along with email and password
-    }
-
-    const handleMoveToLogin = () => {
-        navigate('/login');
-    }
+        await signup(email, password, gender); // Call signup with inputs
+    };
 
     return (
-        <form className="signup" onSubmit={handleSubmit}>
-            <h3>Sign Up Now!</h3>
-            <label>Email</label>
-            <input
-                type="email"
-                onChange={(e) => setEmail(e.target.value)}
-                value={email}
-            />
-            <label>Password</label>
-            <input
-                type="password"
-                onChange={(e) => setPassword(e.target.value)}
-                value={password}
-            />
-
-            {/* Gender Selection */}
-            <label>Gender</label>
-            <div className="gender-selection">
-                <label>
+        <div className="signup-form">
+            <h2>Sign Up</h2>
+            <form onSubmit={handleSubmit}>
+                <div>
+                    <label>Email:</label>
                     <input
-                        type="radio"
-                        name="gender"
-                        value="male"
-                        checked={gender === 'male'}
-                        onChange={(e) => setGender(e.target.value)}
+                        type="email"
+                        value={email}
+                        onChange={(e) => setEmail(e.target.value)}
+                        required
                     />
-                    Male
-                </label>
-                <label>
+                </div>
+                <div>
+                    <label>Password:</label>
                     <input
-                        type="radio"
-                        name="gender"
-                        value="female"
-                        checked={gender === 'female'}
-                        onChange={(e) => setGender(e.target.value)}
+                        type="password"
+                        value={password}
+                        onChange={(e) => setPassword(e.target.value)}
+                        required
                     />
-                    Female
-                </label>
-            </div>
-
-            <p>Have an account? <a href="login">Log in </a></p>
-            <button disabled={isLoading} onClick={handleMoveToLogin}>SIGN UP</button>
-            {error && <div className="error">{error}</div>}
-        </form>
-    )
-}
+                </div>
+                <div>
+                    <label>Gender:</label>
+                    <select
+                        value={gender}
+                        onChange={(e) => setGender(e.target.value)}
+                        required
+                    >
+                        <option value="">Select gender</option>
+                        <option value="male">Male</option>
+                        <option value="female">Female</option>
+                        <option value="other">Other</option>
+                    </select>
+                </div>
+                <div>
+                    {error && <div className="error">{error}</div>}
+                    <button type="submit" disabled={isLoading}>
+                        {isLoading ? 'Signing Up...' : 'Sign Up'}
+                    </button>
+                </div>
+            </form>
+        </div>
+    );
+};
 
 export default Signup;

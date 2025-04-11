@@ -9,21 +9,14 @@ const {
 const requireAuth = require('../middleware/requireAuth');
 
 const router = express.Router();
-router.use(requireAuth)
 
-// GET all items
+// Apply authentication to all item routes
+router.use(requireAuth);
+
 router.get('/', getItems);
-
-// GET a single item
 router.get('/:id', getItem);
-
-// POST a new item
 router.post('/', createItem);
-
-// DELETE an item
 router.delete('/:id', deleteItem);
-
-// UPDATE an item
 router.patch('/:id', updateItem);
 
 module.exports = router;

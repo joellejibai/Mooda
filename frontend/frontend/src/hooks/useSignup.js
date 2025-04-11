@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 
 export const useSignup = () => {
     const [error, setError] = useState(null);
-    const [isLoading, setIsLoading] = useState(null);
+    const [isLoading, setIsLoading] = useState(false);
     const navigate = useNavigate();
 
     const signup = async (email, password, gender) => {
@@ -12,7 +12,7 @@ export const useSignup = () => {
 
         const response = await fetch('/api/user/signup', {
             method: 'POST',
-            headers: {'Content-Type': 'application/json'},
+            headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ email, password, gender })
         });
 
@@ -20,12 +20,10 @@ export const useSignup = () => {
 
         if (!response.ok) {
             setIsLoading(false);
-            setError(json.error);
-        }
-        if (response.ok) {
-            localStorage.setItem('user', JSON.stringify(json));
+            setError(json.error); // stays on signup page and shows error
+        } else {
             setIsLoading(false);
-            navigate('/home');
+            navigate('/login'); // ✅ go to login page after signup success
         }
     };
 

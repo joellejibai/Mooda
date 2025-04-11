@@ -9,7 +9,7 @@ const itemSchema = new Schema({
     },
     image: {
         type: String,
-        required: true // ✅ this is the one to keep
+        required: true
     },
     user_id: {
         type: String,
@@ -17,9 +17,8 @@ const itemSchema = new Schema({
     },
     color: {
         type: String,
-        required: true // ✅ still required
+        required: true
     },
 }, { timestamps: true })
 
-
-module.exports = mongoose.model('item', itemSchema)
+module.exports = mongoose.model('Item', itemSchema)
