@@ -143,7 +143,7 @@ const Home = () => {
     const handleUpload = async (event) => {
         const file = event.target.files[0];
         if (!file) return;
-
+    
         const reader = new FileReader();
         reader.onloadend = async () => {
             const base64 = reader.result.split(",")[1];
@@ -156,32 +156,33 @@ const Home = () => {
                     },
                     {
                         headers: {
-                            "X-Api-Key": process.env.REACT_APP_REMOVEBG_API_KEY,
+                            // If you don't have an .env, use this:
+                            "X-Api-Key": "TaXmUpt4bWqZYoQVWkavCxnb",
                             "Content-Type": "application/json"
                         },
                         responseType: "arraybuffer"
                     }
                 );
-
+    
                 const result = `data:image/png;base64,${btoa(
                     new Uint8Array(response.data).reduce(
                         (data, byte) => data + String.fromCharCode(byte),
                         ""
                     )
                 )}`;
-
+    
                 setHasPhoto(true);
                 setImageData(result);
-
-                // ✅ Show form after imageData is set
+    
                 setTimeout(() => setShowForm(true), 100);
-
+    
             } catch (err) {
-                console.error("❌ Upload & Remove.bg error:", err);
+                console.error("❌ Upload & Remove.bg error:", err.response?.data || err.message);
             }
         };
         reader.readAsDataURL(file);
     };
+    
 
     const closePhoto = () => {
         setHasPhoto(false);
@@ -250,15 +251,6 @@ const Home = () => {
                             {showAll ? "View Less" : "View More"}
                         </button>
                     )}
-
-                    <div className="camera">
-                        <button onClick={startCamera}>
-                            <CiCirclePlus size={30} style={{ marginRight: '8px' }} /> Add Item
-                        </button>
-                        {isCameraActive && (
-                            <button onClick={takePhoto}>Take Photo</button>
-                        )}
-                    </div>
 
                     <div className={`result ${hasPhoto ? "hasPhoto" : ""}`}>
                         <canvas ref={photoRef}></canvas>
