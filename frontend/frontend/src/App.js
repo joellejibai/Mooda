@@ -13,7 +13,8 @@ import Virtual from "./pages/virtual";
 import Outfit from "./pages/outfit";
 import Plan from "./pages/plan";  // Correct the path if needed
 import Footer from "./components/Footer";
-
+import ChatBot from "./components/ChatBot";
+import SavedOutfits from './pages/savedOutfits';
 
 function Pages() {
   const location = useLocation();
@@ -46,6 +47,7 @@ function Pages() {
           <Route path="/virtual" element={<Virtual />} />
           <Route path="/outfit" element={<Outfit />} />
           <Route path="/plan" element={<Plan />} />
+          <Route path="/saved-outfits" element={<SavedOutfits />} />
         </Routes>
       </div>
     </div>
@@ -57,6 +59,7 @@ function App() {
     <div className="App">
       <BrowserRouter>
         <Navbar />
+        <ChatBot />
         <Pages />
         <Footer />
       </BrowserRouter>
