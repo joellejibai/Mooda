@@ -2604,3 +2604,131 @@ form.login input::placeholder {
   justify-content: center;
   margin-top: 1rem;
 }
+
+.adjust-section {
+  margin-top: 2rem;
+  text-align: center;
+  font-family: 'Inter', sans-serif;
+}
+
+.adjust-header {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 1.5rem;
+  font-size: 1.5rem;
+  font-weight: 600;
+  margin-bottom: 1rem;
+}
+
+.arrow-btn {
+  font-size: 1.8rem;
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: #333;
+  transition: transform 0.2s ease;
+}
+
+.arrow-btn:hover {
+  transform: scale(1.2);
+}
+
+.adjust-controls {
+  display: flex;
+  justify-content: center;
+  gap: 2rem;
+  flex-wrap: wrap;
+}
+
+.adjust-control-group {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.adjust-label {
+  font-size: 1rem;
+  font-weight: 500;
+  margin: 0.5rem 0;
+}
+
+.adjust-btn {
+  font-size: 1.5rem;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  border: none;
+  background-color: #7857FF;
+  color: white;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+.adjust-btn:hover {
+  background-color: #5f3fe6;
+}
+
+/*calender*/
+.calendar-section {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 1rem;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.calendar-wrapper {
+  max-width: 420px;
+  width: 100%;
+  padding: 0 1rem;
+  box-sizing: border-box;
+}
+
+/* MUI Calendar Overrides for Proper Scaling */
+.MuiDateCalendar-root {
+  width: 100% !important;
+  max-width: 100% !important;
+}
+
+.MuiDayCalendar-weekContainer {
+  display: flex !important;
+  justify-content: space-between !important;
+  padding: 0 !important;
+  gap: 0 !important;
+}
+
+.MuiPickersDay-root {
+  flex: 1 1 14.2% !important;
+  /* 7 days across */
+  max-width: 100% !important;
+  font-size: 0.875rem !important;
+  padding: 6px !important;
+  margin: 0 !important;
+}
+
+/* Responsive Button */
+.virtual-fit-button {
+  margin-top: 1.5rem;
+  width: 90%;
+  max-width: 400px;
+  font-size: 1rem;
+  padding: 0.75rem 1rem;
+  border-radius: 10px;
+}
+
+/* Header Responsiveness */
+.smallGlass h2 {
+  font-size: 1.5rem;
+  text-align: center;
+  margin-bottom: 1rem;
+}
+
+/* Optional: Fix back button position on mobile */
+.virtual-go-back-button {
+  position: absolute;
+  top: 1rem;
+  left: 1rem;
+  z-index: 10;
+}
