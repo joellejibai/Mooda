@@ -1,11 +1,12 @@
 import React, { useState, useRef, useEffect } from 'react';
-import './virtual';
+import { useLocation } from 'react-router-dom';
 import { Pose } from '@mediapipe/pose';
 import { Camera } from '@mediapipe/camera_utils';
 
-
 const Virtual = () => {
-  const [imageSrc, setImageSrc] = useState(null);
+  const location = useLocation();
+  const { topImage, bottomImage, footImage } = location.state || {};
+
   const [error, setError] = useState(null);
   const [cameraReady, setCameraReady] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
@@ -78,20 +79,6 @@ const Virtual = () => {
     console.error('Camera access failed:', err);
   };
 
-  const capturePhoto = () => {
-    if (!cameraReady || !videoRef.current) return;
-
-    const video = videoRef.current;
-    const canvas = document.createElement('canvas');
-    canvas.width = video.videoWidth;
-    canvas.height = video.videoHeight;
-    const ctx = canvas.getContext('2d');
-    ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
-
-    setImageSrc(canvas.toDataURL('image/jpeg'));
-    stopCamera();
-  };
-
   const stopCamera = () => {
     if (streamRef.current) {
       streamRef.current.getTracks().forEach(track => track.stop());
@@ -111,8 +98,6 @@ const Virtual = () => {
     if (cameraReady && videoRef.current && canvasRef.current) {
       const video = videoRef.current;
       const canvas = canvasRef.current;
-
-      // Make the canvas match the size of the video
       canvas.width = video.videoWidth;
       canvas.height = video.videoHeight;
     }
@@ -137,21 +122,54 @@ const Virtual = () => {
       minTrackingConfidence: 0.5
     });
 
+    const topImg = new Image();
+    const bottomImg = new Image();
+    const footImg = new Image();
+
+    topImg.src = topImage || '';
+    bottomImg.src = bottomImage || '';
+    footImg.src = footImage || '';
+
     pose.onResults((results) => {
       // Clear canvas
       ctx.clearRect(0, 0, canvas.width, canvas.height);
-
-      // Draw the video frame first
       ctx.drawImage(results.image, 0, 0, canvas.width, canvas.height);
 
       if (results.poseLandmarks) {
-        for (let landmark of results.poseLandmarks) {
-          const x = landmark.x * canvas.width;
-          const y = landmark.y * canvas.height;
-          ctx.beginPath();
-          ctx.arc(x, y, 5, 0, 2 * Math.PI);
-          ctx.fillStyle = "red";
-          ctx.fill();
+        const landmarks = results.poseLandmarks;
+
+        // Example: Draw top image between shoulders
+        if (topImg.complete && topImg.naturalHeight) {
+          const leftShoulder = landmarks[11];
+          const rightShoulder = landmarks[12];
+
+          const x = leftShoulder.x * canvas.width;
+          const y = leftShoulder.y * canvas.height;
+          const width = (rightShoulder.x - leftShoulder.x) * canvas.width;
+          const height = width; // adjust as needed
+
+          ctx.drawImage(topImg, x, y, width, height);
+        }
+
+        if (bottomImg.complete && bottomImg.naturalHeight) {
+          const leftHip = landmarks[23];
+          const rightHip = landmarks[24];
+
+          const x = leftHip.x * canvas.width;
+          const y = leftHip.y * canvas.height;
+          const width = (rightHip.x - leftHip.x) * canvas.width;
+          const height = width * 1.2;
+
+          ctx.drawImage(bottomImg, x, y, width, height);
+        }
+
+        if (footImg.complete && footImg.naturalHeight) {
+          const leftAnkle = landmarks[27];
+
+          const x = leftAnkle.x * canvas.width - 50;
+          const y = leftAnkle.y * canvas.height;
+
+          ctx.drawImage(footImg, x, y, 100, 100);
         }
       }
     });
@@ -166,17 +184,12 @@ const Virtual = () => {
 
     camera.start();
 
-    return () => {
-      camera.stop();
-    };
-  }, [cameraReady]);
-
+    return () => camera.stop();
+  }, [cameraReady, topImage, bottomImage, footImage]);
 
   return (
     <div className="camera-container">
       <h1>Virtual Try-On</h1>
-
-      {!imageSrc ? (
       <div className="camera-section">
         <div className="camera-wrapper" style={{ position: 'relative' }}>
           <video
@@ -193,8 +206,6 @@ const Virtual = () => {
           ></canvas>
         </div>
 
-
-
         {isLoading ? (
           <div className="loader">Starting camera...</div>
         ) : !cameraReady ? (
@@ -202,24 +213,11 @@ const Virtual = () => {
             Start Camera
           </button>
         ) : (
-            <div className="controls">
-              <button onClick={capturePhoto} className="btn capture">
-                Capture Photo
-              </button>
           <button onClick={stopCamera} className="btn secondary">
             Stop Camera
           </button>
-            </div>
         )}
       </div>
-      ) : (
-        <div className="preview-section">
-          <img src={imageSrc} alt="Captured" className="preview" />
-          <button onClick={() => setImageSrc(null)} className="btn primary">
-            Take Another
-          </button>
-        </div>
-      )}
 
       {error && (
         <div className="error">
