@@ -31,15 +31,7 @@ const Navbar = () => {
                             Wardrobe
                         </Link>
 
-                        {/* ✅ Saved Outfits */}
-                        <Link to="/savedOutfits" className="nav-link" style={{ display: "flex", alignItems: "center" }}>
-                            <img
-                                src="/savedoutfits.png" // Replace with a valid icon path or image
-                                alt="Saved Outfits Icon"
-                                style={{ width: "20px", height: "20px", marginRight: "8px" }}
-                            />
-                            Saved Outfits
-                        </Link>
+                        
 
                         {/* About Us with dropdown */}
                         <div
@@ -92,7 +84,16 @@ const Navbar = () => {
                     </div>
 
                     {user && (
+                        
                         <div className="nav-buttons" style={{ display: "flex", gap: "10px" }}>
+                            <Link to="/savedOutfits" className="nav-link" style={{ display: "flex", alignItems: "center" }}>
+                            <img
+                                src="/savedoutfits.png" // Replace with a valid icon path or image
+                                alt="Saved Outfits Icon"
+                                style={{ width: "20px", height: "20px", marginRight: "8px" }}
+                            />
+                            Saved Outfits
+                        </Link>
                             <Link to="/dressUp" style={{ display: "flex", alignItems: "center", gap: "5px" }}>
                                 <img
                                     src="/dressup.png"
@@ -117,6 +118,7 @@ const Navbar = () => {
                                 />
                                 Logout
                             </button>
+                            
                         </div>
                     )}
 
