@@ -13,6 +13,8 @@ import Virtual from "./pages/virtual";
 import Outfit from "./pages/outfit";
 import Plan from "./pages/plan";  // Correct the path if needed
 import Footer from "./components/Footer";
+import MoreTips from "./pages/moretips";  // Correct the path if needed
+import VirtualFit from "./components/virtualfit";
 
 
 function Pages() {
