@@ -1,17 +1,28 @@
 import React, { useState } from 'react';
-import { useSignup } from '../hooks/useSignup'; // Correct path if `useSignup.js` is in the `hooks` folder
+import { useSignup } from '../hooks/useSignup';
 
-import './Signup'; // Optional: for styling
+import './Signup'; // Corrected: import CSS styling
 
 const Signup = () => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [gender, setGender] = useState('');
+    const [localError, setLocalError] = useState('');
     const { signup, isLoading, error } = useSignup();
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        await signup(email, password, gender); // Call signup with inputs
+
+        // Password validation rules
+        const passwordRegex = /^(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
+
+        if (!passwordRegex.test(password)) {
+            setLocalError('Password must be at least 8 characters long and include an uppercase letter, a number, and a special character.');
+            return;
+        }
+
+        setLocalError('');
+        await signup(email, password, gender);
     };
 
     return (
@@ -25,8 +36,10 @@ const Signup = () => {
                         value={email}
                         onChange={(e) => setEmail(e.target.value)}
                         required
+                        placeholder="Enter your email "
                     />
                 </div>
+
                 <div>
                     <label>Password:</label>
                     <input
@@ -34,8 +47,13 @@ const Signup = () => {
                         value={password}
                         onChange={(e) => setPassword(e.target.value)}
                         required
+                        placeholder="Enter your password "
                     />
+                    <p className="password-hint">
+                        Password must be at least 8 characters, contain one uppercase letter, one number, and one special character.
+                    </p>
                 </div>
+
                 <div>
                     <label>Gender:</label>
                     <select
@@ -46,11 +64,16 @@ const Signup = () => {
                         <option value="">Select gender</option>
                         <option value="male">Male</option>
                         <option value="female">Female</option>
-                        <option value="other">Other</option>
                     </select>
                 </div>
+
                 <div>
-                    {error && <div className="error">{error}</div>}
+                    {(localError || error) && (
+                        <div className="error">
+                            {localError || error}
+                        </div>
+                    )}
+
                     <button type="submit" disabled={isLoading}>
                         {isLoading ? 'Signing Up...' : 'Sign Up'}
                     </button>

@@ -13,15 +13,17 @@ import Virtual from "./pages/virtual";
 import Outfit from "./pages/outfit";
 import Plan from "./pages/plan";  // Correct the path if needed
 import Footer from "./components/Footer";
-import ChatBot from "./components/ChatBot";
-import SavedOutfits from './pages/savedOutfits';
+import MoreTips from "./pages/moretips";  // Correct the path if needed
+import VirtualFit from "./components/virtualfit";
+
 
 function Pages() {
   const location = useLocation();
   const background =
     location.pathname === "/contactUs" ||
       location.pathname === "/fashiontips" ||
-      location.pathname === "/AboutUs"
+      location.pathname === "/AboutUs"||
+      location.pathname === "/moretips"
       ? "url('/contactus1.png')"
       : "url('/home.jpg')";
 
@@ -47,7 +49,8 @@ function Pages() {
           <Route path="/virtual" element={<Virtual />} />
           <Route path="/outfit" element={<Outfit />} />
           <Route path="/plan" element={<Plan />} />
-          <Route path="/saved-outfits" element={<SavedOutfits />} />
+          <Route path="/moretips" element={<MoreTips />} />
+          <Route path="/virtualfit" element={<VirtualFit />} />
         </Routes>
       </div>
     </div>

@@ -1,4 +1,5 @@
 import React from 'react';
+import { useNavigate } from 'react-router-dom'; // import navigate hook
 
 const tips = [
   {
@@ -22,6 +23,12 @@ const tips = [
 ];
 
 const FashionTips = () => {
+  const navigate = useNavigate(); // initialize navigation
+
+  const handleNavigate = () => {
+    navigate('/moretips'); // replace with your route
+  };
+
   return (
     <div className="fashion-tips-wrapper">
       <div className="glass-title">
@@ -38,6 +45,13 @@ const FashionTips = () => {
             <p>{tip.description}</p>
           </div>
         ))}
+      </div>
+
+      {/* Navigation button */}
+      <div style={{ textAlign: 'center', marginTop: '20px' }}>
+        <button onClick={handleNavigate} className="navigate-button">
+          Learn More Tips
+        </button>
       </div>
     </div>
   );

@@ -4,6 +4,7 @@ const mongoose = require('mongoose')
 const itemsRoutes = require('./routes/items')
 const userRoutes = require('./routes/user') // Import the user routes
 const uploadRoutes = require('./routes/upload')
+
 const contactRoutes = require('./routes/contact')
 const trendRoutes = require('./routes/trends')
 const mlRecommendationsRoutes = require('./routes/mlRecommendations')
