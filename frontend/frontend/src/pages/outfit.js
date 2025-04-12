@@ -124,6 +124,14 @@ const Outfit = () => {
           className="proceed-button"
           onClick={async () => {
             try {
+              // Start animation
+              const interval = setInterval(() => {
+                setTopIndex(Math.floor(Math.random() * tops.length));
+                setBottomIndex(Math.floor(Math.random() * bottoms.length));
+                setFootIndex(Math.floor(Math.random() * footwear.length));
+              }, 100);
+
+              // Call ML recommendation API
               const response = await fetch(`/api/recommendations/ml/${user._id}`, {
                 headers: {
                   Authorization: `Bearer ${user.token}`,
@@ -131,23 +139,70 @@ const Outfit = () => {
               });
 
               const data = await response.json();
-              if (!response.ok) throw new Error(data.message || "No outfit found");
+              console.log("👗 Recommendation response:", data);
 
-              // Get top/bottom/foot from ML output (assumes script returns 3 items)
-              const topItem = data.find(item => item.category === "top");
-              const bottomItem = data.find(item => item.category === "bottom");
-              const footItem = data.find(item => item.category === "foot");
+              if (data.error) {
+                throw new Error("ML Error: " + data.error);
+              }
 
-              const topIdx = tops.findIndex(item => item._id === topItem?._id);
-              const bottomIdx = bottoms.findIndex(item => item._id === bottomItem?._id);
-              const footIdx = footwear.findIndex(item => item._id === footItem?._id);
+              if (!data.recommended_wardrobe) {
+                throw new Error("No recommended wardrobe returned.");
+              }
 
-              if (topIdx !== -1) setTopIndex(topIdx);
-              if (bottomIdx !== -1) setBottomIndex(bottomIdx);
-              if (footIdx !== -1) setFootIndex(footIdx);
+              // ✅ SMART MATCHING: Map real categories
+              const isTop = cat =>
+                ["top", "tshirt", "hoodie", "sweater", "jacket", "crop-top", "tank-top", "dress"].includes(
+                  cat?.toLowerCase()
+                );
+              const isBottom = cat =>
+                ["pants", "jeans", "shorts", "skirt", "trousers", "leggings", "sweatpants"].includes(
+                  cat?.toLowerCase()
+                );
+              const isFoot = cat =>
+                ["foot", "sneakers", "boots", "heels", "shoes"].includes(cat?.toLowerCase());
 
+              const topItem = data.recommended_wardrobe.find(item => isTop(item.category));
+              const bottomItem = data.recommended_wardrobe.find(item => isBottom(item.category));
+              const footItem = data.recommended_wardrobe.find(item => isFoot(item.category));
+
+              setTimeout(() => {
+                clearInterval(interval);
+
+                console.log("🔍 Recommended top:", topItem);
+                console.log("🔍 Recommended bottom:", bottomItem);
+                console.log("🔍 Recommended foot:", footItem);
+
+                console.log("🧺 Your tops:", tops.map(i => i._id));
+                console.log("🧺 Your bottoms:", bottoms.map(i => i._id));
+                console.log("🧺 Your footwear:", footwear.map(i => i._id));
+
+                const fallbackMatch = (arr, category) =>
+                  arr.findIndex(item => item.category?.toLowerCase() === category?.toLowerCase());
+
+                // Use _id match or fallback to category match
+                let topIdx = tops.findIndex(item => item._id === topItem?._id);
+                if (topIdx === -1) topIdx = fallbackMatch(tops, topItem?.category);
+
+                let bottomIdx = bottoms.findIndex(item => item._id === bottomItem?._id);
+                if (bottomIdx === -1) bottomIdx = fallbackMatch(bottoms, bottomItem?.category);
+
+                let footIdx = footwear.findIndex(item => item._id === footItem?._id);
+                if (footIdx === -1) footIdx = fallbackMatch(footwear, footItem?.category);
+
+                // Set final indices if found
+                if (topIdx !== -1) setTopIndex(topIdx);
+                if (bottomIdx !== -1) setBottomIndex(bottomIdx);
+                if (footIdx !== -1) setFootIndex(footIdx);
+
+                // Alert if anything is still missing
+                if (topIdx === -1 || bottomIdx === -1 || footIdx === -1) {
+                  alert("We couldn't create a full outfit. Try uploading more tops, bottoms, or shoes!");
+                }
+
+              }, 1500);
             } catch (err) {
               console.error("Failed to auto-generate outfit:", err);
+              alert(err.message || "Something went wrong while generating your outfit.");
             }
           }}
         >
@@ -155,6 +210,7 @@ const Outfit = () => {
         </button>
 
       </div>
+
 
       {/* SEE + SAVE BUTTONS */}
       <div className="center-button-container">

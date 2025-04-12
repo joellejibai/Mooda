@@ -2,6 +2,7 @@ const express = require("express");
 const router = express.Router();
 const Item = require("../models/itemModel");
 const UserStyle = require("../models/userStyleModel");
+const Trend = require("../models/Trend");
 const { spawn } = require("child_process");
 
 router.get("/ml/:userId", async (req, res) => {
@@ -10,38 +11,41 @@ router.get("/ml/:userId", async (req, res) => {
 
         const items = await Item.find({ user_id: userId });
         const userStyle = await UserStyle.findOne({ userId });
+        const trends = await Trend.find();
 
         if (!userStyle) {
             return res.status(400).json({ message: "Style preferences not found for this user." });
         }
 
-        const python = spawn("python3", ["ml_recommender.py"]);
+        const py = spawn("python", ["ml_recommender.py"]); // ✅ not "python3" on Windows
 
-        const input = JSON.stringify({ userStyle, items });
+        const input = JSON.stringify({ userStyle, items, trends });
         let output = "";
 
-        python.stdin.write(input);
-        python.stdin.end();
+        py.stdin.write(input);
+        py.stdin.end();
 
-        python.stdout.on("data", (data) => {
+        py.stdout.on("data", (data) => {
             output += data.toString();
+            console.log("🐍 Python output:", output); // ✅ Log Python output
         });
 
-        python.stderr.on("data", (err) => {
-            console.error("Python error:", err.toString());
+        py.stderr.on("data", (err) => {
+            console.error("❌ Python stderr:", err.toString());
         });
 
-        python.on("close", () => {
+        py.on("close", () => {
             try {
                 const result = JSON.parse(output);
                 res.json(result);
             } catch (err) {
-                res.status(500).json({ message: "Error parsing ML output", raw: output });
+                console.error("❌ Failed to parse Python output:", output);
+                res.status(500).json({ message: "Failed to parse ML output", raw: output });
             }
         });
     } catch (err) {
         console.error("ML Recommendation route error:", err);
-        res.status(500).json({ message: "Something went wrong." });
+        res.status(500).json({ message: "Something went wrong in ML route." });
     }
 });
 

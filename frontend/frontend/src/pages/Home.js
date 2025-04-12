@@ -143,7 +143,7 @@ const Home = () => {
     const handleUpload = async (event) => {
         const file = event.target.files[0];
         if (!file) return;
-    
+
         const reader = new FileReader();
         reader.onloadend = async () => {
             const base64 = reader.result.split(",")[1];
@@ -163,26 +163,42 @@ const Home = () => {
                         responseType: "arraybuffer"
                     }
                 );
-    
+
                 const result = `data:image/png;base64,${btoa(
                     new Uint8Array(response.data).reduce(
                         (data, byte) => data + String.fromCharCode(byte),
                         ""
                     )
                 )}`;
-    
+
                 setHasPhoto(true);
                 setImageData(result);
-    
+
                 setTimeout(() => setShowForm(true), 100);
-    
+
             } catch (err) {
                 console.error("❌ Upload & Remove.bg error:", err.response?.data || err.message);
             }
         };
         reader.readAsDataURL(file);
     };
-    
+
+    const handleDeleteItem = async (id) => {
+        try {
+            const res = await fetch(`/api/items/${id}`, {
+                method: 'DELETE',
+                headers: {
+                    Authorization: `Bearer ${user.token}`,
+                },
+            });
+
+            if (!res.ok) throw new Error("Failed to delete item");
+
+            setItems((prev) => prev.filter((item) => item._id !== id));
+        } catch (err) {
+            console.error("Error deleting item:", err);
+        }
+    };
 
     const closePhoto = () => {
         setHasPhoto(false);
@@ -240,8 +256,12 @@ const Home = () => {
                     <div className="items">
                         {(showAll ? items : items.slice(0, maxVisibleItems)).map((item) => (
                             <div className="item-wrapper" key={item._id}>
-                                <ItemDetails item={item} />
-                                {/* Display image if exists */}
+                                <ItemDetails
+                                    item={item}
+                                    onDelete={(deletedId) =>
+                                        setItems((prevItems) => prevItems.filter((i) => i._id !== deletedId))
+                                    }
+                                />
                             </div>
                         ))}
                     </div>
