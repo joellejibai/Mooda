@@ -4,9 +4,8 @@ const mongoose = require('mongoose')
 const itemsRoutes = require('./routes/items')
 const userRoutes = require('./routes/user') // Import the user routes
 const uploadRoutes = require('./routes/upload')
-const styleSurveyRoutes = require('./routes/styleSurvey');
-const contactRoutes = require('./routes/contact')
 
+const contactRoutes = require('./routes/contact')
 
 // ✅ Define express app BEFORE using it
 const app = express()
@@ -23,7 +22,6 @@ app.use('/api/user', userRoutes) // Handle user-related routes
 app.use('/api/items', itemsRoutes) // Handle item-related routes
 app.use('/api/upload', uploadRoutes)
 app.use('/api/contact', contactRoutes)
-app.use('/api/survey', styleSurveyRoutes);
 
 // Connect to DB
 mongoose.connect(process.env.MONGO_URI)

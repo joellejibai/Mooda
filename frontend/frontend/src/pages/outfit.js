@@ -87,7 +87,7 @@ const Outfit = () => {
         <h2>Outfit Recommendation</h2>
       </div>
 
-      <div className="virtual-container1">
+      <div className="virtual-container1" style={{ position: "relative" }}>
         {/* TOP */}
         <div className="virtual-category-container">
           <img src="/left.png" alt="Left" className="side-icon left-icon" onClick={() => slide("top", -1)} />
@@ -118,11 +118,40 @@ const Outfit = () => {
         </div>
       </div>
 
+      {/* AUTO-GENERATE BUTTON */}
       <div className="bottom-button-container">
-        <button className="proceed-button">AUTO-GENERATE</button>
+        <button
+          className="proceed-button"
+          onClick={async () => {
+            try {
+              const response = await fetch(`/api/recommendations/${user._id}`, {
+                headers: {
+                  Authorization: `Bearer ${user.token}`,
+                },
+              });
+
+              const data = await response.json();
+              if (!response.ok) throw new Error(data.message);
+
+              const topIdx = tops.findIndex(item => item._id === data.top._id);
+              const bottomIdx = bottoms.findIndex(item => item._id === data.bottom._id);
+              const footIdx = footwear.findIndex(item => item._id === data.foot._id);
+
+              if (topIdx !== -1) setTopIndex(topIdx);
+              if (bottomIdx !== -1) setBottomIndex(bottomIdx);
+              if (footIdx !== -1) setFootIndex(footIdx);
+            } catch (err) {
+              console.error("Failed to auto-generate outfit:", err);
+            }
+          }}
+        >
+          AUTO-GENERATE
+        </button>
       </div>
 
+      {/* SEE + SAVE BUTTONS */}
       <div className="center-button-container">
+        {/* See how it looks */}
         <button
           className="proceed-button"
           onClick={() => {
@@ -136,6 +165,36 @@ const Outfit = () => {
           }}
         >
           See How It Looks
+        </button>
+
+        {/* Save this outfit */}
+        <button
+          className="proceed-button"
+          onClick={async () => {
+            try {
+              const topId = tops[topIndex]?._id;
+              const bottomId = bottoms[bottomIndex]?._id;
+              const footId = footwear[footIndex]?._id;
+
+              const response = await fetch('/api/saved-outfits', {
+                method: 'POST',
+                headers: {
+                  'Content-Type': 'application/json',
+                  Authorization: `Bearer ${user.token}`,
+                },
+                body: JSON.stringify({ top: topId, bottom: bottomId, foot: footId }),
+              });
+
+              const data = await response.json();
+              if (!response.ok) throw new Error(data.error);
+              alert('✨ Outfit saved successfully!');
+            } catch (err) {
+              console.error('Failed to save outfit:', err);
+              alert("❌ Could not save outfit");
+            }
+          }}
+        >
+          Save This Outfit 💾
         </button>
       </div>
     </div>
