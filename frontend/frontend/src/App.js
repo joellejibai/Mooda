@@ -15,7 +15,6 @@ import Plan from "./pages/plan";  // Correct the path if needed
 import Footer from "./components/Footer";
 import MoreTips from "./pages/moretips";  // Correct the path if needed
 import VirtualFit from "./pages/virtualfit";
-import ChatBot from './components/ChatBot';
 import SavedOutfits from './pages/savedOutfits';
 
 function Pages() {
@@ -23,7 +22,7 @@ function Pages() {
   const background =
     location.pathname === "/contactUs" ||
       location.pathname === "/fashiontips" ||
-      location.pathname === "/AboutUs"||
+      location.pathname === "/AboutUs" ||
       location.pathname === "/moretips"
       ? "url('/contactus1.png')"
       : "url('/home.jpg')";
@@ -65,7 +64,6 @@ function App() {
     <div className="App">
       <BrowserRouter>
         <Navbar />
-        <ChatBot />
         <Pages />
         <Footer />
       </BrowserRouter>
