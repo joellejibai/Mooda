@@ -16,7 +16,7 @@ import Footer from "./components/Footer";
 import MoreTips from "./pages/moretips";  // Correct the path if needed
 import VirtualFit from "./pages/virtualfit";
 import ChatBot from './components/ChatBot';
-
+import SavedOutfits from './pages/savedOutfits';
 
 function Pages() {
   const location = useLocation();
@@ -52,7 +52,9 @@ function Pages() {
           <Route path="/plan" element={<Plan />} />
           <Route path="/moretips" element={<MoreTips />} />
           <Route path="/virtualfit" element={<VirtualFit />} />
+          <Route path="/savedOutfits" element={<SavedOutfits />} />
         </Routes>
+
       </div>
     </div>
   );

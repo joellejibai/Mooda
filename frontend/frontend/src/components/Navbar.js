@@ -32,7 +32,7 @@ const Navbar = () => {
                         </Link>
 
                         {/* ✅ Saved Outfits */}
-                        <Link to="/saved-outfits" className="nav-link" style={{ display: "flex", alignItems: "center" }}>
+                        <Link to="/savedOutfits" className="nav-link" style={{ display: "flex", alignItems: "center" }}>
                             <img
                                 src="/savedoutfits.png" // Replace with a valid icon path or image
                                 alt="Saved Outfits Icon"

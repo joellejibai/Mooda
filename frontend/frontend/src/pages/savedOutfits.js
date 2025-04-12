@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useAuthPages } from "../hooks/useAuthPages";
-
+import './savedOutfits';
 const SavedOutfits = () => {
   const { user } = useAuthPages();
   const [savedOutfits, setSavedOutfits] = useState([]);
