@@ -1,7 +1,5 @@
 import React, { useState } from "react";
 import axios from "axios";
-import ChatBot from './components/ChatBot';
-
 
 const ChatBot = () => {
   const [isOpen, setIsOpen] = useState(false);
