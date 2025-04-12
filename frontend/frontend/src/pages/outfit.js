@@ -124,22 +124,28 @@ const Outfit = () => {
           className="proceed-button"
           onClick={async () => {
             try {
-              const response = await fetch(`/api/recommendations/${user._id}`, {
+              const response = await fetch(`/api/recommendations/ml/${user._id}`, {
                 headers: {
                   Authorization: `Bearer ${user.token}`,
                 },
               });
 
               const data = await response.json();
-              if (!response.ok) throw new Error(data.message);
+              if (!response.ok) throw new Error(data.message || "No outfit found");
 
-              const topIdx = tops.findIndex(item => item._id === data.top._id);
-              const bottomIdx = bottoms.findIndex(item => item._id === data.bottom._id);
-              const footIdx = footwear.findIndex(item => item._id === data.foot._id);
+              // Get top/bottom/foot from ML output (assumes script returns 3 items)
+              const topItem = data.find(item => item.category === "top");
+              const bottomItem = data.find(item => item.category === "bottom");
+              const footItem = data.find(item => item.category === "foot");
+
+              const topIdx = tops.findIndex(item => item._id === topItem?._id);
+              const bottomIdx = bottoms.findIndex(item => item._id === bottomItem?._id);
+              const footIdx = footwear.findIndex(item => item._id === footItem?._id);
 
               if (topIdx !== -1) setTopIndex(topIdx);
               if (bottomIdx !== -1) setBottomIndex(bottomIdx);
               if (footIdx !== -1) setFootIndex(footIdx);
+
             } catch (err) {
               console.error("Failed to auto-generate outfit:", err);
             }
@@ -147,6 +153,7 @@ const Outfit = () => {
         >
           AUTO-GENERATE
         </button>
+
       </div>
 
       {/* SEE + SAVE BUTTONS */}

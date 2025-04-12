@@ -6,7 +6,7 @@ const userRoutes = require('./routes/user') // Import the user routes
 const uploadRoutes = require('./routes/upload')
 const contactRoutes = require('./routes/contact')
 const trendRoutes = require('./routes/trends')
-const recommendationRoutes = require("./routes/recommendation")
+const mlRecommendationsRoutes = require('./routes/mlRecommendations')
 const savedOutfitRoutes = require('./routes/savedOutfits')
 
 // ✅ Define express app BEFORE using it
@@ -25,8 +25,8 @@ app.use('/api/items', itemsRoutes) // Handle item-related routes
 app.use('/api/upload', uploadRoutes)
 app.use('/api/contact', contactRoutes)
 app.use('/api/trends', trendRoutes)
-app.use('/api/recommendations', recommendationRoutes)
 app.use('/api/saved-outfits', savedOutfitRoutes)
+app.use('/api/recommendations', mlRecommendationsRoutes)
 
 // Connect to DB
 mongoose.connect(process.env.MONGO_URI)
