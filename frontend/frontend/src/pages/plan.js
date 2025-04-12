@@ -9,7 +9,7 @@ const Plan = () => {
   const [selectedDate, setSelectedDate] = React.useState(null);
 
   const handleVirtualFitClick = () => {
-    navigate('/virtual-fit');
+    navigate('/virtualfit');
   };
 
   const handleGoBack = () => {
@@ -38,7 +38,7 @@ const Plan = () => {
             </LocalizationProvider>
           </div>
 
-          <button className="virtual-fit-button" onClick={handleVirtualFitClick}>
+          <button className="virtualfit-button" onClick={handleVirtualFitClick}>
             <span className="virtual-plus-icon">+</span> Schedule an outfit
           </button>
         </div>
