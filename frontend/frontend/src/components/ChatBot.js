@@ -1,5 +1,10 @@
+<<<<<<< HEAD
 import React, { useState } from 'react';
 import './ChatBot'; // if any styles
+=======
+import React, { useState } from "react";
+import axios from "axios";
+>>>>>>> 1a2450cd9b5b75a4e594adafadca3db654710dbf
 
 const ChatBot = () => {
   const [isOpen, setIsOpen] = useState(false);
