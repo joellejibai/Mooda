@@ -2766,13 +2766,16 @@ button {
   color: green;
   margin-top: 10px;
 }
+
 /* Signup form wrapper */
 .signup-form {
   max-width: 600px;
-  height: 500px;;
+  height: 500px;
+  ;
   margin: 40px auto;
   padding: 40px 35px 40px 35px;
-  background: rgba(210, 180, 140, 0.8); /* Light brown with transparency */
+  background: rgba(210, 180, 140, 0.8);
+  /* Light brown with transparency */
   border-radius: 1px;
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
   font-family: 'Helvetica Neue', Arial, sans-serif;
@@ -2806,7 +2809,7 @@ button {
 .signup-form input[type="email"],
 .signup-form input[type="password"],
 .signup-form select {
-  width:550px;
+  width: 550px;
   padding: 14px 18px;
   margin-bottom: 22px;
   border: 1px solid #a38b6d;
@@ -2865,6 +2868,7 @@ button {
 .signup-form input::placeholder {
   color: #8b6f47;
 }
+
 /* Password hint text */
 .signup-form .password-hint {
   font-size: 0.85rem;
@@ -3014,4 +3018,129 @@ button {
   display: flex;
   align-items: center;
   gap: 4px;
+}
+
+
+/*delete item*/
+.delete-overlay {
+  position: absolute;
+  bottom: 10px;
+  right: 10px;
+  background-color: rgba(255, 255, 255, 0.85);
+  padding: 4px 8px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 1.1rem;
+  font-weight: bold;
+  color: crimson;
+  z-index: 2;
+  /* ensures it’s above the blurred image */
+}
+
+.delete-overlay:hover {
+  background-color: crimson;
+  color: white;
+}
+
+.item-card:hover .delete-overlay {
+  filter: none !important;
+  backdrop-filter: none !important;
+}
+
+.item-card {
+  position: relative;
+  width: 250px;
+  height: 100%;
+  overflow: hidden;
+}
+
+.item-image {
+  width: 100%;
+  height: 100%;
+  transition: filter 0.3s ease-in-out;
+  background-size: cover;
+  background-position: center;
+  z-index: 1;
+}
+
+/* Blur only on hover */
+.item-card:hover .item-image {
+  filter: blur(4px);
+}
+
+/* Delete icon must be outside the blurred image and ABOVE everything */
+.delete-overlay {
+  position: absolute;
+  bottom: 10px;
+  right: 10px;
+  z-index: 10;
+  background-color: rgba(255, 255, 255, 0.85);
+  padding: 4px 8px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 1.1rem;
+  font-weight: bold;
+  color: crimson;
+  transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+.delete-overlay:hover {
+  background-color: crimson;
+  color: white;
+}
+
+/* Info overlay */
+.item-info {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  color: black;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  opacity: 0;
+  transition: opacity 0.3s ease-in-out;
+  z-index: 2;
+}
+
+.item-card:hover .item-info {
+  opacity: 1;
+}
+
+/*delete popup*/
+.confirm-popup {
+  position: absolute;
+  bottom: 30%;
+  left: 50%;
+  transform: translateX(-50%);
+  background: white;
+  padding: 12px 20px;
+  border-radius: 10px;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+  z-index: 5;
+  text-align: center;
+}
+
+.popup-buttons {
+  margin-top: 10px;
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+}
+
+.popup-buttons button {
+  background-color: black;
+  color: white;
+  border: none;
+  padding: 6px 12px;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.popup-buttons button:hover {
+  background-color: gray;
 }
