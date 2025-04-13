@@ -3060,3 +3060,81 @@ button {
 .popup-buttons button:hover {
   background-color: gray;
 }
+/*profile*/
+.profile-info-row {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+  margin: 1.5rem auto;
+  max-width: 800px;
+  justify-content: center;
+  color: white;
+}
+
+.profile-pic {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid white;
+  cursor: pointer;
+}
+
+.user-email p {
+  font-size: 1.2rem;
+  margin: 0;
+}
+
+.smallGlass {
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 12px;
+  padding: 20px;
+  margin-top: 20px;
+  text-align: center;
+  color: white;
+}
+
+.saved-outfits-container {
+  padding: 2rem;
+}
+
+.outfits-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 1.5rem;
+  margin-top: 2rem;
+}
+
+.outfit-card {
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 12px;
+  padding: 1rem;
+  color: white;
+}
+
+.outfit-images img {
+  width: 60px;
+  height: 60px;
+  object-fit: cover;
+  margin: 0 4px;
+}
+
+.outfit-actions {
+  margin-top: 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.delete-btn, .wear-again-btn {
+  background-color: #ff4d4d;
+  border: none;
+  padding: 0.5rem 1rem;
+  color: white;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.wear-again-btn {
+  background-color: #4CAF50;
+}

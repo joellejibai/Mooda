@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from "react";
 import { useAuthPages } from "../hooks/useAuthPages";
-import { Link } from "react-router-dom";  // Import Link from React Router
+import { Link } from "react-router-dom";
 import './savedOutfits';
 
 const SavedOutfits = () => {
   const { user } = useAuthPages();
   const [savedOutfits, setSavedOutfits] = useState([]);
-  const [profilePic, setProfilePic] = useState(null); // State to store the uploaded profile picture
+  const [profilePic, setProfilePic] = useState(null);
 
   // Fetch all saved outfits
   const fetchSavedOutfits = async () => {
@@ -28,10 +28,8 @@ const SavedOutfits = () => {
   const handleProfilePicChange = (e) => {
     const file = e.target.files[0];
     if (file) {
-      // Create a URL for the uploaded file and set it to the profilePic state
       const url = URL.createObjectURL(file);
       setProfilePic(url);
-      // Store the URL in localStorage
       localStorage.setItem("profilePic", url);
     }
   };
@@ -70,13 +68,15 @@ const SavedOutfits = () => {
 
   return (
     <div className="saved-outfits-container">
-      <h2>My Profile</h2>
+      <div className="smallGlass">
+        <h2>My Profile</h2>
+      </div>
 
-      {/* Profile Picture Section */}
-      <div className="profile-pic-section">
+      {/* Profile Picture and Email Row */}
+      <div className="profile-info-row">
         <label htmlFor="profile-pic-upload">
           <img
-            src={profilePic || "default-profile-pic.jpg"} // Default image if no profile picture is set
+            src={profilePic || "default-profile-pic.jpg"}
             alt="Profile"
             className="profile-pic"
           />
@@ -88,16 +88,15 @@ const SavedOutfits = () => {
           accept="image/*"
           style={{ display: "none" }}
         />
-      </div>
 
-      {/* Display User's Email only if user is defined */}
-      {user ? (
-        <div className="user-info">
-          <p>Email: {user.email}</p>
-        </div>
-      ) : (
-        <p>Loading...</p> // Display a loading message while user data is being fetched
-      )}
+        {user ? (
+          <div className="user-email">
+            <p>Email: {user.email}</p>
+          </div>
+        ) : (
+          <p>Loading...</p>
+        )}
+      </div>
 
       {savedOutfits.length === 0 ? (
         <p>No outfits saved yet.</p>
@@ -119,11 +118,10 @@ const SavedOutfits = () => {
                   🗑 Delete
                 </button>
 
-                {/* Link to the Plan page with the outfit's details */}
                 <Link
                   to={{
                     pathname: '/plan',
-                    state: { outfit: outfit }, // Passing the whole outfit object to the Plan page
+                    state: { outfit: outfit },
                   }}
                   className="wear-again-btn"
                   style={{
