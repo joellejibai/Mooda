@@ -55,9 +55,11 @@ const Home = () => {
             try {
                 const response = await fetch(`/api/items?search=${searchTerm}`, {
                     headers: {
-                        Authorization: `Bearer ${user.token}`
+                        Authorization: `Bearer ${user.token}`,
+
                     }
                 });
+                
 
                 if (!response.ok) throw new Error("Failed to fetch items");
 
@@ -191,7 +193,7 @@ const Home = () => {
                     Authorization: `Bearer ${user.token}`,
                 },
             });
-
+            
             if (!res.ok) throw new Error("Failed to delete item");
 
             setItems((prev) => prev.filter((item) => item._id !== id));
@@ -272,7 +274,8 @@ const Home = () => {
                         </button>
                     )}
 
-                    <div className={`result ${hasPhoto ? "hasPhoto" : ""}`}>
+<div className={`result ${hasPhoto ? "hasPhoto" : ""}`}>
+
                         <canvas ref={photoRef}></canvas>
                         <video ref={videoRef} style={{ display: isCameraActive ? 'block' : 'none', width: '100%' }}></video>
                         {hasPhoto && <button onClick={closePhoto}>Close</button>}
