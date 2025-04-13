@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useAuthPages } from "../hooks/useAuthPages";
 import { Link } from "react-router-dom";
-import './savedOutfits';
 
 const SavedOutfits = () => {
   const { user } = useAuthPages();
@@ -68,34 +67,40 @@ const SavedOutfits = () => {
 
   return (
     <div className="saved-outfits-container">
-      <div className="smallGlass">
+      {/* <div className="smallGlass">
         <h2>My Profile</h2>
-      </div>
+      </div> */}
 
-      {/* Profile Picture and Email Row */}
-      <div className="profile-info-row">
-        <label htmlFor="profile-pic-upload">
-          <img
-            src={profilePic || "default-profile-pic.jpg"}
-            alt="Profile"
-            className="profile-pic"
-          />
-        </label>
-        <input
-          type="file"
-          id="profile-pic-upload"
-          onChange={handleProfilePicChange}
-          accept="image/*"
-          style={{ display: "none" }}
-        />
-
-        {user ? (
-          <div className="user-email">
-            <p>Email: {user.email}</p>
+      {/* Glass Box for Profile Info */}
+      <div className="glass-box2">
+        <div className="profile-info-horizontal">
+          <div className="profile-pic-wrapper">
+            <img
+              src={profilePic || "default-profile-pic.jpg"}
+              alt="Profile"
+              className="profile-pic"
+            />
+            <button
+              className="edit-pic-btn"
+              onClick={() => document.getElementById("profile-pic-upload").click()}
+            >
+              <i className="fas fa-pen"></i> Edit
+            </button>
+            <input
+              type="file"
+              id="profile-pic-upload"
+              onChange={handleProfilePicChange}
+              accept="image/*"
+              style={{ display: "none" }}
+            />
           </div>
-        ) : (
-          <p>Loading...</p>
-        )}
+
+          {user && (
+            <div className="user-email-side">
+              <p>{user.email.split('@')[0]}</p>
+            </div>
+          )}
+        </div>
       </div>
 
       {savedOutfits.length === 0 ? (

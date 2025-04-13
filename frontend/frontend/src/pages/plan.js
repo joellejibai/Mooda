@@ -67,7 +67,7 @@ const Plan = ({ outfitId }) => {
         <img src="/back.png" alt="Go Back" className="go-back-icon" />
       </button>
 
-      <div className="smallGlass">
+      <div className="smallGlass2">
         <h2>Event Outfit Planning</h2>
       </div>
 
@@ -90,9 +90,9 @@ const Plan = ({ outfitId }) => {
             </LocalizationProvider>
           </div>
 
-          <button className="virtualfit-button" onClick={handleSaveDate}>
+          <button1 className="virtualfit-button" onClick={handleSaveDate}>
             Save the date
-          </button>
+          </button1>
         </div>
       </div>
     </div>

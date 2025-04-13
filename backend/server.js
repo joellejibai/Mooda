@@ -32,6 +32,7 @@ app.use('/api/trends', trendRoutes)
 app.use('/api/saved-outfits', savedOutfitRoutes)
 app.use('/api/recommendations', mlRecommendationsRoutes)
 app.use('/api/survey', requireAuth, surveyRoutes)
+app.use('/uploads', express.static('uploads'))
 
 // Connect to DB
 mongoose.connect(process.env.MONGO_URI)

@@ -77,6 +77,98 @@ const Outfit = () => {
     }
   };
 
+  const handleAutoGenerate = async () => {
+    try {
+      const interval = setInterval(() => {
+        setTopIndex(Math.floor(Math.random() * tops.length));
+        setBottomIndex(Math.floor(Math.random() * bottoms.length));
+        setFootIndex(Math.floor(Math.random() * footwear.length));
+      }, 100);
+
+      const response = await fetch(`/api/recommendations/ml/${user._id}`, {
+        headers: {
+          Authorization: `Bearer ${user.token}`,
+        },
+      });
+
+      const data = await response.json();
+      if (data.error) throw new Error("ML Error: " + data.error);
+
+      const topItem = data.recommended_wardrobe.find(item =>
+        ["top", "tshirt", "hoodie", "sweater", "jacket", "crop-top", "tank-top", "dress"].includes(item.category?.toLowerCase())
+      );
+      const bottomItem = data.recommended_wardrobe.find(item =>
+        ["pants", "jeans", "shorts", "skirt", "trousers", "leggings", "sweatpants"].includes(item.category?.toLowerCase())
+      );
+      const footItem = data.recommended_wardrobe.find(item =>
+        ["foot", "sneakers", "boots", "heels", "shoes"].includes(item.category?.toLowerCase())
+      );
+
+      setTimeout(() => {
+        clearInterval(interval);
+
+        const fallbackMatch = (arr, category) =>
+          arr.findIndex(item => item.category?.toLowerCase() === category?.toLowerCase());
+
+        let topIdx = tops.findIndex(item => item._id === topItem?._id);
+        if (topIdx === -1) topIdx = fallbackMatch(tops, topItem?.category);
+
+        let bottomIdx = bottoms.findIndex(item => item._id === bottomItem?._id);
+        if (bottomIdx === -1) bottomIdx = fallbackMatch(bottoms, bottomItem?.category);
+
+        let footIdx = footwear.findIndex(item => item._id === footItem?._id);
+        if (footIdx === -1) footIdx = fallbackMatch(footwear, footItem?.category);
+
+        if (topIdx !== -1) setTopIndex(topIdx);
+        if (bottomIdx !== -1) setBottomIndex(bottomIdx);
+        if (footIdx !== -1) setFootIndex(footIdx);
+
+        if (topIdx === -1 || bottomIdx === -1 || footIdx === -1) {
+          alert("We couldn't create a full outfit. Try uploading more tops, bottoms, or shoes!");
+        }
+      }, 1500);
+    } catch (err) {
+      console.error("Failed to auto-generate outfit:", err);
+      alert(err.message || "Something went wrong while generating your outfit.");
+    }
+  };
+
+  const handleSeeLook = () => {
+    navigate("/virtual", {
+      state: {
+        topImage: tops[topIndex]?.image,
+        bottomImage: bottoms[bottomIndex]?.image,
+        footImage: footwear[footIndex]?.image,
+      },
+    });
+  };
+
+  const handleSaveOutfit = async () => {
+    try {
+      const topId = tops[topIndex]?._id;
+      const bottomId = bottoms[bottomIndex]?._id;
+      const footId = footwear[footIndex]?._id;
+
+      const response = await fetch('/api/saved-outfits', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${user.token}`,
+        },
+        body: JSON.stringify({ top: topId, bottom: bottomId, foot: footId }),
+      });
+
+      const data = await response.json();
+      if (!response.ok) throw new Error(data.error);
+
+      alert('✨ Outfit saved successfully!');
+      navigate('/savedOutfits');
+    } catch (err) {
+      console.error('Failed to save outfit:', err);
+      alert("❌ Could not save outfit");
+    }
+  };
+
   return (
     <div className="outfit-container">
       <button className="virtual-go-back-button" onClick={handleGoBack}>
@@ -88,7 +180,7 @@ const Outfit = () => {
       </div>
 
       <div className="virtual-container1" style={{ position: "relative" }}>
-        {/* TOP */}
+        {/* Top */}
         <div className="virtual-category-container">
           <img src="/left.png" alt="Left" className="side-icon left-icon" onClick={() => slide("top", -1)} />
           <div className="virtual-content-box">
@@ -99,7 +191,7 @@ const Outfit = () => {
           <img src="/right.png" alt="Right" className="side-icon right-icon" onClick={() => slide("top", 1)} />
         </div>
 
-        {/* BOTTOM */}
+        {/* Bottom */}
         <div className="virtual-category-container">
           <img src="/left.png" alt="Left" className="side-icon left-icon" onClick={() => slide("bottom", -1)} />
           {bottoms.length > 0 && bottoms[bottomIndex]?.image && (
@@ -108,7 +200,7 @@ const Outfit = () => {
           <img src="/right.png" alt="Right" className="side-icon right-icon" onClick={() => slide("bottom", 1)} />
         </div>
 
-        {/* FOOT */}
+        {/* Footwear */}
         <div className="virtual-category-container">
           <img src="/left.png" alt="Left" className="side-icon left-icon" onClick={() => slide("foot", -1)} />
           {footwear.length > 0 && footwear[footIndex]?.image && (
@@ -118,152 +210,22 @@ const Outfit = () => {
         </div>
       </div>
 
-      {/* AUTO-GENERATE BUTTON */}
-      <div className="bottom-button-container">
-        <button
-          className="proceed-button"
-          onClick={async () => {
-            try {
-              // Start animation
-              const interval = setInterval(() => {
-                setTopIndex(Math.floor(Math.random() * tops.length));
-                setBottomIndex(Math.floor(Math.random() * bottoms.length));
-                setFootIndex(Math.floor(Math.random() * footwear.length));
-              }, 100);
-
-              // Call ML recommendation API
-              const response = await fetch(`/api/recommendations/ml/${user._id}`, {
-                headers: {
-                  Authorization: `Bearer ${user.token}`,
-                },
-              });
-
-              const data = await response.json();
-              console.log("👗 Recommendation response:", data);
-
-              if (data.error) {
-                throw new Error("ML Error: " + data.error);
-              }
-
-              if (!data.recommended_wardrobe) {
-                throw new Error("No recommended wardrobe returned.");
-              }
-
-              // ✅ SMART MATCHING: Map real categories
-              const isTop = cat =>
-                ["top", "tshirt", "hoodie", "sweater", "jacket", "crop-top", "tank-top", "dress"].includes(
-                  cat?.toLowerCase()
-                );
-              const isBottom = cat =>
-                ["pants", "jeans", "shorts", "skirt", "trousers", "leggings", "sweatpants"].includes(
-                  cat?.toLowerCase()
-                );
-              const isFoot = cat =>
-                ["foot", "sneakers", "boots", "heels", "shoes"].includes(cat?.toLowerCase());
-
-              const topItem = data.recommended_wardrobe.find(item => isTop(item.category));
-              const bottomItem = data.recommended_wardrobe.find(item => isBottom(item.category));
-              const footItem = data.recommended_wardrobe.find(item => isFoot(item.category));
-
-              setTimeout(() => {
-                clearInterval(interval);
-
-                console.log("🔍 Recommended top:", topItem);
-                console.log("🔍 Recommended bottom:", bottomItem);
-                console.log("🔍 Recommended foot:", footItem);
-
-                console.log("🧺 Your tops:", tops.map(i => i._id));
-                console.log("🧺 Your bottoms:", bottoms.map(i => i._id));
-                console.log("🧺 Your footwear:", footwear.map(i => i._id));
-
-                const fallbackMatch = (arr, category) =>
-                  arr.findIndex(item => item.category?.toLowerCase() === category?.toLowerCase());
-
-                // Use _id match or fallback to category match
-                let topIdx = tops.findIndex(item => item._id === topItem?._id);
-                if (topIdx === -1) topIdx = fallbackMatch(tops, topItem?.category);
-
-                let bottomIdx = bottoms.findIndex(item => item._id === bottomItem?._id);
-                if (bottomIdx === -1) bottomIdx = fallbackMatch(bottoms, bottomItem?.category);
-
-                let footIdx = footwear.findIndex(item => item._id === footItem?._id);
-                if (footIdx === -1) footIdx = fallbackMatch(footwear, footItem?.category);
-
-                // Set final indices if found
-                if (topIdx !== -1) setTopIndex(topIdx);
-                if (bottomIdx !== -1) setBottomIndex(bottomIdx);
-                if (footIdx !== -1) setFootIndex(footIdx);
-
-                // Alert if anything is still missing
-                if (topIdx === -1 || bottomIdx === -1 || footIdx === -1) {
-                  alert("We couldn't create a full outfit. Try uploading more tops, bottoms, or shoes!");
-                }
-
-              }, 1500);
-            } catch (err) {
-              console.error("Failed to auto-generate outfit:", err);
-              alert(err.message || "Something went wrong while generating your outfit.");
-            }
-          }}
-        >
+      {/* Buttons */}
+      <div className="outfit-button-wrapper">
+        <button className="auto-btn" onClick={handleAutoGenerate}>
           AUTO-GENERATE
         </button>
 
+        <div className="action-btn-row">
+          <button className="action-btn" onClick={handleSeeLook}>
+            See How It Looks
+          </button>
+          <button className="action-btn" onClick={handleSaveOutfit}>
+              Save This Outfit
+          </button>
+        </div>
       </div>
 
-
-      {/* SEE + SAVE BUTTONS */}
-      <div className="center-button-container">
-        {/* See how it looks */}
-        <button
-          className="proceed-button"
-          onClick={() => {
-            navigate("/virtual", {
-              state: {
-                topImage: tops[topIndex]?.image,
-                bottomImage: bottoms[bottomIndex]?.image,
-                footImage: footwear[footIndex]?.image,
-              },
-            });
-          }}
-        >
-          See How It Looks
-        </button>
-
-        {/* Save this outfit */}
-        <button
-      className="proceed-button"
-      onClick={async () => {
-        try {
-          const topId = tops[topIndex]?._id;
-          const bottomId = bottoms[bottomIndex]?._id;
-          const footId = footwear[footIndex]?._id;
-
-          const response = await fetch('/api/saved-outfits', {
-            method: 'POST',
-            headers: {
-              'Content-Type': 'application/json',
-              Authorization: `Bearer ${user.token}`,
-            },
-            body: JSON.stringify({ top: topId, bottom: bottomId, foot: footId }),
-          });
-
-          const data = await response.json();
-          if (!response.ok) throw new Error(data.error);
-
-          alert('✨ Outfit saved successfully!');
-
-          // After successful save, navigate to the profile page
-          navigate('/savedOutfits'); // Redirect to the profile page (or whichever page you prefer)
-        } catch (err) {
-          console.error('Failed to save outfit:', err);
-          alert("❌ Could not save outfit");
-        }
-      }}
-    >
-      Save This Outfit 💾
-    </button>
-      </div>
     </div>
   );
 };
