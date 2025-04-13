@@ -22,7 +22,7 @@ const Signup = () => {
         }
 
         setLocalError('');
-        await signup(email, password, gender);
+        await signup(email,password, gender);
     };
 
     return (

@@ -232,33 +232,37 @@ const Outfit = () => {
 
         {/* Save this outfit */}
         <button
-          className="proceed-button"
-          onClick={async () => {
-            try {
-              const topId = tops[topIndex]?._id;
-              const bottomId = bottoms[bottomIndex]?._id;
-              const footId = footwear[footIndex]?._id;
+      className="proceed-button"
+      onClick={async () => {
+        try {
+          const topId = tops[topIndex]?._id;
+          const bottomId = bottoms[bottomIndex]?._id;
+          const footId = footwear[footIndex]?._id;
 
-              const response = await fetch('/api/saved-outfits', {
-                method: 'POST',
-                headers: {
-                  'Content-Type': 'application/json',
-                  Authorization: `Bearer ${user.token}`,
-                },
-                body: JSON.stringify({ top: topId, bottom: bottomId, foot: footId }),
-              });
+          const response = await fetch('/api/saved-outfits', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+              Authorization: `Bearer ${user.token}`,
+            },
+            body: JSON.stringify({ top: topId, bottom: bottomId, foot: footId }),
+          });
 
-              const data = await response.json();
-              if (!response.ok) throw new Error(data.error);
-              alert('✨ Outfit saved successfully!');
-            } catch (err) {
-              console.error('Failed to save outfit:', err);
-              alert("❌ Could not save outfit");
-            }
-          }}
-        >
-          Save This Outfit 💾
-        </button>
+          const data = await response.json();
+          if (!response.ok) throw new Error(data.error);
+
+          alert('✨ Outfit saved successfully!');
+
+          // After successful save, navigate to the profile page
+          navigate('/savedOutfits'); // Redirect to the profile page (or whichever page you prefer)
+        } catch (err) {
+          console.error('Failed to save outfit:', err);
+          alert("❌ Could not save outfit");
+        }
+      }}
+    >
+      Save This Outfit 💾
+    </button>
       </div>
     </div>
   );

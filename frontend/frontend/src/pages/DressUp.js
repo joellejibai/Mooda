@@ -5,21 +5,12 @@ import { useNavigate } from 'react-router-dom';
 const DressUp = () => {
     const navigate = useNavigate();
     const tips = [
-        {
-            title: 'Virtual Try-Ons',
-            path: '/virtual',
-            icon: '/virtual.png', // Add your icon image path
-        },
+        
         {
             title: 'Outfit Recommendation',
             path: '/outfit',
             icon: '/outfit.png',
-        },
-        {
-            title: 'Event Outfit Planning',
-            path: '/plan',
-            icon: '/plan.png',
-        },
+        }
     ];
 
     return (

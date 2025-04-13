@@ -92,9 +92,9 @@ const Navbar = () => {
                                 alt="Saved Outfits Icon"
                                 style={{ width: "20px", height: "20px", marginRight: "8px" }}
                             />
-                            Saved Outfits
+                            Profile
                         </Link>
-                            <Link to="/dressUp" style={{ display: "flex", alignItems: "center", gap: "5px" }}>
+                            <Link to="/outfit" style={{ display: "flex", alignItems: "center", gap: "5px" }}>
                                 <img
                                     src="/dressup.png"
                                     alt="DressUp Icon"

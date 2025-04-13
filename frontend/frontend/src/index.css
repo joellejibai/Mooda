@@ -3060,3 +3060,45 @@ button {
 .popup-buttons button:hover {
   background-color: gray;
 }
+.saved-outfits-container {
+  font-family: Arial, sans-serif;
+  padding: 20px;
+  max-width: 800px;
+  margin: 0 auto;
+  text-align: center;
+}
+
+h2 {
+  font-size: 24px;
+  margin-bottom: 20px;
+}
+
+.profile-pic-section {
+  margin-bottom: 20px;
+}
+
+.profile-pic {
+  width: 150px;
+  height: 150px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid #ddd;
+  margin-bottom: 10px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.profile-pic:hover {
+  border-color: #007bff;
+  transform: scale(1.05);
+}
+
+input[type="file"] {
+  display: none;
+}
+
+.user-info p {
+  font-size: 18px;
+  color: #333;
+  margin-top: 10px;
+}

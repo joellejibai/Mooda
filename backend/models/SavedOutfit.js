@@ -26,6 +26,10 @@ const savedOutfitSchema = new Schema({
     type: String, // "up" | "down" | null
     enum: ['up', 'down', null],
     default: null
+  },
+  date: {
+    type: Date, // New field for storing the planned date
+    required: false, // Can be optional at first
   }
 }, { timestamps: true });
 
