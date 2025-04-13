@@ -168,7 +168,9 @@ const Virtual = () => {
 
   return (
     <div className="camera-container">
-      <h1>Virtual Try-On</h1>
+      <div className="smallGlass">
+        <h2>Virtual Try-On</h2>
+      </div>
       <div className="camera-section">
         <div
           className="camera-wrapper"
@@ -215,9 +217,9 @@ const Virtual = () => {
         {isLoading ? (
           <div className="loader">Starting camera...</div>
         ) : !cameraReady ? (
-          <button onClick={startCamera} className="btn primary">
+          <button1 onClick={startCamera} className="btn primary">
             Start Camera
-          </button>
+          </button1>
         ) : (
           <button onClick={stopCamera} className="btn secondary">
             Stop Camera

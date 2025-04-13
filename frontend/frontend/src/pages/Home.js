@@ -310,7 +310,7 @@ const Home = () => {
                         <div className="camera-section">
                             <video ref={videoRef} autoPlay playsInline style={{ display: isCameraActive ? 'block' : 'none' }}></video>
                             {hasPhoto && <canvas ref={photoRef}></canvas>}
-                            <button onClick={takePhoto}>Take Photo</button>
+                            <button1 onClick={takePhoto}>Take Photo</button1>
                         </div>
                     </>
                 )}
