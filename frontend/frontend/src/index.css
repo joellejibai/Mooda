@@ -2431,6 +2431,7 @@ form.login input::placeholder {
   color: #ddd;
 }
 
+
 /* Responsive */
 @media screen and (max-width: 480px) {
   .footer-logo {
