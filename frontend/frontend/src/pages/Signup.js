@@ -64,8 +64,10 @@ const Signup = () => {
                         <option value="">Select gender</option>
                         <option value="male">Male</option>
                         <option value="female">Female</option>
-                    </select>
-                </div>
+                    </select></div>
+                    <p className="account-prompt">Already have an account? <a href="/login">Log In Now!</a></p>
+
+
 
                 <div>
                     {(localError || error) && (
@@ -75,7 +77,7 @@ const Signup = () => {
                     )}
 
                     <button type="submit" disabled={isLoading}>
-                        {isLoading ? 'Signing Up...' : 'Sign Up'}
+                        {isLoading ? 'Signing Up...' : 'SIGN UP'}
                     </button>
                 </div>
             </form>

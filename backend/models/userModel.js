@@ -24,6 +24,7 @@ const userSchema = new Schema({
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Wardrobe', // Reference to the Wardrobe model
     }
+    
 });
 
 // Static signup method

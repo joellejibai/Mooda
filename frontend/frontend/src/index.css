@@ -2056,7 +2056,7 @@ form.login input::placeholder {
 .virtual-container {
   border-radius: 15px;
   box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-  width: 1000px;
+ 
   padding: 25px;
   background-color: rgba(255, 255, 255, 0.4);
   text-align: center;
@@ -2774,7 +2774,20 @@ form.login input::placeholder {
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
   /* soft shadow */
 }
+/*responsive calendar*/
+@media (max-width: 440px) {
+  .calendar-section {
+    padding: 0.5rem;
+    margin-top: 0.5rem;
+  }
 
+  .calendar-wrapper {
+    padding: 0.75rem;
+  
+    border-radius: 10px;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.06);
+  }
+}
 /* ✅ MUI Calendar Responsive Fixes */
 .MuiDateCalendar-root {
   width: 100% !important;
@@ -2893,10 +2906,9 @@ button1 {
 /* Signup form wrapper */
 .signup-form {
   max-width: 35%;
-  height: 100%;
-  ;
+  
   margin: 40px auto;
-  padding: 40px 35px 40px 35px;
+  padding: 40px 5px 40px 35px;
   background: rgba(210, 180, 140, 0.8);
   /* Light brown with transparency */
   border-radius: 1px;
@@ -3584,4 +3596,23 @@ button1 {
 /* Optional: add smoother hover */
 .dropdown-menu li:hover {
   background-color: #f2f2f2;
+}
+/* Style for the paragraph containing the sign-up or sign-in prompt */
+.account-prompt {
+  text-align: center; /* Centers the text */
+  font-size: 14px; /* Adjusts the font size */
+  margin-top: 20px; /* Adds space above the prompt */
+}
+
+/* Style for the link */
+.account-prompt a {
+  color: white; /* Blue color for the link */
+  text-decoration: none; /* Removes underline */
+  font-weight: bold; /* Makes the link bold */
+}
+
+/* Hover effect for the link */
+.account-prompt a:hover {
+  text-decoration: underline; /* Underline the link on hover */
+  color: black; /* Darker blue when hovered */
 }

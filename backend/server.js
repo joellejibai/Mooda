@@ -12,6 +12,8 @@ const trendRoutes = require('./routes/trends')
 const mlRecommendationsRoutes = require('./routes/mlRecommendations')
 const savedOutfitRoutes = require('./routes/savedOutfits')
 const surveyRoutes = require('./routes/survey')
+const profilePicRoutes = require("./routes/profilePic");
+
 
 // ✅ Define express app BEFORE using it
 const app = express()
@@ -33,6 +35,7 @@ app.use('/api/saved-outfits', savedOutfitRoutes)
 app.use('/api/recommendations', mlRecommendationsRoutes)
 app.use('/api/survey', requireAuth, surveyRoutes)
 app.use('/uploads', express.static('uploads'))
+app.use("/api/profile-pic", requireAuth, profilePicRoutes);
 
 // Connect to DB
 mongoose.connect(process.env.MONGO_URI)

@@ -1,6 +1,6 @@
-import React, { useEffect, useState } from "react";
-import { useAuthPages } from "../hooks/useAuthPages";
-import { Link } from "react-router-dom";
+import React, { useEffect, useState } from 'react';
+import { useAuthPages } from '../hooks/useAuthPages';
+import { Link } from 'react-router-dom';
 
 const SavedOutfits = () => {
   const { user } = useAuthPages();
@@ -10,7 +10,7 @@ const SavedOutfits = () => {
   // Fetch all saved outfits
   const fetchSavedOutfits = async () => {
     try {
-      const res = await fetch("/api/saved-outfits", {
+      const res = await fetch('/api/saved-outfits', {
         headers: {
           Authorization: `Bearer ${user.token}`,
         },
@@ -19,36 +19,66 @@ const SavedOutfits = () => {
       if (res.ok) setSavedOutfits(data);
       else throw new Error(data.error);
     } catch (err) {
-      console.error("Error fetching saved outfits:", err);
+      console.error('Error fetching saved outfits:', err);
+    }
+  };
+
+  // Fetch profile picture from the "profilepics" collection
+  const fetchProfilePic = async () => {
+    try {
+      const res = await fetch('/api/profile-pic', {
+        headers: {
+          Authorization: `Bearer ${user.token}`,
+        },
+      });
+      const data = await res.json();
+      console.log('Profile Pic Data:', data); // Log the response for debugging
+      if (res.ok) {
+        // Check if image data exists and is correct
+        if (data.image) {
+          setProfilePic(data.image); // Set image from backend
+        } else {
+          setProfilePic(null); // Fallback to default image if no profile pic
+        }
+      } else throw new Error(data.error);
+    } catch (err) {
+      console.error('Error fetching profile picture:', err);
     }
   };
 
   // Handle profile picture upload
   const handleProfilePicChange = (e) => {
-    const file = e.target.files[0];
-    if (file) {
-      const url = URL.createObjectURL(file);
-      setProfilePic(url);
-      localStorage.setItem("profilePic", url);
-    }
-  };
+    const formData = new FormData();
+    formData.append('profilePic', e.target.files[0]);
 
-  // Load the profile picture from localStorage when the component mounts
-  useEffect(() => {
-    const storedPic = localStorage.getItem("profilePic");
-    if (storedPic) {
-      setProfilePic(storedPic);
-    }
-  }, []);
+    // Send the file to the backend
+    fetch('/api/profile-pic', {
+      method: 'POST',
+      headers: {
+        Authorization: `Bearer ${user.token}`,
+      },
+      body: formData,
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        if (data.message === 'Profile picture saved successfully') {
+          // Fetch the new profile picture after upload
+          fetchProfilePic();
+        }
+      })
+      .catch((err) => {
+        console.error('Error uploading profile picture:', err);
+      });
+  };
 
   // Delete outfit
   const handleDelete = async (id) => {
-    const confirm = window.confirm("Are you sure you want to delete this outfit?");
+    const confirm = window.confirm('Are you sure you want to delete this outfit?');
     if (!confirm) return;
 
     try {
       const res = await fetch(`/api/saved-outfits/${id}`, {
-        method: "DELETE",
+        method: 'DELETE',
         headers: {
           Authorization: `Bearer ${user.token}`,
         },
@@ -57,32 +87,30 @@ const SavedOutfits = () => {
         setSavedOutfits((prev) => prev.filter((item) => item._id !== id));
       }
     } catch (err) {
-      console.error("Failed to delete outfit:", err);
+      console.error('Failed to delete outfit:', err);
     }
   };
 
   useEffect(() => {
-    if (user) fetchSavedOutfits();
+    if (user) {
+      fetchSavedOutfits();
+      fetchProfilePic(); // Fetch profile pic when component mounts
+    }
   }, [user]);
 
   return (
     <div className="saved-outfits-container">
-      {/* <div className="smallGlass">
-        <h2>My Profile</h2>
-      </div> */}
-
-      {/* Glass Box for Profile Info */}
       <div className="glass-box2">
         <div className="profile-info-horizontal">
           <div className="profile-pic-wrapper">
             <img
-              src={profilePic || "default-profile-pic.jpg"}
+              src={profilePic ? `data:image/jpeg;base64,${profilePic}` : 'default-profile-pic.jpg'}
               alt="Profile"
               className="profile-pic"
             />
             <button
               className="edit-pic-btn"
-              onClick={() => document.getElementById("profile-pic-upload").click()}
+              onClick={() => document.getElementById('profile-pic-upload').click()}
             >
               <i className="fas fa-pen"></i> Edit
             </button>
@@ -91,7 +119,7 @@ const SavedOutfits = () => {
               id="profile-pic-upload"
               onChange={handleProfilePicChange}
               accept="image/*"
-              style={{ display: "none" }}
+              style={{ display: 'none' }}
             />
           </div>
 
@@ -130,10 +158,10 @@ const SavedOutfits = () => {
                   }}
                   className="wear-again-btn"
                   style={{
-                    display: "inline-flex",
-                    alignItems: "center",
-                    textDecoration: "none",
-                    marginLeft: "8px",
+                    display: 'inline-flex',
+                    alignItems: 'center',
+                    textDecoration: 'none',
+                    marginLeft: '8px',
                   }}
                 >
                   👕 Schedule the outfit

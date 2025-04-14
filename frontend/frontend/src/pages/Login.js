@@ -61,7 +61,7 @@ const Login = () => {
                 placeholder="Enter your password "
             />
 
-            <p>Don't have an account? <a href="/signup">Sign up</a></p>
+<p className="account-prompt">Don't have an account? <a href="/signup">Sign up</a></p>
 
             <button
                 type="button"

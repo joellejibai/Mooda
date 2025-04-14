@@ -193,25 +193,27 @@ const Virtual = () => {
               top: 0,
               left: 0,
               zIndex: 2,
-              width: '100%',
-              height: '100%',
+              width: '80%',
+              height: '98%',
             }}
           ></canvas>
 
-          <img
-            src="/model.png"
-            alt="Model Guide"
-            style={{
-              position: 'absolute',
-              top: '50%',
-              left: '50%',
-              transform: 'translate(-50%, -50%) scale(1.05)',
-              zIndex: 1,
-              pointerEvents: 'none',
-              opacity: 0.4,
-              height: '100%',
-            }}
-          />
+<img
+  src="/model.png"
+  alt="Model Guide"
+  style={{
+    position: 'absolute',
+    top: '50%',
+    left: '40%', // move image slightly to the left (originally 50%)
+    transform: 'translate(-50%, -50%) scale(1.05)', // keep center-based positioning
+    zIndex: 1,
+    pointerEvents: 'none',
+    opacity: 0.4,
+    height: '100%',
+  }}
+/>
+
+          
         </div>
 
         {isLoading ? (

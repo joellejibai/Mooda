@@ -1,16 +1,21 @@
 import { useLogout } from "../hooks/useLogout";
 import { Link } from "react-router-dom";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useAuthPages } from "../hooks/useAuthPages";
 import { FaBars, FaTimes } from "react-icons/fa";
 
 const Navbar = () => {
     const { logout } = useLogout();
-    const { user } = useAuthPages();
+    const { user } = useAuthPages();  // Get user authentication state
     const [isDropdownOpen, setIsDropdownOpen] = useState(false);
     const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
     const handleClick = () => logout();
+
+    // Effect to listen to user login/logout changes
+    useEffect(() => {
+        // This ensures that when the user state changes, the component re-renders
+    }, [user]);  // The component will re-render whenever `user` changes
 
     return (
         <header className="navbar">
@@ -29,7 +34,6 @@ const Navbar = () => {
                     >
                         {/* AboutUs button */}
                         <Link to="/AboutUs" className="dropdown-btn" style={{ display: "flex", alignItems: "center" }}>
-                            {/* <img src="/aboutus.png" alt="About Icon" style={{ width: "30px", height: "20px", marginRight: "8px" }} /> */}
                             AboutUs
                         </Link>
 
@@ -46,13 +50,11 @@ const Navbar = () => {
                             }}>
                                 <li>
                                     <Link to="/fashiontips" style={{ display: "flex", alignItems: "center", padding: "10px 20px" }}>
-                                        {/* <img src="/tips.png" alt="Fashion Tips Icon" style={{ width: "30px", height: "20px", marginRight: "8px" }} /> */}
                                         Fashion Tips
                                     </Link>
                                 </li>
                                 <li>
                                     <Link to="/contactUs" style={{ display: "flex", alignItems: "center", padding: "10px 20px" }}>
-                                        {/* <img src="/contactus.png" alt="Contact Icon" style={{ width: "30px", height: "20px", marginRight: "8px" }} /> */}
                                         Contact Us
                                     </Link>
                                 </li>
