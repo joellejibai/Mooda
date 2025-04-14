@@ -62,6 +62,7 @@ function Pages() {
 function App() {
   return (
     <div className="App">
+      
       <BrowserRouter>
         <Navbar />
         <Pages />

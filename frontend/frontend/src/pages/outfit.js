@@ -171,9 +171,7 @@ const Outfit = () => {
 
   return (
     <div className="outfit-container">
-      <button className="virtual-go-back-button" onClick={handleGoBack}>
-        <img src="/back.png" alt="Go Back" className="go-back-icon" />
-      </button>
+      
 
       <div className="smallGlass">
         <h2>Outfit Recommendation</h2>

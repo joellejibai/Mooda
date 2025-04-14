@@ -3490,9 +3490,9 @@ button1 {
 .navbar {
   background-color: #e6d2b5;
   padding: 0px 40px;
-  position: sticky;
+ 
   top: 0;
-  z-index: 100;
+  
 }
 
 .navbar-container {

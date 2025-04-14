@@ -1,9 +1,10 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { FaChevronLeft, FaChevronRight } from 'react-icons/fa';
 
 const Virtual = () => {
   const location = useLocation();
+  const navigate = useNavigate();
   const { topImage, bottomImage, footImage } = location.state || {};
 
   const [error, setError] = useState(null);
@@ -35,6 +36,10 @@ const Virtual = () => {
     width: 0.22,
     height: 0.11,
   });
+
+  const handleGoBack = () => {
+    navigate(-1); // Go back to the previous page
+  };
 
   const startCamera = async () => {
     setError(null);
@@ -168,9 +173,14 @@ const Virtual = () => {
 
   return (
     <div className="camera-container">
+      <button className="virtual-go-back-button" onClick={handleGoBack}>
+        <img src="/back.png" alt="Go Back" className="go-back-icon" />
+      </button>
+
       <div className="smallGlass">
         <h2>Virtual Try-On</h2>
       </div>
+
       <div className="camera-section">
         <div
           className="camera-wrapper"
@@ -198,30 +208,28 @@ const Virtual = () => {
             }}
           ></canvas>
 
-<img
-  src="/model.png"
-  alt="Model Guide"
-  style={{
-    position: 'absolute',
-    top: '50%',
-    left: '40%', // move image slightly to the left (originally 50%)
-    transform: 'translate(-50%, -50%) scale(1.05)', // keep center-based positioning
-    zIndex: 1,
-    pointerEvents: 'none',
-    opacity: 0.4,
-    height: '100%',
-  }}
-/>
-
-          
+          <img
+            src="/model.png"
+            alt="Model Guide"
+            style={{
+              position: 'absolute',
+              top: '50%',
+              left: '40%',
+              transform: 'translate(-50%, -50%) scale(1.05)',
+              zIndex: 1,
+              pointerEvents: 'none',
+              opacity: 0.4,
+              height: '100%',
+            }}
+          />
         </div>
 
         {isLoading ? (
           <div className="loader">Starting camera...</div>
         ) : !cameraReady ? (
-          <button1 onClick={startCamera} className="btn primary">
+          <button onClick={startCamera} className="btn primary">
             Start Camera
-          </button1>
+          </button>
         ) : (
           <button onClick={stopCamera} className="btn secondary">
             Stop Camera
@@ -231,14 +239,16 @@ const Virtual = () => {
 
       <div className="adjust-section">
         <div className="adjust-header">
-          <button onClick={() => {
-            const order = ["top", "pants", "foot"];
-            const index = order.indexOf(activeAdjust);
-            setActiveAdjust(order[(index + 2) % 3]);
-          }} className="arrow-btn">
+          <button
+            onClick={() => {
+              const order = ["top", "pants", "foot"];
+              const index = order.indexOf(activeAdjust);
+              setActiveAdjust(order[(index + 2) % 3]);
+            }}
+            className="arrow-btn"
+          >
             <FaChevronLeft />
           </button>
-
 
           <span className="adjust-title">
             {activeAdjust === "top" && "Adjust Top"}
@@ -246,11 +256,14 @@ const Virtual = () => {
             {activeAdjust === "foot" && "Adjust Foot"}
           </span>
 
-          <button onClick={() => {
-            const order = ["top", "pants", "foot"];
-            const index = order.indexOf(activeAdjust);
-            setActiveAdjust(order[(index + 1) % 3]);
-          }} className="arrow-btn">
+          <button
+            onClick={() => {
+              const order = ["top", "pants", "foot"];
+              const index = order.indexOf(activeAdjust);
+              setActiveAdjust(order[(index + 1) % 3]);
+            }}
+            className="arrow-btn"
+          >
             <FaChevronRight />
           </button>
         </div>
@@ -266,25 +279,28 @@ const Virtual = () => {
                   if (activeAdjust === "pants") setBottomSize(update);
                   if (activeAdjust === "foot") setFootSize(update);
                 }}
-              >+</button>
+              >
+                +
+              </button>
               <span className="adjust-label">{dim}</span>
               <button
                 className="adjust-btn"
                 onClick={() => {
                   const update = (v) => ({
                     ...v,
-                    [dim.toLowerCase()]: Math.max(0.05, v[dim.toLowerCase()] - 0.01)
+                    [dim.toLowerCase()]: Math.max(0.05, v[dim.toLowerCase()] - 0.01),
                   });
                   if (activeAdjust === "top") setTopSize(update);
                   if (activeAdjust === "pants") setBottomSize(update);
                   if (activeAdjust === "foot") setFootSize(update);
                 }}
-              >–</button>
+              >
+                –
+              </button>
             </div>
           ))}
         </div>
       </div>
-
     </div>
   );
 };
