@@ -49,9 +49,9 @@ const FashionTips = () => {
 
       {/* Navigation button */}
       <div style={{ textAlign: 'center', marginTop: '20px' }}>
-        <button onClick={handleNavigate} className="navigate-button">
-          Learn More Tips
-        </button>
+        <button1 onClick={handleNavigate}>
+          Fill a survey
+        </button1>
       </div>
     </div>
   );

@@ -133,23 +133,36 @@ const deleteItem = async (req, res) => {
 // Update item
 const updateItem = async (req, res) => {
     const { id } = req.params;
+    const { category, color } = req.body;
 
     if (!mongoose.Types.ObjectId.isValid(id)) {
         return res.status(404).json({ error: 'Invalid item ID' });
     }
 
-    const item = await Item.findOneAndUpdate(
-        { _id: id, user_id: req.user._id },
-        { ...req.body },
-        { new: true }
-    );
+    try {
+        const existingItem = await Item.findOne({ _id: id, user_id: req.user._id });
+        if (!existingItem) {
+            return res.status(404).json({ error: 'Item not found or unauthorized' });
+        }
 
-    if (!item) {
-        return res.status(404).json({ error: 'Item not found or unauthorized' });
+        const updatedCategory = category || existingItem.category;
+        const updatedColor = color || existingItem.color;
+
+        const newTags = generateTags(updatedCategory, updatedColor);
+
+        const updatedItem = await Item.findOneAndUpdate(
+            { _id: id, user_id: req.user._id },
+            { ...req.body, tags: newTags },
+            { new: true }
+        );
+
+        res.status(200).json(updatedItem);
+    } catch (err) {
+        console.error("Update item error:", err);
+        res.status(500).json({ error: "Failed to update item." });
     }
-
-    res.status(200).json(item);
 };
+
 
 module.exports = {
     getItems,

@@ -15,36 +15,18 @@ const Virtual = () => {
   const streamRef = useRef(null);
 
   const [activeAdjust, setActiveAdjust] = useState("pants");
+  const [topSize, setTopSize] = useState({ x: 0.13, y: 0.14, width: 0.77, height: 0.36 });
+  const [bottomSize, setBottomSize] = useState({ x: 0.22, y: 0.37, width: 0.55, height: 0.55 });
+  const [footSize, setFootSize] = useState({ x: 0.359, y: 0.89, width: 0.29, height: 0.12 });
 
-  const [topSize, setTopSize] = useState({
-    x: 0.25,
-    y: 0.038,
-    width: 0.50,
-    height: 0.48,
-  });
+  const [isDragging, setIsDragging] = useState(false);
+  const lastTouchDistanceRef = useRef(null);
 
-  const [bottomSize, setBottomSize] = useState({
-    x: 0.27,
-    y: 0.37,
-    width: 0.47,
-    height: 0.55,
-  });
-
-  const [footSize, setFootSize] = useState({
-    x: 0.38,
-    y: 0.87,
-    width: 0.22,
-    height: 0.11,
-  });
-
-  const handleGoBack = () => {
-    navigate(-1); // Go back to the previous page
-  };
+  const handleGoBack = () => navigate(-1);
 
   const startCamera = async () => {
     setError(null);
     setIsLoading(true);
-
     try {
       try {
         await attemptCameraStart({
@@ -56,7 +38,6 @@ const Virtual = () => {
       } catch (highResError) {
         console.warn('High-res failed, trying default...', highResError);
       }
-
       await attemptCameraStart(true);
     } catch (err) {
       handleCameraError(err);
@@ -68,14 +49,12 @@ const Virtual = () => {
   const attemptCameraStart = async (constraints) => {
     const controller = new AbortController();
     const timeoutId = setTimeout(() => controller.abort(), 5000);
-
     try {
       const stream = await navigator.mediaDevices.getUserMedia({
         video: constraints,
         audio: false,
         signal: controller.signal,
       });
-
       clearTimeout(timeoutId);
       setupCameraStream(stream);
     } catch (err) {
@@ -88,20 +67,17 @@ const Virtual = () => {
     if (videoRef.current) {
       streamRef.current = stream;
       videoRef.current.srcObject = stream;
-      videoRef.current.onloadedmetadata = () => {
-        setCameraReady(true);
-      };
+      videoRef.current.onloadedmetadata = () => setCameraReady(true);
     }
   };
 
   const handleCameraError = (err) => {
     const errorMap = {
-      AbortError: 'Camera timed out. Try refreshing or check other apps using camera.',
-      NotAllowedError: 'Permission denied. Please allow camera access.',
-      NotFoundError: 'No camera found. Check your device connections.',
-      NotReadableError: 'Camera is already in use by another application.',
+      AbortError: 'Camera timed out.',
+      NotAllowedError: 'Permission denied.',
+      NotFoundError: 'No camera found.',
+      NotReadableError: 'Camera in use by another app.',
     };
-
     setError(errorMap[err.name] || `Camera Error: ${err.message}`);
     console.error('Camera access failed:', err);
   };
@@ -117,9 +93,13 @@ const Virtual = () => {
     setCameraReady(false);
   };
 
-  useEffect(() => {
-    return () => stopCamera();
-  }, []);
+  useEffect(() => () => stopCamera(), []);
+
+  const getCurrentState = () => {
+    if (activeAdjust === "top") return ["top", topSize, setTopSize];
+    if (activeAdjust === "pants") return ["pants", bottomSize, setBottomSize];
+    return ["foot", footSize, setFootSize];
+  };
 
   useEffect(() => {
     if (!cameraReady || !videoRef.current || !canvasRef.current) return;
@@ -139,37 +119,124 @@ const Virtual = () => {
     bottomImg.src = bottomImage || '';
     footImg.src = footImage || '';
 
+    const drawImageIfReady = (img, xP, yP, wP, hP) => {
+      if (img.complete && img.naturalHeight) {
+        const x = canvas.width * xP;
+        const y = canvas.height * yP;
+        const w = canvas.width * wP;
+        const h = canvas.height * hP;
+        ctx.drawImage(img, x, y, w, h);
+      }
+    };
+
     const drawClothesOnModel = () => {
       ctx.clearRect(0, 0, canvas.width, canvas.height);
-
-      const drawImageIfReady = (img, xPercent, yPercent, wPercent, hPercent) => {
-        if (img.complete && img.naturalHeight) {
-          const x = canvas.width * xPercent;
-          const y = canvas.height * yPercent;
-          const w = canvas.width * wPercent;
-          const h = canvas.height * hPercent;
-          ctx.drawImage(img, x, y, w, h);
-        }
-      };
-
       drawImageIfReady(topImg, topSize.x, topSize.y, topSize.width, topSize.height);
       drawImageIfReady(bottomImg, bottomSize.x, bottomSize.y, bottomSize.width, bottomSize.height);
       drawImageIfReady(footImg, footSize.x, footSize.y, footSize.width, footSize.height);
     };
 
-    const checkAllImagesLoaded = () => {
-      if (
-        topImg.complete && bottomImg.complete && footImg.complete &&
-        topImg.naturalHeight && bottomImg.naturalHeight && footImg.naturalHeight
-      ) {
-        drawClothesOnModel();
+    let animationFrameId;
+    const render = () => {
+      drawClothesOnModel();
+      animationFrameId = requestAnimationFrame(render);
+    };
+
+    render();
+    return () => cancelAnimationFrame(animationFrameId);
+  }, [cameraReady, topImage, bottomImage, footImage, topSize, bottomSize, footSize]);
+
+  useEffect(() => {
+    const canvas = canvasRef.current;
+    if (!canvas) return;
+
+    const handleMove = (x, y) => {
+      const [key, state, setState] = getCurrentState();
+      const rect = canvas.getBoundingClientRect();
+      let relX = (x - rect.left) / canvas.width;
+      let relY = (y - rect.top) / canvas.height;
+
+      // Clamp so it doesn’t escape canvas
+      relX = Math.max(0, Math.min(1 - state.width, relX));
+      relY = Math.max(0, Math.min(1 - state.height, relY));
+
+      setState(prev => ({
+        ...prev,
+        x: relX,
+        y: relY
+      }));
+    };
+
+    const handleWheel = (e) => {
+      e.preventDefault();
+      const [key, state, setState] = getCurrentState();
+      const zoomAmount = e.deltaY < 0 ? 0.02 : -0.02;
+      setState(prev => ({
+        ...prev,
+        width: Math.max(0.05, prev.width + zoomAmount),
+        height: Math.max(0.05, prev.height + zoomAmount),
+      }));
+    };
+
+    const getDistance = (touches) => {
+      const [a, b] = touches;
+      return Math.hypot(a.clientX - b.clientX, a.clientY - b.clientY);
+    };
+
+    const onTouchStart = (e) => {
+      if (e.touches.length === 1) {
+        setIsDragging(true);
+      } else if (e.touches.length === 2) {
+        lastTouchDistanceRef.current = getDistance(e.touches);
       }
     };
 
-    topImg.onload = checkAllImagesLoaded;
-    bottomImg.onload = checkAllImagesLoaded;
-    footImg.onload = checkAllImagesLoaded;
-  }, [cameraReady, topImage, bottomImage, footImage, topSize, bottomSize, footSize]);
+    const onTouchMove = (e) => {
+      const [key, state, setState] = getCurrentState();
+      if (e.touches.length === 1 && isDragging) {
+        const touch = e.touches[0];
+        handleMove(touch.clientX, touch.clientY);
+      } else if (e.touches.length === 2) {
+        const currentDistance = getDistance(e.touches);
+        const delta = currentDistance - lastTouchDistanceRef.current;
+        const zoomAmount = delta * 0.0015;
+        setState(prev => ({
+          ...prev,
+          width: Math.max(0.05, prev.width + zoomAmount),
+          height: Math.max(0.05, prev.height + zoomAmount),
+        }));
+        lastTouchDistanceRef.current = currentDistance;
+      }
+    };
+
+    const onTouchEnd = () => {
+      setIsDragging(false);
+      lastTouchDistanceRef.current = null;
+    };
+
+    const onMouseDown = () => setIsDragging(true);
+    const onMouseMove = (e) => isDragging && handleMove(e.clientX, e.clientY);
+    const onMouseUp = () => setIsDragging(false);
+
+    canvas.addEventListener("mousedown", onMouseDown);
+    window.addEventListener("mousemove", onMouseMove);
+    window.addEventListener("mouseup", onMouseUp);
+    canvas.addEventListener("wheel", handleWheel, { passive: false });
+
+    canvas.addEventListener("touchstart", onTouchStart);
+    canvas.addEventListener("touchmove", onTouchMove, { passive: false });
+    canvas.addEventListener("touchend", onTouchEnd);
+
+    return () => {
+      canvas.removeEventListener("mousedown", onMouseDown);
+      window.removeEventListener("mousemove", onMouseMove);
+      window.removeEventListener("mouseup", onMouseUp);
+      canvas.removeEventListener("wheel", handleWheel);
+      canvas.removeEventListener("touchstart", onTouchStart);
+      canvas.removeEventListener("touchmove", onTouchMove);
+      canvas.removeEventListener("touchend", onTouchEnd);
+    };
+  }, [activeAdjust, isDragging]);
 
   return (
     <div className="camera-container">
@@ -177,15 +244,10 @@ const Virtual = () => {
         <img src="/back.png" alt="Go Back" className="go-back-icon" />
       </button>
 
-      <div className="smallGlass">
-        <h2>Virtual Try-On</h2>
-      </div>
+      <div className="smallGlass"><h2>Virtual Try-On</h2></div>
 
       <div className="camera-section">
-        <div
-          className="camera-wrapper"
-          style={{ position: 'relative', width: '480px', height: '720px', margin: '0 auto' }}
-        >
+        <div className="camera-wrapper" style={{ position: 'relative', width: '480px', height: '720px', margin: '0 auto' }}>
           <video
             ref={videoRef}
             autoPlay
@@ -194,7 +256,6 @@ const Virtual = () => {
             className={`camera-feed ${!cameraReady ? 'hidden' : ''}`}
             style={{ zIndex: 0, width: '100%', height: '100%', objectFit: 'cover' }}
           />
-
           <canvas
             ref={canvasRef}
             className="pose-canvas"
@@ -203,11 +264,11 @@ const Virtual = () => {
               top: 0,
               left: 0,
               zIndex: 2,
-              width: '80%',
-              height: '98%',
+              width: '100%',
+              height: '100%',
+              cursor: 'grab'
             }}
-          ></canvas>
-
+          />
           <img
             src="/model.png"
             alt="Model Guide"
@@ -227,13 +288,9 @@ const Virtual = () => {
         {isLoading ? (
           <div className="loader">Starting camera...</div>
         ) : !cameraReady ? (
-          <button onClick={startCamera} className="btn primary">
-            Start Camera
-          </button>
+          <button onClick={startCamera} className="btn primary">Start Camera</button>
         ) : (
-          <button onClick={stopCamera} className="btn secondary">
-            Stop Camera
-          </button>
+          <button onClick={stopCamera} className="btn secondary">Stop Camera</button>
         )}
       </div>
 
@@ -266,39 +323,6 @@ const Virtual = () => {
           >
             <FaChevronRight />
           </button>
-        </div>
-
-        <div className="adjust-controls">
-          {["Width", "Height"].map((dim, i) => (
-            <div className="adjust-control-group" key={dim}>
-              <button
-                className="adjust-btn"
-                onClick={() => {
-                  const update = (v) => ({ ...v, [dim.toLowerCase()]: v[dim.toLowerCase()] + 0.01 });
-                  if (activeAdjust === "top") setTopSize(update);
-                  if (activeAdjust === "pants") setBottomSize(update);
-                  if (activeAdjust === "foot") setFootSize(update);
-                }}
-              >
-                +
-              </button>
-              <span className="adjust-label">{dim}</span>
-              <button
-                className="adjust-btn"
-                onClick={() => {
-                  const update = (v) => ({
-                    ...v,
-                    [dim.toLowerCase()]: Math.max(0.05, v[dim.toLowerCase()] - 0.01),
-                  });
-                  if (activeAdjust === "top") setTopSize(update);
-                  if (activeAdjust === "pants") setBottomSize(update);
-                  if (activeAdjust === "foot") setFootSize(update);
-                }}
-              >
-                –
-              </button>
-            </div>
-          ))}
         </div>
       </div>
     </div>

@@ -3616,3 +3616,29 @@ button1 {
   text-decoration: underline; /* Underline the link on hover */
   color: black; /* Darker blue when hovered */
 }
+
+.directional-controls {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 1rem;
+}
+
+.directional-controls .row {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  margin: 4px 0;
+}
+
+.directional-controls button {
+  padding: 4px 10px;
+  font-size: 1.2rem;
+  border: none;
+  background: #eee;
+  cursor: pointer;
+  border-radius: 4px;
+  background: rgba(245, 235, 220, 0.4); /* beige tint */
+color: #333; /* softer than black */
+
+}
