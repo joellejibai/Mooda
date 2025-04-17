@@ -2056,7 +2056,7 @@ form.login input::placeholder {
 .virtual-container {
   border-radius: 15px;
   box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
- 
+
   padding: 25px;
   background-color: rgba(255, 255, 255, 0.4);
   text-align: center;
@@ -2774,6 +2774,7 @@ form.login input::placeholder {
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
   /* soft shadow */
 }
+
 /*responsive calendar*/
 @media (max-width: 440px) {
   .calendar-section {
@@ -2783,11 +2784,12 @@ form.login input::placeholder {
 
   .calendar-wrapper {
     padding: 0.75rem;
-  
+
     border-radius: 10px;
     box-shadow: 0 2px 6px rgba(0, 0, 0, 0.06);
   }
 }
+
 /* ✅ MUI Calendar Responsive Fixes */
 .MuiDateCalendar-root {
   width: 100% !important;
@@ -2906,7 +2908,7 @@ button1 {
 /* Signup form wrapper */
 .signup-form {
   max-width: 35%;
-  
+
   margin: 40px auto;
   padding: 40px 5px 40px 35px;
   background: rgba(210, 180, 140, 0.8);
@@ -3490,9 +3492,9 @@ button1 {
 .navbar {
   background-color: #e6d2b5;
   padding: 0px 40px;
- 
+
   top: 0;
-  
+
 }
 
 .navbar-container {
@@ -3597,24 +3599,33 @@ button1 {
 .dropdown-menu li:hover {
   background-color: #f2f2f2;
 }
+
 /* Style for the paragraph containing the sign-up or sign-in prompt */
 .account-prompt {
-  text-align: center; /* Centers the text */
-  font-size: 14px; /* Adjusts the font size */
-  margin-top: 20px; /* Adds space above the prompt */
+  text-align: center;
+  /* Centers the text */
+  font-size: 14px;
+  /* Adjusts the font size */
+  margin-top: 20px;
+  /* Adds space above the prompt */
 }
 
 /* Style for the link */
 .account-prompt a {
-  color: white; /* Blue color for the link */
-  text-decoration: none; /* Removes underline */
-  font-weight: bold; /* Makes the link bold */
+  color: white;
+  /* Blue color for the link */
+  text-decoration: none;
+  /* Removes underline */
+  font-weight: bold;
+  /* Makes the link bold */
 }
 
 /* Hover effect for the link */
 .account-prompt a:hover {
-  text-decoration: underline; /* Underline the link on hover */
-  color: black; /* Darker blue when hovered */
+  text-decoration: underline;
+  /* Underline the link on hover */
+  color: black;
+  /* Darker blue when hovered */
 }
 
 .directional-controls {
@@ -3638,7 +3649,137 @@ button1 {
   background: #eee;
   cursor: pointer;
   border-radius: 4px;
-  background: rgba(245, 235, 220, 0.4); /* beige tint */
-color: #333; /* softer than black */
+  background: rgba(245, 235, 220, 0.4);
+  /* beige tint */
+  color: #333;
+  /* softer than black */
 
+}
+
+/* chatbot */
+.chatbot-wrapper {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  z-index: 999;
+  font-family: "Poppins", sans-serif;
+}
+
+/* Chat bubble toggle button */
+.chatbot-toggle {
+  background: white;
+  border: none;
+  width: 54px;
+  height: 54px;
+  border-radius: 50%;
+  font-size: 22px;
+  box-shadow: 0 6px 14px rgba(0, 0, 0, 0.25);
+  cursor: pointer;
+  color: #333;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s ease;
+}
+
+.chatbot-toggle:hover {
+  transform: scale(1.08);
+  background: #f5f5f5;
+}
+
+/* Chat window box */
+.chatbot-box {
+  width: 340px;
+  height: 440px;
+  border-radius: 22px;
+  padding: 16px;
+  margin-top: 10px;
+  background: rgba(255, 255, 255, 0.25);
+  backdrop-filter: blur(18px);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.25);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+/* Chat message area */
+.chat-messages {
+  flex: 1;
+  overflow-y: auto;
+  margin-bottom: 12px;
+  padding: 8px;
+  scrollbar-width: thin;
+  scrollbar-color: #aaa transparent;
+}
+
+.chat-messages::-webkit-scrollbar {
+  width: 6px;
+}
+.chat-messages::-webkit-scrollbar-thumb {
+  background-color: #aaa;
+  border-radius: 10px;
+}
+
+/* Individual message bubbles */
+.msg {
+  font-size: 0.9rem;
+  margin-bottom: 8px;
+  padding: 10px 14px;
+  border-radius: 16px;
+  max-width: 75%;
+  word-wrap: break-word;
+  line-height: 1.4;
+}
+
+.msg.user {
+  align-self: flex-end;
+  background: #000;
+  color: #fff;
+  border-top-right-radius: 4px;
+}
+
+.msg.assistant {
+  align-self: flex-start;
+  background: #f7f7f7;
+  color: #333;
+  border-top-left-radius: 4px;
+}
+
+/* Input + send button combo */
+.chatbot-input-area {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.chatbot-box input[type="text"] {
+  flex: 1;
+  border: none;
+  border-radius: 16px;
+  padding: 10px 14px;
+  font-size: 0.9rem;
+  outline: none;
+  background: rgba(255, 255, 255, 0.9);
+  box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.05);
+  transition: all 0.2s ease-in-out;
+}
+
+.chatbot-box input[type="text"]:focus {
+  box-shadow: 0 0 0 2px #d6d6d6;
+}
+
+.chatbot-box button {
+  padding: 10px 16px;
+  border: none;
+  border-radius: 16px;
+  background: #000;
+  color: white;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+.chatbot-box button:hover {
+  background: #222;
 }

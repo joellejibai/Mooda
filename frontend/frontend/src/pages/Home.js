@@ -59,7 +59,7 @@ const Home = () => {
 
                     }
                 });
-                
+
 
                 if (!response.ok) throw new Error("Failed to fetch items");
 
@@ -122,7 +122,7 @@ const Home = () => {
                 },
                 {
                     headers: {
-                        "X-Api-Key": "TaXmUpt4bWqZYoQVWkavCxnb",  // Replace with your API key
+                        "X-Api-Key": "swcWctoSUXGcsQfoC3u8aMZ9",  // Replace with your API key
                         "Content-Type": "application/json",
                     },
                     responseType: "arraybuffer",
@@ -159,7 +159,7 @@ const Home = () => {
                     {
                         headers: {
                             // If you don't have an .env, use this:
-                            "X-Api-Key": "TaXmUpt4bWqZYoQVWkavCxnb",
+                            "X-Api-Key": "swcWctoSUXGcsQfoC3u8aMZ9",
                             "Content-Type": "application/json"
                         },
                         responseType: "arraybuffer"
@@ -180,7 +180,15 @@ const Home = () => {
 
             } catch (err) {
                 console.error("❌ Upload & Remove.bg error:", err.response?.data || err.message);
+
+                // fallback image (base64 version with background still in)
+                const fallbackBase64 = reader.result; // full base64, not split
+                setHasPhoto(true);
+                setImageData(fallbackBase64);  // 👈 THIS IS WHAT WAS MISSING
+
+                setTimeout(() => setShowForm(true), 100);
             }
+
         };
         reader.readAsDataURL(file);
     };
@@ -193,7 +201,7 @@ const Home = () => {
                     Authorization: `Bearer ${user.token}`,
                 },
             });
-            
+
             if (!res.ok) throw new Error("Failed to delete item");
 
             setItems((prev) => prev.filter((item) => item._id !== id));
@@ -274,7 +282,7 @@ const Home = () => {
                         </button>
                     )}
 
-<div className={`result ${hasPhoto ? "hasPhoto" : ""}`}>
+                    <div className={`result ${hasPhoto ? "hasPhoto" : ""}`}>
 
                         <canvas ref={photoRef}></canvas>
                         <video ref={videoRef} style={{ display: isCameraActive ? 'block' : 'none', width: '100%' }}></video>
@@ -310,7 +318,7 @@ const Home = () => {
                         <div className="camera-section">
                             <video ref={videoRef} autoPlay playsInline style={{ display: isCameraActive ? 'block' : 'none' }}></video>
                             {hasPhoto && <canvas ref={photoRef}></canvas>}
-                            <button1 onClick={takePhoto}>Take Photo</button1>
+                            <button onClick={takePhoto}>Take Photo</button>
                         </div>
                     </>
                 )}

@@ -16,6 +16,7 @@ import Footer from "./components/Footer";
 import MoreTips from "./pages/moretips";  // Correct the path if needed
 import VirtualFit from "./pages/virtualfit";
 import SavedOutfits from './pages/savedOutfits';
+import ChatBot from "./components/ChatBot";
 
 function Pages() {
   const location = useLocation();
@@ -62,11 +63,12 @@ function Pages() {
 function App() {
   return (
     <div className="App">
-      
+
       <BrowserRouter>
         <Navbar />
         <Pages />
         <Footer />
+        <ChatBot />
       </BrowserRouter>
     </div>
   );
