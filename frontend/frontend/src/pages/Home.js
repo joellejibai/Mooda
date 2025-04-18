@@ -228,7 +228,9 @@ const Home = () => {
     const addItem = (newItem) => {
         setItems((prevItems) => [...prevItems, newItem]);
     };
-
+    const topCount = items.filter((item) => categoryMap["tops"].includes(item.category)).length;
+    const bottomCount = items.filter((item) => categoryMap["pants"].includes(item.category)).length;
+    const shoeCount = items.filter((item) => categoryMap["shoes"].includes(item.category)).length;
     return (
         <>
             <div className="backgroundStyle"></div>
@@ -261,6 +263,14 @@ const Home = () => {
                         className="search-bar"
                     />
                 </div>
+                 {/* 🆕 Suggestions */}
+        {(topCount === 1 || bottomCount === 1 || shoeCount === 1) && (
+          <div className="notification-box">
+            {topCount === 1 && <p>👕 You only have 1 top. Add more to create varied outfits!</p>}
+            {bottomCount === 1 && <p>👖 You only have 1 bottom. Consider adding more pants or skirts!</p>}
+            {shoeCount === 1 && <p>👟 Just 1 pair of shoes? A second option could spice things up!</p>}
+          </div>
+        )}
 
                 <div className="home">
                     <div className="items">

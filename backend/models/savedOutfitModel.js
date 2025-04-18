@@ -1,3 +1,4 @@
+// models/savedOutfitModel.js
 const mongoose = require('mongoose');
 
 const savedOutfitSchema = new mongoose.Schema({
@@ -5,7 +6,9 @@ const savedOutfitSchema = new mongoose.Schema({
   top: { type: mongoose.Schema.Types.ObjectId, required: true, ref: 'Item' },
   bottom: { type: mongoose.Schema.Types.ObjectId, required: true, ref: 'Item' },
   foot: { type: mongoose.Schema.Types.ObjectId, required: true, ref: 'Item' },
-  rating: { type: String, enum: ['up', 'down', null], default: null },
+  rating: { type: Number, min: 0, max: 5, default: 0 },
+  date: { type: Date, default: null },
+  comment: { type: String, default: '' }
 }, { timestamps: true });
 
 module.exports = mongoose.model('SavedOutfit', savedOutfitSchema);

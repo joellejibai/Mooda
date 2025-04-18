@@ -7,7 +7,7 @@ const SavedOutfits = () => {
   const [savedOutfits, setSavedOutfits] = useState([]);
   const [profilePic, setProfilePic] = useState(null);
 
-  // Fetch all saved outfits
+  // Fetch saved outfits data
   const fetchSavedOutfits = async () => {
     try {
       const res = await fetch('/api/saved-outfits', {
@@ -16,6 +16,7 @@ const SavedOutfits = () => {
         },
       });
       const data = await res.json();
+      console.log('Fetched saved outfits:', data); // Check fetched data
       if (res.ok) setSavedOutfits(data);
       else throw new Error(data.error);
     } catch (err) {
@@ -23,7 +24,7 @@ const SavedOutfits = () => {
     }
   };
 
-  // Fetch profile picture from the "profilepics" collection
+  // Fetch profile picture data
   const fetchProfilePic = async () => {
     try {
       const res = await fetch('/api/profile-pic', {
@@ -32,46 +33,17 @@ const SavedOutfits = () => {
         },
       });
       const data = await res.json();
-      console.log('Profile Pic Data:', data); // Log the response for debugging
-      if (res.ok) {
-        // Check if image data exists and is correct
-        if (data.image) {
-          setProfilePic(data.image); // Set image from backend
-        } else {
-          setProfilePic(null); // Fallback to default image if no profile pic
-        }
-      } else throw new Error(data.error);
+      if (res.ok && data.image) {
+        setProfilePic(data.image);
+      } else {
+        setProfilePic(null);
+      }
     } catch (err) {
       console.error('Error fetching profile picture:', err);
     }
   };
 
-  // Handle profile picture upload
-  const handleProfilePicChange = (e) => {
-    const formData = new FormData();
-    formData.append('profilePic', e.target.files[0]);
-
-    // Send the file to the backend
-    fetch('/api/profile-pic', {
-      method: 'POST',
-      headers: {
-        Authorization: `Bearer ${user.token}`,
-      },
-      body: formData,
-    })
-      .then((res) => res.json())
-      .then((data) => {
-        if (data.message === 'Profile picture saved successfully') {
-          // Fetch the new profile picture after upload
-          fetchProfilePic();
-        }
-      })
-      .catch((err) => {
-        console.error('Error uploading profile picture:', err);
-      });
-  };
-
-  // Delete outfit
+  // Handle deleting saved outfit
   const handleDelete = async (id) => {
     const confirm = window.confirm('Are you sure you want to delete this outfit?');
     if (!confirm) return;
@@ -91,10 +63,43 @@ const SavedOutfits = () => {
     }
   };
 
+  // Handle profile picture change
+  const handleProfilePicChange = async (e) => {
+    const file = e.target.files[0];
+
+    if (!file) return;
+
+    const reader = new FileReader();
+    reader.onloadend = async () => {
+      const base64Image = reader.result.split(',')[1]; // Get base64 encoded image
+
+      try {
+        const res = await fetch('/api/profile-pic', {
+          method: 'POST',
+          headers: {
+            Authorization: `Bearer ${user.token}`,
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ image: base64Image }),
+        });
+
+        const data = await res.json();
+        if (res.ok) {
+          setProfilePic(base64Image); // Update profile picture in state
+        } else {
+          console.error('Error updating profile picture:', data);
+        }
+      } catch (err) {
+        console.error('Error updating profile picture:', err);
+      }
+    };
+    reader.readAsDataURL(file); // Convert the file to base64
+  };
+
   useEffect(() => {
     if (user) {
       fetchSavedOutfits();
-      fetchProfilePic(); // Fetch profile pic when component mounts
+      fetchProfilePic();
     }
   }, [user]);
 
@@ -135,40 +140,55 @@ const SavedOutfits = () => {
         <p>No outfits saved yet.</p>
       ) : (
         <div className="outfits-grid">
-          {savedOutfits.map((outfit) => (
-            <div className="outfit-card" key={outfit._id}>
-              <div className="outfit-images">
-                <img src={outfit.top?.image} alt="Top" />
-                <img src={outfit.bottom?.image} alt="Bottom" />
-                <img src={outfit.foot?.image} alt="Foot" />
-              </div>
+          {savedOutfits.map((outfit) => {
+            // Log the images to ensure they exist
+            console.log(outfit.top?.image, outfit.bottom?.image, outfit.foot?.image);
 
-              <div className="outfit-actions">
-                <button
-                  className="delete-btn"
-                  onClick={() => handleDelete(outfit._id)}
-                >
-                  🗑 Delete
-                </button>
+            return (
+              <div className="outfit-card" key={outfit._id}>
+                <div className="outfit-images">
+                  <img
+                    src={outfit.top?.image || 'default-top-image.jpg'}
+                    alt="Top"
+                  />
+                  <img
+                    src={outfit.bottom?.image || 'default-bottom-image.jpg'}
+                    alt="Bottom"
+                  />
+                  <img
+                    src={outfit.foot?.image || 'default-foot-image.jpg'}
+                    alt="Foot"
+                  />
+                </div>
 
-                <Link
-                  to={{
-                    pathname: '/plan',
-                    state: { outfit: outfit },
-                  }}
-                  className="wear-again-btn"
-                  style={{
-                    display: 'inline-flex',
-                    alignItems: 'center',
-                    textDecoration: 'none',
-                    marginLeft: '8px',
-                  }}
-                >
-                  👕 Schedule the outfit
-                </Link>
+                <div className="outfit-details">
+                  {/* Display the planned date if it exists */}
+                  {outfit.date && (
+                    <div className="outfit-date">
+                      <p>Planned for: {new Date(outfit.date).toLocaleDateString()}</p>
+                    </div>
+                  )}
+                </div>
+
+                <div className="outfit-actions">
+                  <button className="delete-btn" onClick={() => handleDelete(outfit._id)}>
+                    🗑 Delete
+                  </button>
+
+                  {/* Conditionally render the 'Schedule the outfit' button */}
+                  {!outfit.date && (
+                    <Link
+                      to="/plan"
+                      state={{ outfit }} // Pass full outfit object
+                      className="wear-again-btn"
+                    >
+                      👕 Schedule the outfit
+                    </Link>
+                  )}
+                </div>
               </div>
-            </div>
-          ))}
+            );
+          })}
         </div>
       )}
     </div>

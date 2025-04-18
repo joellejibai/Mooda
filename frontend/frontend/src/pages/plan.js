@@ -1,24 +1,25 @@
-import * as React from 'react';
-import { useNavigate } from 'react-router-dom';
+import React from 'react';
+import { useNavigate, useLocation } from 'react-router-dom';
 import { LocalizationProvider } from '@mui/x-date-pickers';
 import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
 import { DateCalendar } from '@mui/x-date-pickers/DateCalendar';
-import { useAuthPages } from '../hooks/useAuthPages'; // Assuming you have a custom hook to handle authentication
+import { useAuthPages } from '../hooks/useAuthPages';
 
-const Plan = ({ outfitId }) => {
+const Plan = () => {
   const navigate = useNavigate();
-  const { user } = useAuthPages(); // Make sure the user is fetched correctly
+  const location = useLocation();
+  const { outfit } = location.state || {};
+  const { user } = useAuthPages();
+
   const [selectedDate, setSelectedDate] = React.useState(null);
-  const [savedDate, setSavedDate] = React.useState(null); // State to store the saved date
+  const [savedDate, setSavedDate] = React.useState(null);
 
-  const handleVirtualFitClick = () => {
-    navigate('/virtualfit');
-  };
-
+  // Handle going back to the previous page
   const handleGoBack = () => {
     navigate(-1);
   };
 
+  // Handle saving the planned date for the outfit
   const handleSaveDate = async () => {
     if (!selectedDate) {
       alert('Please select a date.');
@@ -30,35 +31,44 @@ const Plan = ({ outfitId }) => {
       return;
     }
 
-    try {
-      const formattedDate = selectedDate.toISOString(); // Ensure the date is formatted correctly
-      console.log('Formatted date:', formattedDate); // Log to check if date is valid
+    if (!outfit) {
+      alert('No outfit selected.');
+      return;
+    }
 
-      const res = await fetch('/api/saved-outfits', {
-        method: 'POST',
+    try {
+      const formattedDate = selectedDate.toISOString();
+
+      const res = await fetch(`/api/saved-outfits/${outfit._id}/plan`, {
+        method: 'PATCH',
         headers: {
           'Content-Type': 'application/json',
-          Authorization: `Bearer ${user.token}`, // Ensure token is available
+          Authorization: `Bearer ${user.token}`,
         },
-        body: JSON.stringify({ outfitId, date: formattedDate }), // Send outfitId and date
+        body: JSON.stringify({
+          date: formattedDate, // Only send the date to update
+        }),
       });
 
       if (!res.ok) {
         const data = await res.json();
-        console.error('Error saving the date:', data); // Log the error response
-        alert('Error saving the date.');
+        console.error('Error saving the date:', data);
+        alert('Error saving the outfit with date.');
         return;
       }
 
       const data = await res.json();
-      console.log('Outfit saved with date:', data);
-      setSavedDate(formattedDate); // Update the state to display the saved date
-      alert('Date saved successfully!');
-      navigate('/dashboard'); // Or wherever you want to navigate after saving
+      setSavedDate(formattedDate);
+      alert('Outfit date saved successfully!');
     } catch (err) {
-      console.error('Failed to save outfit:', err);
-      alert('Failed to save the outfit. Please try again.');
+      console.error('Failed to save outfit date:', err);
+      alert('Failed to save the outfit date. Please try again.');
     }
+  };
+
+  // Navigate to the SavedOutfits page
+  const handleNavigateToSavedOutfits = () => {
+    navigate('/savedOutfits'); // Adjust this path if necessary
   };
 
   return (
@@ -71,7 +81,27 @@ const Plan = ({ outfitId }) => {
         <h2>Event Outfit Planning</h2>
       </div>
 
-      {/* Display the saved date at the top if available */}
+      {outfit && (
+        <div className="outfit-preview" style={{ textAlign: 'center', marginTop: '1rem' }}>
+          <h3>You're planning to wear this:</h3>
+          <div
+            className="outfit-images"
+            style={{ display: 'flex', justifyContent: 'center', gap: '1rem', marginTop: '1rem' }}
+          >
+            {outfit.top && <img src={outfit.top.image} alt="Top" style={{ height: 120 }} />}
+            {outfit.bottom && <img src={outfit.bottom.image} alt="Bottom" style={{ height: 120 }} />}
+            {outfit.foot && <img src={outfit.foot.image} alt="Footwear" style={{ height: 120 }} />}
+          </div>
+        </div>
+      )}
+
+      {/* Display selected date immediately */}
+      {selectedDate && (
+        <div className="selected-date" style={{ textAlign: 'center', margin: '20px 0' }}>
+          <h3>Selected Date: {selectedDate.toLocaleDateString()}</h3>
+        </div>
+      )}
+
       {savedDate && (
         <div className="saved-date" style={{ textAlign: 'center', margin: '20px 0' }}>
           <h3>Saved Date: {new Date(savedDate).toLocaleDateString()}</h3>
@@ -79,21 +109,27 @@ const Plan = ({ outfitId }) => {
       )}
 
       <div className="virtual-container">
-        {/* MUI Calendar */}
         <div className="calendar-section" style={{ marginTop: '2rem', textAlign: 'center' }}>
           <div className="calendar-wrapper">
             <LocalizationProvider dateAdapter={AdapterDateFns}>
               <DateCalendar
                 value={selectedDate}
-                onChange={(newValue) => setSelectedDate(newValue)}
+                onChange={(newValue) => setSelectedDate(newValue)} // Update selected date as the user picks it
               />
             </LocalizationProvider>
           </div>
 
-          <button1 className="virtualfit-button" onClick={handleSaveDate}>
+          <button className="virtualfit-button" onClick={handleSaveDate}>
             Save the date
-          </button1>
+          </button>
         </div>
+      </div>
+
+      {/* Button to go to SavedOutfits page */}
+      <div className="saved-outfits-button" style={{ textAlign: 'center', marginTop: '20px' }}>
+        <button onClick={handleNavigateToSavedOutfits} className="virtualfit-button">
+          Go to Saved Outfits
+        </button>
       </div>
     </div>
   );

@@ -1,36 +1,34 @@
 const mongoose = require('mongoose');
-const Schema = mongoose.Schema;
 
-const savedOutfitSchema = new Schema({
-  userId: {
-    type: mongoose.Schema.Types.ObjectId,
+const SavedOutfitSchema = new mongoose.Schema({
+  user_id: {
+    type: String,
     required: true,
-    ref: 'User',
   },
   top: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: 'Item',
-    required: true,
+    _id: { type: mongoose.Schema.Types.ObjectId, required: true },
+    name: String,
+    image: String,
   },
   bottom: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: 'Item',
-    required: true,
+    _id: { type: mongoose.Schema.Types.ObjectId, required: true },
+    name: String,
+    image: String,
   },
   foot: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: 'Item',
-    required: true,
-  },
-  rating: {
-    type: String, // "up" | "down" | null
-    enum: ['up', 'down', null],
-    default: null
+    _id: { type: mongoose.Schema.Types.ObjectId, required: true },
+    name: String,
+    image: String,
   },
   date: {
-    type: Date, // New field for storing the planned date
-    required: false, // Can be optional at first
-  }
-}, { timestamps: true });
+    type: Date,
+  },
+  rating: {
+    type: Number,
+    min: 0,
+    max: 5,
+    default: 0,
+  },
+});
 
-module.exports = mongoose.model('SavedOutfit', savedOutfitSchema);
+module.exports = mongoose.model('SavedOutfit', SavedOutfitSchema);
