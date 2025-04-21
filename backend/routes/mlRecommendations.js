@@ -10,38 +10,92 @@ router.get("/ml/:userId", async (req, res) => {
         const userId = req.params.userId;
 
         const items = await Item.find({ user_id: userId });
-        const userStyle = await UserStyle.findOne({ userId });
         const trends = await Trend.find();
+        let userStyle = await UserStyle.findOne({ userId });
 
         if (!userStyle) {
-            return res.status(400).json({ message: "Style preferences not found for this user." });
+            userStyle = {
+                style: "casual",
+                colorPalette: "neutral",
+                pattern: "none"
+            };
         }
 
-        const py = spawn("python", ["ml_recommender.py"]); // ✅ not "python3" on Windows
-
+        const mlProcess = spawn("python", ["ml_recommender.py"]);
         const input = JSON.stringify({ userStyle, items, trends });
         let output = "";
 
-        py.stdin.write(input);
-        py.stdin.end();
+        mlProcess.stdin.write(input);
+        mlProcess.stdin.end();
 
-        py.stdout.on("data", (data) => {
+        mlProcess.stdout.on("data", (data) => {
             output += data.toString();
-            console.log("🐍 Python output:", output); // ✅ Log Python output
         });
 
-        py.stderr.on("data", (err) => {
-            console.error("❌ Python stderr:", err.toString());
+        mlProcess.stderr.on("data", (err) => {
+            console.error("❌ ML stderr:", err.toString());
         });
 
-        py.on("close", () => {
+        mlProcess.on("close", () => {
+            let result;
             try {
-                const result = JSON.parse(output);
-                res.json(result);
+                result = JSON.parse(output);
             } catch (err) {
-                console.error("❌ Failed to parse Python output:", output);
-                res.status(500).json({ message: "Failed to parse ML output", raw: output });
+                console.error("❌ ML JSON Parse Error:", output);
+                return res.status(500).json({ message: "Failed to parse ML output", raw: output });
             }
+
+            if (!result || result.error) {
+                return res.status(400).json({ error: result?.error || "Unknown ML error." });
+            }
+
+            const top = result.recommended_wardrobe?.find(i =>
+                i.category?.toLowerCase().match(/top|tshirt|hoodie|jacket|sweater|crop-top|tank-top|dress/)
+            );
+            const bottom = result.recommended_wardrobe?.find(i =>
+                i.category?.toLowerCase().match(/pants|jeans|shorts|skirt|trousers|leggings|sweatpants/)
+            );
+            const foot = result.recommended_wardrobe?.find(i =>
+                i.category?.toLowerCase().match(/shoes|sneakers|boots|heels|foot/)
+            );
+
+            const outfit = {
+                top: `${top?.category || ''} in ${top?.color || ''}`,
+                bottom: `${bottom?.category || ''} in ${bottom?.color || ''}`,
+                foot: `${foot?.category || ''} in ${foot?.color || ''}`
+            };
+
+            const gptProcess = spawn("python", ["gpt_reasoning.py"]);
+            const gptInput = JSON.stringify({ userStyle, outfit });
+            let gptOutput = "";
+
+            gptProcess.stdin.write(gptInput);
+            gptProcess.stdin.end();
+
+            gptProcess.stdout.on("data", (data) => {
+                gptOutput += data.toString();
+            });
+
+            gptProcess.stderr.on("data", (err) => {
+                console.error("❌ GPT stderr:", err.toString());
+            });
+
+            gptProcess.on("close", () => {
+                try {
+                    const gptResult = JSON.parse(gptOutput);
+                    if (gptResult.error) {
+                        console.warn("⚠️ GPT Reasoning Error:", gptResult.error);
+                    }
+
+                    res.json({
+                        ...result,
+                        reason: gptResult.reason || "This outfit matches your style and current trends."
+                    });
+                } catch (err) {
+                    console.error("❌ GPT Parse Error:", gptOutput);
+                    res.status(500).json({ message: "Failed to parse GPT output", raw: gptOutput });
+                }
+            });
         });
     } catch (err) {
         console.error("ML Recommendation route error:", err);
