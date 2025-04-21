@@ -26,110 +26,101 @@ const Outfit = () => {
   useEffect(() => {
     const fetchItems = async () => {
       try {
-        const response = await fetch("/api/items", {
-          headers: {
-            Authorization: `Bearer ${user.token}`,
-          },
+        const resp = await fetch("/api/items", {
+          headers: { Authorization: `Bearer ${user.token}` }
         });
+        const data = await resp.json();
+        if (!resp.ok) throw new Error(data.message);
 
-        const data = await response.json();
-        if (!response.ok) throw new Error(data.message);
-
-        const topsList = data.filter(item => topGroup.includes(item.category?.toLowerCase()));
-        const bottomsList = data.filter(item => bottomGroup.includes(item.category?.toLowerCase()));
-        const footwearList = data.filter(item => footGroup.includes(item.category?.toLowerCase()));
+        const topsList = data.filter(i => topGroup.includes(i.category?.toLowerCase()));
+        const bottomsList = data.filter(i => bottomGroup.includes(i.category?.toLowerCase()));
+        const footwearList = data.filter(i => footGroup.includes(i.category?.toLowerCase()));
 
         setTops(topsList);
         setBottoms(bottomsList);
         setFootwear(footwearList);
 
         if (selectedTopId) {
-          const index = topsList.findIndex(item => item._id === selectedTopId);
-          if (index !== -1) setTopIndex(index);
+          const idx = topsList.findIndex(i => i._id === selectedTopId);
+          if (idx !== -1) setTopIndex(idx);
         }
-
         if (selectedBottomId) {
-          const index = bottomsList.findIndex(item => item._id === selectedBottomId);
-          if (index !== -1) setBottomIndex(index);
+          const idx = bottomsList.findIndex(i => i._id === selectedBottomId);
+          if (idx !== -1) setBottomIndex(idx);
         }
-
         if (selectedFootwearId) {
-          const index = footwearList.findIndex(item => item._id === selectedFootwearId);
-          if (index !== -1) setFootIndex(index);
+          const idx = footwearList.findIndex(i => i._id === selectedFootwearId);
+          if (idx !== -1) setFootIndex(idx);
         }
       } catch (err) {
         console.error("Error fetching items:", err);
       }
     };
-
     if (user) fetchItems();
   }, [user, selectedTopId, selectedBottomId, selectedFootwearId]);
 
-  const handleGoBack = () => navigate(-1);
-
-  const slide = (type, direction) => {
-    if (type === "top") {
-      setTopIndex(prev => (prev + direction + tops.length) % tops.length);
-    } else if (type === "bottom") {
-      setBottomIndex(prev => (prev + direction + bottoms.length) % bottoms.length);
-    } else if (type === "foot") {
-      setFootIndex(prev => (prev + direction + footwear.length) % footwear.length);
-    }
+  const slide = (type, dir) => {
+    if (type === "top") setTopIndex(p => (p + dir + tops.length) % tops.length);
+    if (type === "bottom") setBottomIndex(p => (p + dir + bottoms.length) % bottoms.length);
+    if (type === "foot") setFootIndex(p => (p + dir + footwear.length) % footwear.length);
   };
 
   const handleAutoGenerate = async () => {
+    let spinner;
     try {
-      const interval = setInterval(() => {
+      spinner = setInterval(() => {
         setTopIndex(Math.floor(Math.random() * tops.length));
         setBottomIndex(Math.floor(Math.random() * bottoms.length));
         setFootIndex(Math.floor(Math.random() * footwear.length));
       }, 100);
 
-      const response = await fetch(`/api/recommendations/ml/${user._id}`, {
-        headers: {
-          Authorization: `Bearer ${user.token}`,
-        },
+      const resp = await fetch(`/api/recommendations/ml/${user._id}`, {
+        headers: { Authorization: `Bearer ${user.token}` }
       });
+      const data = await resp.json();
+      clearInterval(spinner);
 
-      const data = await response.json();
-      if (data.error) throw new Error("ML Error: " + data.error);
+      if (data.error) {
+        alert(`💔 ${data.error}`);
+        return;
+      }
 
-      const topItem = data.recommended_wardrobe.find(item =>
-        ["top", "tshirt", "hoodie", "sweater", "jacket", "crop-top", "tank-top", "dress"].includes(item.category?.toLowerCase())
-      );
-      const bottomItem = data.recommended_wardrobe.find(item =>
-        ["pants", "jeans", "shorts", "skirt", "trousers", "leggings", "sweatpants"].includes(item.category?.toLowerCase())
-      );
-      const footItem = data.recommended_wardrobe.find(item =>
-        ["foot", "sneakers", "boots", "heels", "shoes"].includes(item.category?.toLowerCase())
-      );
+      console.log("🤖 Recommended wardrobe:", data.recommended_wardrobe);
 
-      setTimeout(() => {
-        clearInterval(interval);
+      const pick = (cats) =>
+        data.recommended_wardrobe.find(i =>
+          cats.includes(i.category?.toLowerCase())
+        );
 
-        const fallbackMatch = (arr, category) =>
-          arr.findIndex(item => item.category?.toLowerCase() === category?.toLowerCase());
+      const topItem = pick(topGroup);
+      const bottomItem = pick(bottomGroup);
+      const footItem = pick(footGroup);
 
-        let topIdx = tops.findIndex(item => item._id === topItem?._id);
-        if (topIdx === -1) topIdx = fallbackMatch(tops, topItem?.category);
+      if (!topItem || !bottomItem || !footItem) {
+        alert("We couldn't create a full outfit. Try uploading more variety!");
+        return;
+      }
 
-        let bottomIdx = bottoms.findIndex(item => item._id === bottomItem?._id);
-        if (bottomIdx === -1) bottomIdx = fallbackMatch(bottoms, bottomItem?.category);
+      const fallback = (arr, cat) =>
+        arr.findIndex(i => i.category?.toLowerCase() === cat?.toLowerCase());
 
-        let footIdx = footwear.findIndex(item => item._id === footItem?._id);
-        if (footIdx === -1) footIdx = fallbackMatch(footwear, footItem?.category);
+      let ti = tops.findIndex(i => i._id === topItem._id);
+      if (ti === -1) ti = fallback(tops, topItem.category);
 
-        if (topIdx !== -1) setTopIndex(topIdx);
-        if (bottomIdx !== -1) setBottomIndex(bottomIdx);
-        if (footIdx !== -1) setFootIndex(footIdx);
+      let bi = bottoms.findIndex(i => i._id === bottomItem._id);
+      if (bi === -1) bi = fallback(bottoms, bottomItem.category);
 
-        if (topIdx === -1 || bottomIdx === -1 || footIdx === -1) {
-          alert("We couldn't create a full outfit. Try uploading more tops, bottoms, or shoes!");
-        }
-      }, 1500);
+      let fi = footwear.findIndex(i => i._id === footItem._id);
+      if (fi === -1) fi = fallback(footwear, footItem.category);
+
+      if (ti !== -1) setTopIndex(ti);
+      if (bi !== -1) setBottomIndex(bi);
+      if (fi !== -1) setFootIndex(fi);
+
     } catch (err) {
-      console.error("Failed to auto-generate outfit:", err);
-      alert(err.message || "Something went wrong while generating your outfit.");
+      clearInterval(spinner);
+      console.error(err);
+      alert(err.message || "Something broke while generating!");
     }
   };
 
@@ -138,92 +129,71 @@ const Outfit = () => {
       state: {
         topImage: tops[topIndex]?.image,
         bottomImage: bottoms[bottomIndex]?.image,
-        footImage: footwear[footIndex]?.image,
-      },
+        footImage: footwear[footIndex]?.image
+      }
     });
   };
 
   const handleSaveOutfit = async () => {
     try {
-      const topId = tops[topIndex]?._id;
-      const bottomId = bottoms[bottomIndex]?._id;
-      const footId = footwear[footIndex]?._id;
-
-      const response = await fetch('/api/saved-outfits', {
-        method: 'POST',
+      const body = {
+        top: tops[topIndex]?._id,
+        bottom: bottoms[bottomIndex]?._id,
+        foot: footwear[footIndex]?._id
+      };
+      const resp = await fetch("/api/saved-outfits", {
+        method: "POST",
         headers: {
-          'Content-Type': 'application/json',
-          Authorization: `Bearer ${user.token}`,
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${user.token}`
         },
-        body: JSON.stringify({ top: topId, bottom: bottomId, foot: footId }),
+        body: JSON.stringify(body)
       });
-
-      const data = await response.json();
-      if (!response.ok) throw new Error(data.error);
-
-      alert('✨ Outfit saved successfully!');
-      navigate('/savedOutfits');
+      const data = await resp.json();
+      if (!resp.ok) throw new Error(data.error);
+      alert("✨ Outfit saved!");
+      navigate("/savedOutfits");
     } catch (err) {
-      console.error('Failed to save outfit:', err);
+      console.error(err);
       alert("❌ Could not save outfit");
     }
   };
 
   return (
     <div className="outfit-container">
-      
-
-      <div className="smallGlass">
-        <h2>Outfit Recommendation</h2>
-      </div>
-
-      <div className="virtual-container1" style={{ position: "relative" }}>
-        {/* Top */}
+      <div className="smallGlass"><h2>Outfit Recommendation</h2></div>
+      <div className="virtual-container1">
+        {/** Top **/}
         <div className="virtual-category-container">
-          <img src="/left.png" alt="Left" className="side-icon left-icon" onClick={() => slide("top", -1)} />
+          <img src="/left.png" onClick={() => slide("top", -1)} className="side-icon left-icon" />
           <div className="virtual-content-box">
-            {tops.length > 0 && tops[topIndex]?.image && (
-              <img src={tops[topIndex].image} alt="Top" className="outfit-preview-image" />
-            )}
+            {tops[topIndex]?.image && <img src={tops[topIndex].image} className="outfit-preview-image" />}
           </div>
-          <img src="/right.png" alt="Right" className="side-icon right-icon" onClick={() => slide("top", 1)} />
+          <img src="/right.png" onClick={() => slide("top", 1)} className="side-icon right-icon" />
         </div>
 
-        {/* Bottom */}
+        {/** Bottom **/}
         <div className="virtual-category-container">
-          <img src="/left.png" alt="Left" className="side-icon left-icon" onClick={() => slide("bottom", -1)} />
-          {bottoms.length > 0 && bottoms[bottomIndex]?.image && (
-            <img src={bottoms[bottomIndex].image} alt="Bottom" className="outfit-preview-image" />
-          )}
-          <img src="/right.png" alt="Right" className="side-icon right-icon" onClick={() => slide("bottom", 1)} />
+          <img src="/left.png" onClick={() => slide("bottom", -1)} className="side-icon left-icon" />
+          {bottoms[bottomIndex]?.image && <img src={bottoms[bottomIndex].image} className="outfit-preview-image" />}
+          <img src="/right.png" onClick={() => slide("bottom", 1)} className="side-icon right-icon" />
         </div>
 
-        {/* Footwear */}
+        {/** Footwear **/}
         <div className="virtual-category-container">
-          <img src="/left.png" alt="Left" className="side-icon left-icon" onClick={() => slide("foot", -1)} />
-          {footwear.length > 0 && footwear[footIndex]?.image && (
-            <img src={footwear[footIndex].image} alt="Foot" className="outfit-preview-image" />
-          )}
-          <img src="/right.png" alt="Right" className="side-icon right-icon" onClick={() => slide("foot", 1)} />
+          <img src="/left.png" onClick={() => slide("foot", -1)} className="side-icon left-icon" />
+          {footwear[footIndex]?.image && <img src={footwear[footIndex].image} className="outfit-preview-image" />}
+          <img src="/right.png" onClick={() => slide("foot", 1)} className="side-icon right-icon" />
         </div>
       </div>
 
-      {/* Buttons */}
       <div className="outfit-button-wrapper">
-        <button className="auto-btn" onClick={handleAutoGenerate}>
-          AUTO-GENERATE
-        </button>
-
+        <button className="auto-btn" onClick={handleAutoGenerate}>AUTO-GENERATE</button>
         <div className="action-btn-row">
-          <button className="action-btn" onClick={handleSeeLook}>
-            See How It Looks
-          </button>
-          <button className="action-btn" onClick={handleSaveOutfit}>
-              Save This Outfit
-          </button>
+          <button className="action-btn" onClick={handleSeeLook}>See How It Looks</button>
+          <button className="action-btn" onClick={handleSaveOutfit}>Save This Outfit</button>
         </div>
       </div>
-
     </div>
   );
 };
