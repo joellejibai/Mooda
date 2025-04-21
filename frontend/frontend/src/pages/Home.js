@@ -122,7 +122,7 @@ const Home = () => {
                 },
                 {
                     headers: {
-                        "X-Api-Key": "swcWctoSUXGcsQfoC3u8aMZ9",  // Replace with your API key
+                        "X-Api-Key": "g1kwjNwhTodt5aiYwDzzToJb",  // Replace with your API key
                         "Content-Type": "application/json",
                     },
                     responseType: "arraybuffer",
@@ -159,7 +159,7 @@ const Home = () => {
                     {
                         headers: {
                             // If you don't have an .env, use this:
-                            "X-Api-Key": "swcWctoSUXGcsQfoC3u8aMZ9",
+                            "X-Api-Key": "g1kwjNwhTodt5aiYwDzzToJb",
                             "Content-Type": "application/json"
                         },
                         responseType: "arraybuffer"
@@ -263,14 +263,14 @@ const Home = () => {
                         className="search-bar"
                     />
                 </div>
-                 {/* 🆕 Suggestions */}
-        {(topCount === 1 || bottomCount === 1 || shoeCount === 1) && (
-          <div className="notification-box">
-            {topCount === 1 && <p>👕 You only have 1 top. Add more to create varied outfits!</p>}
-            {bottomCount === 1 && <p>👖 You only have 1 bottom. Consider adding more pants or skirts!</p>}
-            {shoeCount === 1 && <p>👟 Just 1 pair of shoes? A second option could spice things up!</p>}
-          </div>
-        )}
+                {/* 🆕 Suggestions */}
+                {(topCount === 1 || bottomCount === 1 || shoeCount === 1) && (
+                    <div className="notification-box">
+                        {topCount === 1 && <p>👕 You only have 1 top. Add more to create varied outfits!</p>}
+                        {bottomCount === 1 && <p>👖 You only have 1 bottom. Consider adding more pants or skirts!</p>}
+                        {shoeCount === 1 && <p>👟 Just 1 pair of shoes? A second option could spice things up!</p>}
+                    </div>
+                )}
 
                 <div className="home">
                     <div className="items">
