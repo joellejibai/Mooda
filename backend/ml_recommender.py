@@ -74,8 +74,26 @@ def vectorize_and_match(user_profile, wardrobe_items, trend_items):
     print("👟 SHOES:", file=sys.stderr)
     for f in foots: print(f"  {f['category']} | {f['score']}", file=sys.stderr)
 
+    # Attach reasoning
+    def item_with_reason(item):
+        if not item:
+            return None
+        return {
+            "_id": item.get("_id"),
+            "category": item.get("category"),
+            "image": item.get("image"),
+            "color": item.get("color"),
+            "score": item.get("score"),
+            "tags": item.get("tags"),
+            "reason": f"Matched with your preference for {user_profile['style']}, {user_profile['colorPalette']}, {user_profile['pattern']} and trend overlap ({item.get('score'):.2f})"
+        }
+
     return {
-        "recommended_wardrobe": [top, bottom, foot],
+        "recommended_wardrobe": list(filter(None, [
+            item_with_reason(top),
+            item_with_reason(bottom),
+            item_with_reason(foot)
+        ])),
         "recommended_trends": sorted(trend_items, key=lambda x: x["score"], reverse=True)[:3]
     }
 
@@ -83,6 +101,6 @@ if __name__ == "__main__":
     try:
         inp = load_input()
         res = vectorize_and_match(inp["userStyle"], inp["items"], inp["trends"])
-        print(json.dumps(res, ensure_ascii=False))
+        print(json.dumps(res, ensure_ascii=False), flush=True)
     except Exception as e:
-        print(json.dumps({ "error": str(e) }, ensure_ascii=False))
+        print(json.dumps({ "error": str(e) }, ensure_ascii=False), flush=True)

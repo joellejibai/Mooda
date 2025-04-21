@@ -10,10 +10,10 @@ const Outfit = () => {
   const [tops, setTops] = useState([]);
   const [bottoms, setBottoms] = useState([]);
   const [footwear, setFootwear] = useState([]);
-
   const [topIndex, setTopIndex] = useState(0);
   const [bottomIndex, setBottomIndex] = useState(0);
   const [footIndex, setFootIndex] = useState(0);
+  const [reason, setReason] = useState(null);
 
   const topGroup = ["tshirt", "sweater", "hoodie", "top", "jacket", "dress", "crop-top", "tank-top"];
   const bottomGroup = ["pants", "jeans", "shorts", "skirt", "sweatpants", "trousers", "skort", "leggings"];
@@ -68,6 +68,7 @@ const Outfit = () => {
   const handleAutoGenerate = async () => {
     let spinner;
     try {
+      setReason(null);
       spinner = setInterval(() => {
         setTopIndex(Math.floor(Math.random() * tops.length));
         setBottomIndex(Math.floor(Math.random() * bottoms.length));
@@ -85,37 +86,26 @@ const Outfit = () => {
         return;
       }
 
-      console.log("🤖 Recommended wardrobe:", data.recommended_wardrobe);
-
-      const pick = (cats) =>
-        data.recommended_wardrobe.find(i =>
-          cats.includes(i.category?.toLowerCase())
-        );
-
+      const pick = (cats) => data.recommended_wardrobe.find(i => cats.includes(i.category?.toLowerCase()));
       const topItem = pick(topGroup);
       const bottomItem = pick(bottomGroup);
       const footItem = pick(footGroup);
 
-      if (!topItem || !bottomItem || !footItem) {
-        alert("We couldn't create a full outfit. Try uploading more variety!");
-        return;
-      }
+      const fallback = (arr, cat) => arr.findIndex(i => i.category?.toLowerCase() === cat?.toLowerCase());
+      let ti = tops.findIndex(i => i._id === topItem?._id);
+      if (ti === -1) ti = fallback(tops, topItem?.category);
 
-      const fallback = (arr, cat) =>
-        arr.findIndex(i => i.category?.toLowerCase() === cat?.toLowerCase());
+      let bi = bottoms.findIndex(i => i._id === bottomItem?._id);
+      if (bi === -1) bi = fallback(bottoms, bottomItem?.category);
 
-      let ti = tops.findIndex(i => i._id === topItem._id);
-      if (ti === -1) ti = fallback(tops, topItem.category);
-
-      let bi = bottoms.findIndex(i => i._id === bottomItem._id);
-      if (bi === -1) bi = fallback(bottoms, bottomItem.category);
-
-      let fi = footwear.findIndex(i => i._id === footItem._id);
-      if (fi === -1) fi = fallback(footwear, footItem.category);
+      let fi = footwear.findIndex(i => i._id === footItem?._id);
+      if (fi === -1) fi = fallback(footwear, footItem?.category);
 
       if (ti !== -1) setTopIndex(ti);
       if (bi !== -1) setBottomIndex(bi);
       if (fi !== -1) setFootIndex(fi);
+
+      if (data.reason) setReason(data.reason);
 
     } catch (err) {
       clearInterval(spinner);
@@ -161,9 +151,16 @@ const Outfit = () => {
 
   return (
     <div className="outfit-container">
+      {reason && (
+        <div className="outfit-notif">
+          <button onClick={() => setReason(null)}>✖</button>
+          <h4>Stylist’s Take ✨</h4>
+          <p>{reason}</p>
+        </div>
+      )}
+
       <div className="smallGlass"><h2>Outfit Recommendation</h2></div>
       <div className="virtual-container1">
-        {/** Top **/}
         <div className="virtual-category-container">
           <img src="/left.png" onClick={() => slide("top", -1)} className="side-icon left-icon" />
           <div className="virtual-content-box">
@@ -171,15 +168,11 @@ const Outfit = () => {
           </div>
           <img src="/right.png" onClick={() => slide("top", 1)} className="side-icon right-icon" />
         </div>
-
-        {/** Bottom **/}
         <div className="virtual-category-container">
           <img src="/left.png" onClick={() => slide("bottom", -1)} className="side-icon left-icon" />
           {bottoms[bottomIndex]?.image && <img src={bottoms[bottomIndex].image} className="outfit-preview-image" />}
           <img src="/right.png" onClick={() => slide("bottom", 1)} className="side-icon right-icon" />
         </div>
-
-        {/** Footwear **/}
         <div className="virtual-category-container">
           <img src="/left.png" onClick={() => slide("foot", -1)} className="side-icon left-icon" />
           {footwear[footIndex]?.image && <img src={footwear[footIndex].image} className="outfit-preview-image" />}
