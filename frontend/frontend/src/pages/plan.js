@@ -4,6 +4,7 @@ import { LocalizationProvider } from '@mui/x-date-pickers';
 import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
 import { DateCalendar } from '@mui/x-date-pickers/DateCalendar';
 import { useAuthPages } from '../hooks/useAuthPages';
+import { Box } from '@mui/material';
 
 const Plan = () => {
   const navigate = useNavigate();
@@ -13,20 +14,71 @@ const Plan = () => {
 
   const [selectedDate, setSelectedDate] = React.useState(null);
   const [savedDate, setSavedDate] = React.useState(null);
+  const [existingPlannedDates, setExistingPlannedDates] = React.useState([]);
 
-  // Handle going back to the previous page
   const handleGoBack = () => {
     navigate(-1);
   };
 
-  // Handle saving the planned date for the outfit
+  React.useEffect(() => {
+    const fetchPlannedDate = async () => {
+      if (!outfit || !user?.token) return;
+
+      try {
+        const res = await fetch(`/api/saved-outfits/${outfit._id}`, {
+          headers: {
+            Authorization: `Bearer ${user.token}`,
+          },
+        });
+
+        if (!res.ok) {
+          console.error('Failed to fetch outfit details');
+          return;
+        }
+
+        const data = await res.json();
+        if (data.date) {
+          setSavedDate(data.date);
+        }
+      } catch (err) {
+        console.error('Error fetching saved outfit:', err);
+      }
+    };
+
+    const fetchExistingPlannedDates = async () => {
+      if (!user?.token) return;
+
+      try {
+        const res = await fetch('/api/saved-outfits', {
+          headers: {
+            Authorization: `Bearer ${user.token}`,
+          },
+        });
+
+        if (!res.ok) {
+          console.error('Failed to fetch existing planned dates');
+          return;
+        }
+
+        const data = await res.json();
+        setExistingPlannedDates(data.filter(item => item.date));
+        console.log('Fetched planned dates:', data.filter(item => item.date));
+      } catch (err) {
+        console.error('Error fetching existing planned dates:', err);
+      }
+    };
+
+    fetchPlannedDate();
+    fetchExistingPlannedDates();
+  }, [outfit, user]);
+
   const handleSaveDate = async () => {
     if (!selectedDate) {
       alert('Please select a date.');
       return;
     }
 
-    if (!user || !user.token) {
+    if (!user?.token) {
       alert('You must be logged in to save your outfit.');
       return;
     }
@@ -36,9 +88,19 @@ const Plan = () => {
       return;
     }
 
-    try {
-      const formattedDate = selectedDate.toISOString();
+    const formattedSelectedDate = selectedDate.toISOString().split('T')[0];
 
+    const conflictingOutfit = existingPlannedDates.find(item => {
+      const existingDate = new Date(item.date).toISOString().split('T')[0];
+      return existingDate === formattedSelectedDate && item._id !== outfit._id;
+    });
+
+    if (conflictingOutfit) {
+      alert('This date is already taken by another outfit.');
+      return;
+    }
+
+    try {
       const res = await fetch(`/api/saved-outfits/${outfit._id}/plan`, {
         method: 'PATCH',
         headers: {
@@ -46,7 +108,7 @@ const Plan = () => {
           Authorization: `Bearer ${user.token}`,
         },
         body: JSON.stringify({
-          date: formattedDate, // Only send the date to update
+          date: selectedDate.toISOString(),
         }),
       });
 
@@ -58,7 +120,11 @@ const Plan = () => {
       }
 
       const data = await res.json();
-      setSavedDate(formattedDate);
+      setSavedDate(data.date);
+      setExistingPlannedDates(prev => {
+        const existing = prev.filter(item => item._id !== outfit._id);
+        return [...existing, data];
+      });
       alert('Outfit date saved successfully!');
     } catch (err) {
       console.error('Failed to save outfit date:', err);
@@ -66,9 +132,53 @@ const Plan = () => {
     }
   };
 
-  // Navigate to the SavedOutfits page
   const handleNavigateToSavedOutfits = () => {
-    navigate('/savedOutfits'); // Adjust this path if necessary
+    navigate('/savedOutfits');
+  };
+
+  const renderDay = (day, _selectedDate, pickersDayProps) => {
+    const formattedDay = day.toISOString().split('T')[0];
+    
+    const isTaken = existingPlannedDates.some(item => {
+      if (!item.date) return false;
+      const existingDate = new Date(item.date).toISOString().split('T')[0];
+      return existingDate === formattedDay && (!outfit || item._id !== outfit._id);
+    });
+    
+    const isSavedDate = savedDate && new Date(savedDate).toISOString().split('T')[0] === formattedDay;
+
+    return (
+      <Box
+        {...pickersDayProps}
+        sx={{
+          position: 'relative',
+          '& .MuiPickersDay-dayWithMargin': {
+            position: 'relative',
+          },
+          ...(isSavedDate && {
+            '& .Mui-selected': {
+              backgroundColor: 'rgba(0, 0, 255, 0.3)',
+            }
+          }),
+        }}
+      >
+        {pickersDayProps.day}
+        {(isTaken || isSavedDate) && (
+          <Box
+            sx={{
+              position: 'absolute',
+              bottom: 4,
+              right: 4,
+              width: 8,
+              height: 8,
+              borderRadius: '50%',
+              backgroundColor: isSavedDate ? 'blue' : 'red',
+              zIndex: 1,
+            }}
+          />
+        )}
+      </Box>
+    );
   };
 
   return (
@@ -95,7 +205,6 @@ const Plan = () => {
         </div>
       )}
 
-      {/* Display selected date immediately */}
       {selectedDate && (
         <div className="selected-date" style={{ textAlign: 'center', margin: '20px 0' }}>
           <h3>Selected Date: {selectedDate.toLocaleDateString()}</h3>
@@ -114,7 +223,8 @@ const Plan = () => {
             <LocalizationProvider dateAdapter={AdapterDateFns}>
               <DateCalendar
                 value={selectedDate}
-                onChange={(newValue) => setSelectedDate(newValue)} // Update selected date as the user picks it
+                onChange={(newValue) => setSelectedDate(newValue)}
+                renderDay={renderDay}
               />
             </LocalizationProvider>
           </div>
@@ -125,7 +235,6 @@ const Plan = () => {
         </div>
       </div>
 
-      {/* Button to go to SavedOutfits page */}
       <div className="saved-outfits-button" style={{ textAlign: 'center', marginTop: '20px' }}>
         <button onClick={handleNavigateToSavedOutfits} className="virtualfit-button">
           Go to Saved Outfits

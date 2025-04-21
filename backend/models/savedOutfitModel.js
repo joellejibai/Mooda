@@ -8,7 +8,8 @@ const savedOutfitSchema = new mongoose.Schema({
   foot: { type: mongoose.Schema.Types.ObjectId, required: true, ref: 'Item' },
   rating: { type: Number, min: 0, max: 5, default: 0 },
   date: { type: Date, default: null },
-  comment: { type: String, default: '' }
+  comment: { type: String, default: '' },
+  plannedDate: { type: Date, unique: true }, // Add plannedDate field
 }, { timestamps: true });
 
 module.exports = mongoose.model('SavedOutfit', savedOutfitSchema);

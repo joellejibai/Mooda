@@ -3785,7 +3785,7 @@ button1 {
   background: #222;
 }
 
-<<<<<<< HEAD
+
     .notification-box p {
       margin: 0;
       padding: 0;
@@ -3834,7 +3834,7 @@ button1 {
     }
     
     
-=======
+
 .notification-box {
 
   top: 20px;
@@ -3962,7 +3962,6 @@ button1 {
 }
 
 .outfit-notif {
-  position: fixed;
   top: 10px;
   left: 50%;
   transform: translateX(-50%);
@@ -3991,4 +3990,4 @@ button1 {
   from { transform: translate(-50%, -30px); opacity: 0; }
   to { transform: translate(-50%, 0); opacity: 1; }
 }
->>>>>>> 466d397283d9713d2bfd656857ccd53d624e58e2
+

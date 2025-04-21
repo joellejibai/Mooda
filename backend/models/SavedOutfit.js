@@ -22,6 +22,7 @@ const SavedOutfitSchema = new mongoose.Schema({
   },
   date: {
     type: Date,
+    
   },
   rating: {
     type: Number,

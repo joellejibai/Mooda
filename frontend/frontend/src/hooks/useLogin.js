@@ -1,10 +1,12 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-
+import { useAuthContext, useAuthPages } from './useAuthPages';
 export const useLogin = () => {
   const [error, setError] = useState(null);
   const [isLoading, setIsLoading] = useState(null);
   const navigate = useNavigate();
+  const { dispatch } = useAuthPages();
+
 
   const login = async (email, password) => {
     setIsLoading(true);
@@ -19,6 +21,10 @@ export const useLogin = () => {
     const json = await response.json();
 
     if (!response.ok) {
+      dispatch({ type: 'LOGIN', payload: json });
+
+      // 2. Optional: save to localStorage
+      localStorage.setItem('user', JSON.stringify(json));
       setIsLoading(false);
       setError(json.error);
     }

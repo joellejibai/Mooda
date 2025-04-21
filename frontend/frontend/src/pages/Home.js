@@ -10,12 +10,14 @@ import axios from "axios";
 
 const Home = () => {
     const { user } = useAuthPages();
+    const [reason, setReason] = useState(null);
     const [items, setItems] = useState([]);
     const [showAll, setShowAll] = useState(false);
     const [searchTerm, setSearchTerm] = useState("");
     const [selectedCategory, setSelectedCategory] = useState("all");
     const [showForm, setShowForm] = useState(false);  // State to control form visibility
     const [uploadedFile, setUploadedFile] = useState(null);
+    const [showAdvice, setShowAdvice] = useState(true);
 
     const [hasPhoto, setHasPhoto] = useState(false);
     const [imageData, setImageData] = useState("");
@@ -264,13 +266,16 @@ const Home = () => {
                     />
                 </div>
                 {/* 🆕 Suggestions */}
-                {(topCount === 1 || bottomCount === 1 || shoeCount === 1) && (
-                    <div className="notification-box">
-                        {topCount === 1 && <p>👕 You only have 1 top. Add more to create varied outfits!</p>}
-                        {bottomCount === 1 && <p>👖 You only have 1 bottom. Consider adding more pants or skirts!</p>}
-                        {shoeCount === 1 && <p>👟 Just 1 pair of shoes? A second option could spice things up!</p>}
-                    </div>
-                )}
+                {showAdvice && (topCount === 1 || bottomCount === 1 || shoeCount === 1) && (
+    <div className="outfit-notif">
+        <h4>Some Advice for you! ✨</h4>
+        {topCount === 1 && <p>👕 You only have 1 top. Add more to create varied outfits!</p>}
+        {bottomCount === 1 && <p>👖 You only have 1 bottom. Consider adding more pants or skirts!</p>}
+        {shoeCount === 1 && <p>👟 Just 1 pair of shoes? A second option could spice things up!</p>}
+        <button onClick={() => setShowAdvice(false)}>✖</button>
+    </div>
+)}
+
 
                 <div className="home">
                     <div className="items">
