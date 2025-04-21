@@ -1,6 +1,6 @@
-const mongoose = require('mongoose')
+const mongoose = require('mongoose');
 
-const Schema = mongoose.Schema
+const Schema = mongoose.Schema;
 
 const itemSchema = new Schema({
     category: {
@@ -19,6 +19,10 @@ const itemSchema = new Schema({
         type: String,
         required: true
     },
-}, { timestamps: true })
+    tags: {
+        type: [String],
+        default: []
+    }
+}, { timestamps: true });
 
-module.exports = mongoose.model('Item', itemSchema)
+module.exports = mongoose.model('Item', itemSchema);

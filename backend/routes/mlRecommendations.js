@@ -14,8 +14,13 @@ router.get("/ml/:userId", async (req, res) => {
         const trends = await Trend.find();
 
         if (!userStyle) {
-            return res.status(400).json({ message: "Style preferences not found for this user." });
+            userStyle = {
+                style: "casual",
+                colorPalette: "neutral",
+                pattern: "none"
+            };
         }
+
 
         const py = spawn("python", ["ml_recommender.py"]); // ✅ not "python3" on Windows
 
