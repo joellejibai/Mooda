@@ -17,7 +17,7 @@ const ItemDetails = ({ item, onDelete }) => {
             if (!res.ok) throw new Error("Failed to delete");
 
             if (onDelete) onDelete(item._id);
-            setShowConfirm(false); // Close popup after delete
+            setShowConfirm(false);
         } catch (err) {
             console.error("Delete error:", err);
         }
@@ -25,26 +25,31 @@ const ItemDetails = ({ item, onDelete }) => {
 
     return (
         <div className="item-card">
-            <div
-                className="item-image"
-                style={{
-                    backgroundImage: `url(${item.image})`,
-                    backgroundSize: "cover",
-                    backgroundPosition: "center",
-                }}
-            ></div>
+            {/* ✅ Fixed image rendering */}
+            {item.image ? (
+                <div className="item-image">
+                    <img
+                        src={item.image}
+                        alt={item.category || "Clothing item"}
+                        style={{
+                            width: "100%",
+                            height: "auto",
+                            borderRadius: "10px",
+                            objectFit: "cover",
+                        }}
+                    />
+                </div>
+            ) : (
+                <div className="item-image-placeholder">No Image</div>
+            )}
 
-            {/* Delete icon OUTSIDE the blurred area */}
-            <span className="delete-overlay" onClick={() => setShowConfirm(true)}>
-                🗑
-            </span>
+            <span className="delete-overlay" onClick={() => setShowConfirm(true)}>🗑</span>
 
             <div className="item-info">
                 <p><strong>Category:</strong> {item.category}</p>
                 <p><strong>Color:</strong> {item.color}</p>
             </div>
 
-            {/* Custom popup for confirmation */}
             {showConfirm && (
                 <div className="confirm-popup">
                     <p>Are you sure you want to delete this item?</p>

@@ -1,16 +1,24 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useAuthPages } from "../hooks/useAuthPages";
 import { AuthPages } from "../context/AuthPages";
 
 const ItemsForm = ({ addItem, imageData, onClose }) => {
-    const { user, dispatch } = useAuthPages();
+    const { user } = useAuthPages();
 
     const [category, setCategory] = useState('');
     const [color, setColor] = useState('');
     const [imageURL, setImageURL] = useState(imageData || '');
+    const [previewImage, setPreviewImage] = useState(imageData || '');
 
     const [error, setError] = useState(null);
     const [successMessage, setSuccessMessage] = useState('');
+
+    // 👁️ Show preview right away
+    useEffect(() => {
+        if (imageData) {
+            setPreviewImage(imageData); // Show original immediately
+        }
+    }, [imageData]);
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -20,22 +28,22 @@ const ItemsForm = ({ addItem, imageData, onClose }) => {
             return;
         }
 
-        if (!imageData || imageData.trim() === "" || imageData.length < 100) {
+        if (!previewImage || previewImage.trim() === "" || previewImage.length < 100) {
             setError("Please take or upload a photo before submitting.");
             return;
         }
 
         const item = {
-            image: imageData || imageURL,
+            image: previewImage, // ✅ Submit cleaned image if available
             category,
             color,
         };
 
-        const response = await fetch("/api/upload", {  // ✅ <- use /upload
+        const response = await fetch("/api/upload", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
-                Authorization: `Bearer ${user.token}`, // ✅ token will be used to get user_id in backend
+                Authorization: `Bearer ${user.token}`,
             },
             body: JSON.stringify(item),
         });
@@ -51,38 +59,47 @@ const ItemsForm = ({ addItem, imageData, onClose }) => {
             setColor("");
             setError(null);
             setSuccessMessage("Item was added successfully!");
-
-            // ✅ Close the form after success
             if (onClose) onClose();
         }
     };
 
-
+    // 🔍 Debug
+    console.log("🖼️ Preview image being shown:", previewImage);
 
     return (
         <form className="create" onSubmit={handleSubmit}>
             <h3>Add an Item</h3>
 
-            {/* Form Fields */}
             <label>CATEGORY</label>
-            <input type="text" onChange={(e) => setCategory(e.target.value)} value={category} />
+            <input
+                type="text"
+                onChange={(e) => setCategory(e.target.value)}
+                value={category}
+            />
 
             <label>COLOR</label>
-            <input type="text" onChange={(e) => setColor(e.target.value)} value={color} />
+            <input
+                type="text"
+                onChange={(e) => setColor(e.target.value)}
+                value={color}
+            />
 
-            {imageData && (
+            {previewImage && previewImage.length > 100 && (
                 <div className="image-preview-container">
                     <h4>Camera Photo Preview:</h4>
                     <div className="image-preview">
-                        <img
-                            src={imageData}
-                            alt="Camera Preview"
-                            style={{ maxWidth: "200px", height: "auto", borderRadius: "8px" }}
-                        />
+                        {imageData && (
+                            <img
+                                src={imageData}
+                                alt="Preview"
+                                className="preview-img"
+                            />
+
+                        )}
+
                     </div>
                 </div>
             )}
-
 
             <button type="submit">Add Item</button>
 

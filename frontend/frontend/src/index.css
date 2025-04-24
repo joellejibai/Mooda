@@ -619,6 +619,7 @@ canvas {
   border: 2px solid #ccc;
   /* margin-top: 10px; */
 }
+
 .photo-choice {
   text-align: center;
   margin-top: 1rem;
@@ -1903,12 +1904,27 @@ form.login input::placeholder {
 }
 
 .image-preview {
-  width: 0px;
-  height: 200px;
-  overflow: hidden;
-  border: 2px solid #ddd;
-  border-radius: 10px;
+  width: 100%;
+  max-width: 240px;
+  height: auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 10px;
+  background-color: #f8f8f8;
+  border-radius: 8px;
+  margin: 0 auto;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
 }
+
+.image-preview img {
+  width: 100%;
+  max-width: 240px;
+  height: auto;
+  object-fit: contain;
+  display: block;
+}
+
 
 .image-preview img {
   width: 100%;
@@ -3857,54 +3873,55 @@ button1 {
 }
 
 
-    .notification-box p {
-      margin: 0;
-      padding: 0;
-    }
-    .outfit-card {
-      background-color: #fff;
-      padding: 15px;
-      border-radius: 10px;
-      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-      transition: transform 0.3s ease, box-shadow 0.3s ease;
-    }
-    
-    .outfit-card:hover {
-      transform: translateY(-5px);
-      box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2);
-    }
-    
-    .outfit-details {
-      margin-bottom: 10px;
-    }
-    
-    .outfit-date {
-      font-size: 14px;
-      color: #888;
-      font-style: italic;
-      margin-top: 10px;
-    }
-    
-    
-    .saved-outfits-button {
-      margin-top: 20px;
-    }
-    
-    .virtualfit-button {
-      padding: 10px 20px;
-      font-size: 16px;
-      background-color: #4CAF50;
-      color: white;
-      border: none;
-      border-radius: 5px;
-      cursor: pointer;
-    }
-    
-    .virtualfit-button:hover {
-      background-color: #45a049;
-    }
-    
-    
+.notification-box p {
+  margin: 0;
+  padding: 0;
+}
+
+.outfit-card {
+  background-color: #fff;
+  padding: 15px;
+  border-radius: 10px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.outfit-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2);
+}
+
+.outfit-details {
+  margin-bottom: 10px;
+}
+
+.outfit-date {
+  font-size: 14px;
+  color: #888;
+  font-style: italic;
+  margin-top: 10px;
+}
+
+
+.saved-outfits-button {
+  margin-top: 20px;
+}
+
+.virtualfit-button {
+  padding: 10px 20px;
+  font-size: 16px;
+  background-color: #4CAF50;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.virtualfit-button:hover {
+  background-color: #45a049;
+}
+
+
 
 .notification-box {
 
@@ -4039,7 +4056,7 @@ button1 {
   background: white;
   padding: 16px 24px;
   border-radius: 12px;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
   z-index: 9999;
   max-width: 500px;
   width: 90%;
@@ -4058,7 +4075,94 @@ button1 {
 }
 
 @keyframes slideDown {
-  from { transform: translate(-50%, -30px); opacity: 0; }
-  to { transform: translate(-50%, 0); opacity: 1; }
+  from {
+    transform: translate(-50%, -30px);
+    opacity: 0;
+  }
+
+  to {
+    transform: translate(-50%, 0);
+    opacity: 1;
+  }
+}
+
+
+.item-image img {
+  width: 100%;
+  height: auto;
+  object-fit: cover;
+  border-radius: 10px;
+}
+
+.image-preview img {
+  width: 100%;
+  max-width: 240px;
+  height: auto;
+  margin-top: 1rem;
+  border: 2px solid #ccc;
+  border-radius: 10px;
+  object-fit: contain;
+  background-color: #e6e6e6;
+  /* 👈 Makes white transparent images visible */
+  padding: 10px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  /* 💅 Optional */
+}
+
+.image-preview-wrapper img {
+  width: 100%;
+  max-width: 240px;
+  height: auto;
+  object-fit: contain;
+  display: block;
+  margin: 0 auto;
+}
+
+
+.image-preview-container {
+  margin-top: 10px;
+  text-align: center;
+}
+
+.image-preview {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 150px;
+  /* 👈 Force enough space to view the preview */
+  padding: 10px;
+  background-color: #f8f8f8;
+  border-radius: 8px;
+}
+
+.image-preview {
+  box-shadow: 0 12px 25px rgba(0, 0, 0, 0.15);
+  border: 1px solid #ddd;
+  border-radius: 12px;
+  background: white;
+}
+
+.image-preview-container {
+  backdrop-filter: blur(10px);
+  background: rgba(255, 255, 255, 0.35);
+  border-radius: 16px;
+  padding: 20px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.4);
+}
+.preview-img {
+  width: 100%;
+  max-width: 240px;
+  height: auto;
+  border-radius: 12px;
+  border: 2px dashed #aaa;
+  background-color: #f9f9f9;
+  padding: 10px;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+  transition: transform 0.3s ease;
+}
+
+.preview-img:hover {
+  transform: scale(1.03);
 }
 

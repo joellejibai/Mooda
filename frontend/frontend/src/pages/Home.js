@@ -150,17 +150,22 @@ const Home = () => {
 
         const reader = new FileReader();
         reader.onloadend = async () => {
-            const base64 = reader.result.split(",")[1];
+            const base64Full = reader.result; // full data:image/png;base64,...
+            setHasPhoto(true);
+            setImageData(base64Full); // 🔥 Pass full string for immediate preview
+
+            setShowForm(true); // ✅ Open form AFTER setting the image
+
+            // Optional: Remove.bg enhancement
             try {
                 const response = await axios.post(
                     "https://api.remove.bg/v1.0/removebg",
                     {
-                        image_file_b64: base64,
+                        image_file_b64: base64Full.split(",")[1], // this is the base64 without prefix
                         size: "auto"
                     },
                     {
                         headers: {
-                            // If you don't have an .env, use this:
                             "X-Api-Key": "g1kwjNwhTodt5aiYwDzzToJb",
                             "Content-Type": "application/json"
                         },
@@ -175,25 +180,16 @@ const Home = () => {
                     )
                 )}`;
 
-                setHasPhoto(true);
-                setImageData(result);
-
-                setTimeout(() => setShowForm(true), 100);
-
+                setImageData(result); // update with clean image
             } catch (err) {
-                console.error("❌ Upload & Remove.bg error:", err.response?.data || err.message);
-
-                // fallback image (base64 version with background still in)
-                const fallbackBase64 = reader.result; // full base64, not split
-                setHasPhoto(true);
-                setImageData(fallbackBase64);  // 👈 THIS IS WHAT WAS MISSING
-
-                setTimeout(() => setShowForm(true), 100);
+                console.error("❌ Remove.bg error:", err.response?.data || err.message);
+                // keep fallback image (already in imageData)
             }
-
         };
+
         reader.readAsDataURL(file);
     };
+
 
     const handleDeleteItem = async (id) => {
         try {
@@ -267,14 +263,14 @@ const Home = () => {
                 </div>
                 {/* 🆕 Suggestions */}
                 {showAdvice && (topCount === 1 || bottomCount === 1 || shoeCount === 1) && (
-    <div className="outfit-notif">
-        <h4>Some Advice for you! ✨</h4>
-        {topCount === 1 && <p>👕 You only have 1 top. Add more to create varied outfits!</p>}
-        {bottomCount === 1 && <p>👖 You only have 1 bottom. Consider adding more pants or skirts!</p>}
-        {shoeCount === 1 && <p>👟 Just 1 pair of shoes? A second option could spice things up!</p>}
-        <button onClick={() => setShowAdvice(false)}>✖</button>
-    </div>
-)}
+                    <div className="outfit-notif">
+                        <h4>Some Advice for you! ✨</h4>
+                        {topCount === 1 && <p>👕 You only have 1 top. Add more to create varied outfits!</p>}
+                        {bottomCount === 1 && <p>👖 You only have 1 bottom. Consider adding more pants or skirts!</p>}
+                        {shoeCount === 1 && <p>👟 Just 1 pair of shoes? A second option could spice things up!</p>}
+                        <button onClick={() => setShowAdvice(false)}>✖</button>
+                    </div>
+                )}
 
 
                 <div className="home">
