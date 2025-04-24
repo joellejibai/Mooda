@@ -14,6 +14,7 @@ const Outfit = () => {
   const [bottomIndex, setBottomIndex] = useState(0);
   const [footIndex, setFootIndex] = useState(0);
   const [reason, setReason] = useState(null);
+  const [popupMessage, setPopupMessage] = useState(null);
 
   const topGroup = ["tshirt", "sweater", "hoodie", "top", "jacket", "dress", "crop-top", "tank-top"];
   const bottomGroup = ["pants", "jeans", "shorts", "skirt", "sweatpants", "trousers", "skort", "leggings"];
@@ -82,7 +83,8 @@ const Outfit = () => {
       clearInterval(spinner);
 
       if (data.error) {
-        alert(`💔 ${data.error}`);
+        setPopupMessage(`💔 ${data.error}`);
+        setTimeout(() => setPopupMessage(null), 3000);
         return;
       }
 
@@ -106,11 +108,11 @@ const Outfit = () => {
       if (fi !== -1) setFootIndex(fi);
 
       if (data.reason) setReason(data.reason);
-
     } catch (err) {
       clearInterval(spinner);
       console.error(err);
-      alert(err.message || "Something broke while generating!");
+      setPopupMessage(err.message || "Something broke while generating!");
+      setTimeout(() => setPopupMessage(null), 3000);
     }
   };
 
@@ -119,7 +121,10 @@ const Outfit = () => {
       state: {
         topImage: tops[topIndex]?.image,
         bottomImage: bottoms[bottomIndex]?.image,
-        footImage: footwear[footIndex]?.image
+        footImage: footwear[footIndex]?.image,
+        selectedTopId: tops[topIndex]?._id,
+        selectedBottomId: bottoms[bottomIndex]?._id,
+        selectedFootwearId: footwear[footIndex]?._id
       }
     });
   };
@@ -141,11 +146,15 @@ const Outfit = () => {
       });
       const data = await resp.json();
       if (!resp.ok) throw new Error(data.error);
-      alert("✨ Outfit saved!");
-      navigate("/savedOutfits");
+      setPopupMessage("✨ Outfit saved!");
+      setTimeout(() => {
+        setPopupMessage(null);
+        navigate("/savedOutfits");
+      }, 2000);
     } catch (err) {
       console.error(err);
-      alert("❌ Could not save outfit");
+      setPopupMessage("❌ Could not save outfit");
+      setTimeout(() => setPopupMessage(null), 3000);
     }
   };
 
@@ -156,6 +165,12 @@ const Outfit = () => {
           <button onClick={() => setReason(null)}>✖</button>
           <h4>Stylist’s Take ✨</h4>
           <p>{reason}</p>
+        </div>
+      )}
+      {popupMessage && (
+        <div className="outfit-notif">
+          <button onClick={() => setPopupMessage(null)}>✖</button>
+          <p>{popupMessage}</p>
         </div>
       )}
 

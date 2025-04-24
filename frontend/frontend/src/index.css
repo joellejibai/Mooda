@@ -619,6 +619,77 @@ canvas {
   border: 2px solid #ccc;
   /* margin-top: 10px; */
 }
+.photo-choice {
+  text-align: center;
+  margin-top: 1rem;
+}
+
+.photo-choice button {
+  margin: 0.5rem;
+  padding: 0.5rem 1rem;
+  border-radius: 8px;
+  border: none;
+  background-color: #f5f0e1;
+  cursor: pointer;
+  transition: 0.3s ease;
+}
+
+.photo-choice button:hover {
+  background-color: #e1dacb;
+}
+
+/* Upload input styling */
+input[type="file"] {
+  display: block;
+  margin: 1rem auto;
+  padding: 0.5rem;
+  border: 2px dashed #ccc;
+  border-radius: 10px;
+  background-color: #f9f9f9;
+  cursor: pointer;
+  width: 80%;
+  max-width: 400px;
+  transition: all 0.3s ease;
+}
+
+input[type="file"]:hover {
+  background-color: #f0f0f0;
+  border-color: #aaa;
+}
+
+/* Camera section styling */
+.camera-section {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+  margin-top: 1rem;
+}
+
+.camera-section video,
+.camera-section canvas {
+  border-radius: 15px;
+  width: 80%;
+  max-width: 400px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.camera-section button {
+  padding: 0.6rem 1.2rem;
+  border: none;
+  border-radius: 8px;
+  background-color: white;
+  color: #333;
+  font-weight: bold;
+  cursor: pointer;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  transition: background-color 0.3s ease;
+}
+
+.camera-section button:hover {
+  background-color: #ddd;
+}
+
 
 button {
   display: flex;

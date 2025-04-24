@@ -18,7 +18,7 @@ const Footer = () => {
           <a href="mailto:contact@smartcloset.com" className="footer-icon">
             <FaEnvelope />
           </a>
-          <a href="https://instagram.com" target="_blank" rel="noopener noreferrer" className="footer-icon">
+          <a href="https://www.instagram.com/moodawardrobe/" target="_blank" rel="noopener noreferrer" className="footer-icon">
             <FaInstagram />
           </a>
           <a href="https://tiktok.com" target="_blank" rel="noopener noreferrer" className="footer-icon">

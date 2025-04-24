@@ -138,13 +138,13 @@ const Plan = () => {
 
   const renderDay = (day, _selectedDate, pickersDayProps) => {
     const formattedDay = day.toISOString().split('T')[0];
-    
+
     const isTaken = existingPlannedDates.some(item => {
       if (!item.date) return false;
       const existingDate = new Date(item.date).toISOString().split('T')[0];
       return existingDate === formattedDay && (!outfit || item._id !== outfit._id);
     });
-    
+
     const isSavedDate = savedDate && new Date(savedDate).toISOString().split('T')[0] === formattedDay;
 
     return (

@@ -1,11 +1,24 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { FaChevronLeft, FaChevronRight } from 'react-icons/fa';
+import { useAuthPages } from "../hooks/useAuthPages";
+
 
 const Virtual = () => {
   const location = useLocation();
   const navigate = useNavigate();
-  const { topImage, bottomImage, footImage } = location.state || {};
+  const { user } = useAuthPages();
+
+  const [popupMessage, setPopupMessage] = useState(null);
+
+  const {
+    topImage,
+    bottomImage,
+    footImage,
+    selectedTopId,
+    selectedBottomId,
+    selectedFootwearId
+  } = location.state || {};
 
   const [error, setError] = useState(null);
   const [cameraReady, setCameraReady] = useState(false);
@@ -156,7 +169,6 @@ const Virtual = () => {
       let relX = (x - rect.left) / canvas.width;
       let relY = (y - rect.top) / canvas.height;
 
-      // Clamp so it doesn’t escape canvas
       relX = Math.max(0, Math.min(1 - state.width, relX));
       relY = Math.max(0, Math.min(1 - state.height, relY));
 
@@ -237,6 +249,40 @@ const Virtual = () => {
       canvas.removeEventListener("touchend", onTouchEnd);
     };
   }, [activeAdjust, isDragging]);
+
+  const handleSaveOutfit = async () => {
+    if (!selectedTopId || !selectedBottomId || !selectedFootwearId) {
+      setPopupMessage("❌ Please generate or select a full outfit before saving.");
+      return;
+    }
+
+    try {
+      const body = {
+        top: selectedTopId,
+        bottom: selectedBottomId,
+        foot: selectedFootwearId
+      };
+
+      const resp = await fetch("/api/saved-outfits", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${user.token}`
+        },
+        body: JSON.stringify(body)
+      });
+
+      const data = await resp.json();
+      if (!resp.ok) throw new Error(data.error);
+
+      setPopupMessage("✨ Outfit saved!");
+      setTimeout(() => navigate("/savedOutfits"), 2000);
+    } catch (err) {
+      console.error(err);
+      setPopupMessage("❌ Could not save outfit");
+    }
+  };
+
 
   return (
     <div className="camera-container">
@@ -325,6 +371,19 @@ const Virtual = () => {
           </button>
         </div>
       </div>
+
+      <div style={{ textAlign: "center", marginTop: "2rem" }}>
+        <button className="btn primary" onClick={handleSaveOutfit}>
+          Save This Outfit
+        </button>
+      </div>
+      {popupMessage && (
+        <div className="outfit-notif">
+          <button onClick={() => setPopupMessage(null)}>✖</button>
+          <p>{popupMessage}</p>
+        </div>
+      )}
+
     </div>
   );
 };
