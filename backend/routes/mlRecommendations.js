@@ -9,6 +9,7 @@ router.get("/ml/:userId", async (req, res) => {
     try {
         const userId = req.params.userId;
 
+        // 🧠 Fetch user wardrobe, style and trends
         const items = await Item.find({ user_id: userId });
         const trends = await Trend.find();
         let userStyle = await UserStyle.findOne({ userId });
@@ -21,6 +22,13 @@ router.get("/ml/:userId", async (req, res) => {
             };
         }
 
+        // ✅ Log what's being sent to Python
+        console.log("🧠 Sending to ML:", JSON.stringify({ userStyle, items, trends }, null, 2));
+        items.forEach(i => {
+            console.log("🧩 Item:", i.category, i.color, i.tags);
+        });
+
+        // 🧠 Call the Python ML process
         const mlProcess = spawn("python", ["ml_recommender.py"]);
         const input = JSON.stringify({ userStyle, items, trends });
         let output = "";
@@ -65,6 +73,7 @@ router.get("/ml/:userId", async (req, res) => {
                 foot: `${foot?.category || ''} in ${foot?.color || ''}`
             };
 
+            // 🔮 GPT Reasoning
             const gptProcess = spawn("python", ["gpt_reasoning.py"]);
             const gptInput = JSON.stringify({ userStyle, outfit });
             let gptOutput = "";

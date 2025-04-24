@@ -10,17 +10,38 @@ def load_input():
     return json.loads(raw)
 
 def vectorize_and_match(user_profile, wardrobe_items, trend_items):
-    # Build user text
-    user_text = f"{user_profile['style']} {user_profile['colorPalette']} {user_profile['pattern']}".lower()
+    # 🎯 Simulate tags based on user style to match item tags
+    user_tags = []
 
-    # Ensure tags list exists
+    style_map = {
+        "casual": ["tshirt", "hoodie", "jeans", "sneakers"],
+        "elegant": ["shirt", "trousers", "heels"],
+        "sporty": ["tank-top", "leggings", "sneakers"],
+        "vintage": ["jacket", "denim", "boots"]
+    }
+    color_palette_map = {
+        "neutral": ["white", "black", "beige", "gray"],
+        "colorful": ["red", "blue", "yellow", "pink"]
+    }
+    pattern_map = {
+        "none": [],
+        "stripes": ["striped"],
+        "floral": ["flowers", "floral"]
+    }
+
+    user_tags += style_map.get(user_profile["style"].lower(), [])
+    user_tags += color_palette_map.get(user_profile["colorPalette"].lower(), [])
+    user_tags += pattern_map.get(user_profile["pattern"].lower(), [])
+
+    user_text = " ".join(user_tags)
+
+    # 🧹 Ensure tags are present
     for itm in wardrobe_items + trend_items:
         if not isinstance(itm.get('tags', []), list):
             itm['tags'] = []
 
-    # Prepare TF-IDF corpora
     wardrobe_texts = [" ".join(itm['tags']).lower() for itm in wardrobe_items]
-    trend_texts    = [" ".join(itm['tags']).lower() for itm in trend_items]
+    trend_texts = [" ".join(itm['tags']).lower() for itm in trend_items]
 
     if not wardrobe_items or not trend_items:
         return { "error": "Not enough items or trends." }
@@ -28,12 +49,12 @@ def vectorize_and_match(user_profile, wardrobe_items, trend_items):
         return { "error": "All tags are empty." }
 
     all_texts = [user_text] + wardrobe_texts + trend_texts
-    vec = TfidfVectorizer()
+    vec = TfidfVectorizer(stop_words='english')
     mats = vec.fit_transform(all_texts)
 
-    user_vec     = mats[0]
-    ward_vecs    = mats[1:1+len(wardrobe_items)]
-    trend_vecs   = mats[1+len(wardrobe_items):]
+    user_vec = mats[0]
+    ward_vecs = mats[1:1 + len(wardrobe_items)]
+    trend_vecs = mats[1 + len(wardrobe_items):]
 
     w_scores = cosine_similarity(user_vec, ward_vecs).flatten()
     t_scores = cosine_similarity(user_vec, trend_vecs).flatten()
@@ -43,38 +64,37 @@ def vectorize_and_match(user_profile, wardrobe_items, trend_items):
     for i, itm in enumerate(trend_items):
         itm["score"] = float(t_scores[i])
 
-    # Boost for matching trend tags
+    # 🔥 Boost for overlapping tags with trends
     trend_tag_set = {tag.lower() for tr in trend_items for tag in tr.get("tags", [])}
     for itm in wardrobe_items:
         overlap = sum(1 for tag in itm['tags'] if tag.lower() in trend_tag_set)
-        itm["score"] += 0.05 * overlap
+        itm["score"] += 0.2 * overlap
 
-    # Categorize
-    is_top    = lambda c: c in ['top','tshirt','hoodie','jacket','sweater','crop-top','tank-top','dress']
-    is_bot    = lambda c: c in ['pants','jeans','shorts','skirt','trousers','leggings','sweatpants']
-    is_foot   = lambda c: c in ['foot','shoes','sneakers','heels','boots']
+    # 🧠 Category filters
+    is_top = lambda c: c in ['top', 'tshirt', 'hoodie', 'jacket', 'sweater', 'crop-top', 'tank-top', 'dress']
+    is_bot = lambda c: c in ['pants', 'jeans', 'shorts', 'skirt', 'trousers', 'leggings', 'sweatpants']
+    is_foot = lambda c: c in ['foot', 'shoes', 'sneakers', 'heels', 'boots']
 
-    tops    = [i for i in wardrobe_items if is_top(i.get("category","").lower())]
-    bottoms = [i for i in wardrobe_items if is_bot(i.get("category","").lower())]
-    foots   = [i for i in wardrobe_items if is_foot(i.get("category","").lower())]
+    tops = [i for i in wardrobe_items if is_top(i.get("category", "").lower())]
+    bottoms = [i for i in wardrobe_items if is_bot(i.get("category", "").lower())]
+    foots = [i for i in wardrobe_items if is_foot(i.get("category", "").lower())]
 
     pick = lambda arr: random.choice(sorted(arr, key=lambda x: x["score"], reverse=True)[:3]) if arr else None
-    top    = pick(tops)
+    top = pick(tops)
     bottom = pick(bottoms)
-    foot   = pick(foots)
+    foot = pick(foots)
 
     if not (top and bottom and foot):
         return { "error": "Could not pick full outfit; try adding more variety." }
 
-    # Debug logs
+    # 🧾 Logs
     print("🧥 TOPS:", file=sys.stderr)
-    for t in tops: print(f"  {t['category']} | {t['score']}", file=sys.stderr)
+    for t in tops: print(f"  {t['category']} | {t['score']:.2f}", file=sys.stderr)
     print("👖 BOTTOMS:", file=sys.stderr)
-    for b in bottoms: print(f"  {b['category']} | {b['score']}", file=sys.stderr)
+    for b in bottoms: print(f"  {b['category']} | {b['score']:.2f}", file=sys.stderr)
     print("👟 SHOES:", file=sys.stderr)
-    for f in foots: print(f"  {f['category']} | {f['score']}", file=sys.stderr)
+    for f in foots: print(f"  {f['category']} | {f['score']:.2f}", file=sys.stderr)
 
-    # Attach reasoning
     def item_with_reason(item):
         if not item:
             return None

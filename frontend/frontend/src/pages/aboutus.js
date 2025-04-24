@@ -32,7 +32,7 @@ const AboutUs = () => {
           <ul>
             <li><strong>Sustainability:</strong> Reducing fashion waste through smart outfit planning.</li>
             <li><strong>Personalization:</strong> Tailored styling based on your preferences.</li>
-            <li><strong>Innovation:</strong> Leveraging AI to enhance your wardrobe decisions.</li>
+            <li><strong>Innovation:</strong> Leveraging ML to enhance your wardrobe decisions.</li>
             <li><strong>Empowerment:</strong> Helping you feel confident and creative with fashion.</li>
           </ul>
         </div>
