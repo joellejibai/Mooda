@@ -61,14 +61,15 @@ Welcome to our full-stack web app! In the chaos of everyday life, choosing your 
 ## Website Demo
 
 <div style="text-align:center;">
-    <img src="./demo/demo.jpeg" width="300">
-    <img src="./demo/demo1.jpeg" width="300">
-    <img src=".demo/demo2.jpeg" width="300">
-    <img src=".demo/demo3.jpeg" width="300">
-    <img src=".demo/demo4.jpeg" width="300">
-    <img src=".demo/demo5.jpeg" width="300">
-    <img src=".demo/demo6.jpeg" width="300">
-    <img src=".demo/demo7.jpeg" width="300">
+    <img src="frontend/frontend/demo/demo.jpeg" width="300">
+<img src="frontend/frontend/demo/demo1.jpeg" width="300">
+<img src="frontend/frontend/demo/demo2.jpeg" width="300">
+<img src="frontend/frontend/demo/demo3.jpeg" width="300">
+<img src="frontend/frontend/demo/demo4.jpeg" width="300">
+<img src="frontend/frontend/demo/demo5.jpeg" width="300">
+<img src="frontend/frontend/demo/demo6.jpeg" width="300">
+<img src="frontend/frontend/demo/demo7.jpeg" width="300">
+
 </div>
 
 <!-- USAGE EXAMPLES -->
