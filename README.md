@@ -61,14 +61,14 @@ Welcome to our full-stack web app! In the chaos of everyday life, choosing your 
 ## Website Demo
 
 <div style="text-align:center;">
-    <img src="./demo/WhatsApp Image 2025-04-28 at 6.46.31 PM (1).jpeg" width="300">
-    <img src="./demo/WhatsApp Image 2025-04-28 at 6.46.57 PM (1).jpeg" width="300">
-    <img src=".demo/WhatsApp Image 2025-04-28 at 6.48.34 PM (1).jpeg" width="300">
-    <img src="./demo/WhatsApp Image 2025-04-28 at 6.50.08 PM.jpeg" width="300">
-    <img src="./demo/WhatsApp Image 2025-04-28 at 6.55.32 PM (1).jpeg" width="300">
-    <img src="./demo/WhatsApp Image 2025-04-28 at 6.56.36 PM (1).jpeg" width="300">
-    <img src=".demo/WhatsApp Image 2025-04-28 at 6.58.27 PM (1).jpeg" width="300">
-    <img src=".demo/WhatsApp Image 2025-04-28 at 7.00.10 PM (1).jpeg" width="300">
+    <img src="./demo/demo.jpeg" width="300">
+    <img src="./demo/demo1.jpeg" width="300">
+    <img src=".demo/demo2.jpeg" width="300">
+    <img src=".demo/demo3.jpeg" width="300">
+    <img src=".demo/demo4.jpeg" width="300">
+    <img src=".demo/demo5.jpeg" width="300">
+    <img src=".demo/demo6.jpeg" width="300">
+    <img src=".demo/demo7.jpeg" width="300">
 </div>
 
 <!-- USAGE EXAMPLES -->
