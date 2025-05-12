@@ -72,10 +72,20 @@ Welcome to our full-stack web app! In the chaos of everyday life, choosing your 
 </div>
 
 <!-- USAGE EXAMPLES -->
-## how to run it
+## How to Run It
 
+- Install **Node.js** and **npm** if you don’t already have them.
 
+- Download or clone the project:
+  - `git clone https://github.com/your-username/mooda.git`
+  - `cd mooda`
 
+- Install the required dependencies:
+  - `npm install`
+
+- Start the application:
+  - `npm start`
+  - Then open [http://localhost:3000](http://localhost:3000) in your browser to use the app.
 
 <!-- ACKNOWLEDGMENTS -->
 ## Acknowledgments
