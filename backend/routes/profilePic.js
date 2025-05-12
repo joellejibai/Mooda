@@ -1,39 +1,43 @@
+// ✅ FINAL PROFILE PIC ROUTE (compatible with your frontend and base64 approach)
 const express = require("express");
 const router = express.Router();
-const multer = require("multer");
-const upload = multer(); // Using memory storage
 const ProfilePic = require("../models/ProfilePic");
+const requireAuth = require("../middleware/requireAuth");
 
-router.post("/", upload.single("profilePic"), async (req, res) => {
+// ✅ Protect all routes
+router.use(requireAuth);
+
+// 📤 Save or update profile picture using base64
+router.post("/", async (req, res) => {
   const userId = req.user._id;
-  if (!req.file) return res.status(400).json({ error: "No file uploaded" });
+  const { image } = req.body;
 
-  const base64Image = req.file.buffer.toString("base64");
+  if (!image || !image.startsWith("data:image")) {
+    return res.status(400).json({ error: "Invalid image format" });
+  }
 
   try {
-    // Upsert: Create or update profile picture for the user
     const updatedPic = await ProfilePic.findOneAndUpdate(
       { userId },
-      { image: base64Image },
-      { new: true, upsert: true }
+      { image },
+      { new: true, upsert: true } // Create or update
     );
-    res.json({ message: "Profile picture saved", pic: updatedPic });
+    res.status(200).json({ message: "Profile picture saved", pic: updatedPic });
   } catch (err) {
-    console.error(err);
+    console.error("Error saving profile picture:", err);
     res.status(500).json({ error: "Failed to save profile picture" });
   }
 });
 
-// Fetch profile picture for a user
+// 📥 Fetch profile picture for current user
 router.get("/", async (req, res) => {
   const userId = req.user._id;
   try {
     const profilePic = await ProfilePic.findOne({ userId });
-    if (!profilePic) {
-      return res.status(404).json({ error: "Profile picture not found" });
-    }
+    if (!profilePic) return res.json({ image: null });
     res.json({ image: profilePic.image });
   } catch (err) {
+    console.error("Error fetching profile picture:", err);
     res.status(500).json({ error: "Failed to fetch profile picture" });
   }
 });
