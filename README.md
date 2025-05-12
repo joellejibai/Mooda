@@ -22,6 +22,7 @@
       </ul>
     </li>
     <li><a href="#website-demo">Website Demo</a></li>
+    <li><a href="#website-demo">How to run it</a></li>
     <li><a href="#acknowledgments">Acknowledgments</a></li>
   </ol>
 </details>
@@ -69,6 +70,11 @@ Welcome to our full-stack web app! In the chaos of everyday life, choosing your 
     <img src=".demo/SignInPage.png" width="300">
     <img src=".demo/SignUnPage.png" width="300">
 </div>
+
+<!-- USAGE EXAMPLES -->
+## how to run it
+
+
 
 
 <!-- ACKNOWLEDGMENTS -->
