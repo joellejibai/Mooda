@@ -61,14 +61,14 @@ Welcome to our full-stack web app! In the chaos of everyday life, choosing your 
 ## Website Demo
 
 <div style="text-align:center;">
-    <img src="./demo/Home.png" width="300">
-    <img src="./demo/FooterSection.png" width="300">
-    <img src=".demo/BlogPage.png" width="300">
-    <img src="./demo/AllBlogs.png" width="300">
-    <img src="./demo/Profile.png" width="300">
-    <img src="./demo/WriteBlog.png" width="300">
-    <img src=".demo/SignInPage.png" width="300">
-    <img src=".demo/SignUnPage.png" width="300">
+    <img src="./demo/WhatsApp Image 2025-04-28 at 6.46.31 PM (1).jpeg" width="300">
+    <img src="./demo/WhatsApp Image 2025-04-28 at 6.46.57 PM (1).jpeg" width="300">
+    <img src=".demo/WhatsApp Image 2025-04-28 at 6.48.34 PM (1).jpeg" width="300">
+    <img src="./demo/WhatsApp Image 2025-04-28 at 6.50.08 PM.jpeg" width="300">
+    <img src="./demo/WhatsApp Image 2025-04-28 at 6.55.32 PM (1).jpeg" width="300">
+    <img src="./demo/WhatsApp Image 2025-04-28 at 6.56.36 PM (1).jpeg" width="300">
+    <img src=".demo/WhatsApp Image 2025-04-28 at 6.58.27 PM (1).jpeg" width="300">
+    <img src=".demo/WhatsApp Image 2025-04-28 at 7.00.10 PM (1).jpeg" width="300">
 </div>
 
 <!-- USAGE EXAMPLES -->
